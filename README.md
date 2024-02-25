@@ -19,9 +19,11 @@ add to hosts:
 ```
 127.0.0.1       template.de
 127.0.0.1       api.template.de
+127.0.0.1       db.template.de
 ```
 
 - [template.de](http://template.de)
 - [api.template.de](http://api.template.de)
 - [api.template.de/debug/statsviz](http://api.template.de/debug/statsviz)
-- [Setup DB](127.0.0.1:5984/_utils#setup)
+- [db.template.de/_utils](http://db.template.de/_utils)
+- [Setup DB](http://db.template.de/_utils#setup)

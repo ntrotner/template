@@ -61,8 +61,6 @@ services:
     environment:
       - app_env=${docker_env}
     restart: always
-    ports:
-      - "5984:5984"
     env_file:
       - ./environment/dev/database.env
     volumes:
