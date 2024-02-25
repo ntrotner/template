@@ -28,7 +28,7 @@ func NewStatusAPIService() StatusAPIServicer {
 
 // Health - Check health of server
 func (s *StatusAPIService) Health(ctx context.Context) (ImplResponse, error) {
-	health := Health{Server: false, Db: false}
+	health := Health{Server: true, Db: false}
 	db, _ := database.Connection.Client.Ping(ctx)
 	health.Db = db
 
