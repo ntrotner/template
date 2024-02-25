@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.22
+FROM golang:1.21
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
@@ -30,4 +30,4 @@ EXPOSE 8080
 RUN if [ "$app_env" = "dev" ] ; then echo; else apt-get install -y inotify-tools psmisc ; fi
 
 # Run
-CMD if [ "$app_env" = "dev" ] ; then /app/go-reload.sh main.go ; else /app/output ; fi
+CMD if [ "$app_env" = "dev" ] ; then /app/go-reload.sh main.go ; else [ -f /tmp/filename.pid ] || (CGO_ENABLED=0 go build -o /app/output main.go && chmod +x /app/output) && /app/output ; fi
