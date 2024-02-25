@@ -7,3 +7,4 @@ dockerfiles/nginx/logs
 dockerfiles/nginx/keys.json
 environment/prod/build.env
 build.env
+output
