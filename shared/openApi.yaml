@@ -1,0 +1,277 @@
+openapi: 3.0.3
+info:
+  title: Swagger - OpenAPI 3.0
+  contact:
+    email: nikita@ttnr.me
+  version: 1.0.0
+servers:
+  - url: http://api.template.de/
+    description: Dev server
+  - url: https://euw.backend.example.com/
+    description: Prod server
+tags:
+  - name: authentication
+    description: Authenticate users
+  - name: user
+    description: Modify and retrieve user settings
+  - name: status
+    description: Check application health
+paths:
+  /health:
+    get:
+      tags:
+        - status
+      summary: Check health of server
+      operationId: health
+      responses:
+        '200':
+          $ref: '#/components/responses/Health'
+        '500':
+          $ref: '#/components/responses/Health'
+  /register:
+    post:
+      tags:
+        - authentication
+      summary: Register a new user
+      requestBody:
+        $ref: '#/components/requestBodies/UserRegistration'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/Error'
+  /login:
+    post:
+      tags:
+        - authentication
+      summary: User login
+      requestBody:
+        $ref: '#/components/requestBodies/UserLogin'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Error'
+  /refresh-token:
+    post:
+      tags:
+        - authentication
+      summary: Refresh authentication token
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+  /logout:
+    post:
+      tags:
+        - authentication
+      summary: User logout
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/Error'
+  /profile:
+    get:
+      tags:
+        - user
+      summary: Get user profile
+      responses:
+        '200':
+          $ref: '#/components/responses/UserProfile'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+  /password-reset:
+    post:
+      tags:
+        - user
+      summary: Initiate password reset
+      requestBody:
+        $ref: '#/components/requestBodies/PasswordReset'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+  /change-password:
+    post:
+      tags:
+        - user
+      summary: Change user password
+      requestBody:
+        $ref: '#/components/requestBodies/ChangePassword'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/Error'
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    Success:
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Success'
+    Error:
+      description: Error messages
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UserProfile:
+      description: User profile
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserProfile'
+    Health:
+      description: Health
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Health'
+  requestBodies:
+    UserRegistration:
+      description: User registration
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserRegistration'
+    UserLogin:
+      description: User login
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserLogin'
+    PasswordReset:
+      description: Password reset
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PasswordReset'
+    ChangePassword:
+      description: Password change
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChangePassword'
+  schemas:
+    Success:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        warningMessages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+      required:
+        - messages
+        - warningMessages
+    Error:
+      type: object
+      properties:
+        warningMessages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        errorMessages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+      required:
+        - warningMessages
+        - errorMessages
+    Message:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    Health:
+      type: object
+      properties:
+        server:
+          type: boolean
+        db:
+          type: boolean
+    UserProfile:
+      type: object
+      properties:
+        email:
+          type: string
+      required:
+        - email
+    UserRegistration:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}|:<>?~]).*$"
+          format: password
+      required:
+        - email
+        - password
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}|:<>?~]).*$"
+          format: password
+      required:
+        - email
+        - password
+    PasswordReset:
+      type: object
+      properties:
+        email:
+          type: string
+      required:
+        - email
+    ChangePassword:
+      type: object
+      properties:
+        currentPassword:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}|:<>?~]).*$"
+          format: password
+        newPassword:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}|:<>?~]).*$"
+          format: password
+      required:
+        - currentPassword
+        - newPassword

@@ -1,0 +1,76 @@
+version: '3.7'
+
+services:
+  proxy:
+    container_name: nginx
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    networks:
+      - host_network
+    env_file:
+      - ./environment/dev/nginx.env
+    healthcheck:
+      test: ["CMD", "/bin/check-health"]
+      interval: 30s
+      timeout: 10s
+    ports:
+      - '80:80'
+      - '3000:81'
+      - '443:443'
+    volumes:
+      - ./dockerfiles/nginx:/data
+    depends_on:
+      - ui
+      - backend
+      - database
+  ui:
+    container_name: ui
+    build:
+      context: .
+      dockerfile: ./dockerfiles/ui.Dockerfile
+    environment:
+      - app_env=${docker_env}
+    restart: unless-stopped
+    networks:
+      - host_network
+    volumes:
+      - ./src/ui:/src
+    env_file:
+      - ./environment/dev/ui.env
+  backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: ./dockerfiles/backend.Dockerfile
+    environment:
+      - app_env=${docker_env}
+    restart: unless-stopped
+    networks:
+      - host_network
+    volumes:
+      - ./src/backend:/app
+    env_file:
+      - ./environment/dev/backend.env
+    depends_on:
+      - database
+  database:
+    container_name: db
+    build:
+      context: .
+      dockerfile: ./dockerfiles/database.Dockerfile
+    environment:
+      - app_env=${docker_env}
+    restart: always
+    ports:
+      - "5984:5984"
+    env_file:
+      - ./environment/dev/database.env
+    volumes:
+        - db:/opt/couchdb/data
+    networks:
+      - host_network
+volumes:
+  db:
+networks:
+  host_network:
+    external: true

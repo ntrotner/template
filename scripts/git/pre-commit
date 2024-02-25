@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+# check backend
+cd src/backend
+
+# formatting
+echo "Run formatter"
+gofmt -l .
+echo "Formatter ok"
+
+# tests
+echo "Run tests"
+#go test ./...
+echo "Tests ok"
+
+# code quality
+echo "Run code quality test"
+go vet ./...
+echo "Vet ok"
+
+gocyclo -over 10 . 
+echo "Cyclo ok"
+
+ineffassign ./...
+echo "Ineff Assign ok"

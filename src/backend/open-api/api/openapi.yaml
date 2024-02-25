@@ -1,0 +1,387 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: nikita@ttnr.me
+  title: Swagger - OpenAPI 3.0
+  version: 1.0.0
+servers:
+- description: Dev server
+  url: http://api.template.de/
+- description: Prod server
+  url: https://euw.backend.example.com/
+security:
+- bearerAuth: []
+tags:
+- description: Authenticate users
+  name: authentication
+- description: Modify and retrieve user settings
+  name: user
+- description: Check application health
+  name: status
+paths:
+  /health:
+    get:
+      operationId: health
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+          description: Health
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+          description: Health
+      summary: Check health of server
+      tags:
+      - status
+  /register:
+    post:
+      requestBody:
+        $ref: '#/components/requestBodies/UserRegistration'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+      summary: Register a new user
+      tags:
+      - authentication
+  /login:
+    post:
+      requestBody:
+        $ref: '#/components/requestBodies/UserLogin'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+          description: Success
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+      summary: User login
+      tags:
+      - authentication
+  /refresh-token:
+    post:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+      summary: Refresh authentication token
+      tags:
+      - authentication
+  /logout:
+    post:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+      summary: User logout
+      tags:
+      - authentication
+  /profile:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: User profile
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+      summary: Get user profile
+      tags:
+      - user
+  /password-reset:
+    post:
+      requestBody:
+        $ref: '#/components/requestBodies/PasswordReset'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+      summary: Initiate password reset
+      tags:
+      - user
+  /change-password:
+    post:
+      requestBody:
+        $ref: '#/components/requestBodies/ChangePassword'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+      summary: Change user password
+      tags:
+      - user
+components:
+  requestBodies:
+    UserRegistration:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserRegistration'
+      description: User registration
+    UserLogin:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserLogin'
+      description: User login
+    PasswordReset:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PasswordReset'
+      description: Password reset
+    ChangePassword:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChangePassword'
+      description: Password change
+  responses:
+    Success:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Success'
+      description: Success
+    Error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Error messages
+    UserProfile:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserProfile'
+      description: User profile
+    Health:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Health'
+      description: Health
+  schemas:
+    Success:
+      example:
+        warningMessages:
+        - code: code
+          message: message
+        - code: code
+          message: message
+        messages:
+        - code: code
+          message: message
+        - code: code
+          message: message
+      properties:
+        messages:
+          items:
+            $ref: '#/components/schemas/Message'
+          type: array
+        warningMessages:
+          items:
+            $ref: '#/components/schemas/Message'
+          type: array
+      required:
+      - messages
+      - warningMessages
+      type: object
+    Error:
+      properties:
+        warningMessages:
+          items:
+            $ref: '#/components/schemas/Message'
+          type: array
+        errorMessages:
+          items:
+            $ref: '#/components/schemas/Message'
+          type: array
+      required:
+      - errorMessages
+      - warningMessages
+      type: object
+    Message:
+      example:
+        code: code
+        message: message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      type: object
+    Health:
+      example:
+        server: true
+        db: true
+      properties:
+        server:
+          type: boolean
+        db:
+          type: boolean
+      type: object
+    UserProfile:
+      example:
+        email: email
+      properties:
+        email:
+          type: string
+      required:
+      - email
+      type: object
+    UserRegistration:
+      example:
+        password: password
+        email: email
+      properties:
+        email:
+          type: string
+        password:
+          format: password
+          maxLength: 64
+          minLength: 8
+          pattern: "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}|:<>?~]).*$"
+          type: string
+      required:
+      - email
+      - password
+      type: object
+    UserLogin:
+      example:
+        password: password
+        email: email
+      properties:
+        email:
+          type: string
+        password:
+          format: password
+          maxLength: 64
+          minLength: 8
+          pattern: "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}|:<>?~]).*$"
+          type: string
+      required:
+      - email
+      - password
+      type: object
+    PasswordReset:
+      example:
+        email: email
+      properties:
+        email:
+          type: string
+      required:
+      - email
+      type: object
+    ChangePassword:
+      example:
+        newPassword: newPassword
+        currentPassword: currentPassword
+      properties:
+        currentPassword:
+          format: password
+          maxLength: 64
+          minLength: 8
+          pattern: "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}|:<>?~]).*$"
+          type: string
+        newPassword:
+          format: password
+          maxLength: 64
+          minLength: 8
+          pattern: "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}|:<>?~]).*$"
+          type: string
+      required:
+      - currentPassword
+      - newPassword
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
