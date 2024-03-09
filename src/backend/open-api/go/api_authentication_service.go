@@ -34,14 +34,14 @@ func NewAuthenticationAPIService() AuthenticationAPIServicer {
 func (s *AuthenticationAPIService) LoginPost(ctx context.Context, userLogin UserLogin, w http.ResponseWriter) (ImplResponse, error) {
 	user := database_user.AuthenticateUser(ctx, userLogin.Email, userLogin.Password)
 	if user == nil {
-		return Response(401, Error{ErrorMessages: []Message{{Code: "1", Message: "Unauthorized. Please check your credentials."}}}), nil
+		return Response(401, Error{ErrorMessages: []Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
 
 	sanitized := database_user.SanitizeUserProfile(user)
 	tokenString, _, err := database_user.CreateJWT(sanitized)
 	if err != nil {
 		log.Error().Msg(err.Error())
-		return Response(401, Error{ErrorMessages: []Message{{Code: "1", Message: "Unauthorized. Please check your credentials."}}}), nil
+		return Response(401, Error{ErrorMessages: []Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
 
 	openapi_common.WriteTokenToHeader(&tokenString, w)
@@ -59,26 +59,26 @@ func (s *AuthenticationAPIService) RefreshTokenPost(ctx context.Context, w http.
 	token, found := openapi_common.ReadTokenFromHeader(r)
 	if !found {
 		log.Error().Msg("Bearer format invalid")
-		return Response(401, Error{ErrorMessages: []Message{{Code: "1", Message: "Unauthorized. Please check your credentials."}}}), nil
+		return Response(401, Error{ErrorMessages: []Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
 
 	_, content, err := database_user.VerifyJWT(&token)
 	if err != nil {
 		log.Error().Msg("Couldn't verify token to refresh")
-		return Response(401, Error{ErrorMessages: []Message{{Code: "1", Message: "Unauthorized. Please check your credentials."}}}), nil
+		return Response(401, Error{ErrorMessages: []Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
 
 	user := database_user.FindUserById(ctx, &content.ID)
 	if user == nil {
 		log.Error().Msg("Couldn't find user to refresh token")
-		return Response(401, Error{ErrorMessages: []Message{{Code: "1", Message: "Unauthorized. Please check your credentials."}}}), nil
+		return Response(401, Error{ErrorMessages: []Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
 
 	sanitized := database_user.SanitizeUserProfile(user)
 	tokenString, _, err := database_user.CreateJWT(sanitized)
 	if err != nil {
 		log.Error().Msg(err.Error())
-		return Response(401, Error{ErrorMessages: []Message{{Code: "1", Message: "Unauthorized. Please check your credentials."}}}), nil
+		return Response(401, Error{ErrorMessages: []Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
 
 	openapi_common.WriteTokenToHeader(&tokenString, w)
@@ -89,19 +89,19 @@ func (s *AuthenticationAPIService) RefreshTokenPost(ctx context.Context, w http.
 func (s *AuthenticationAPIService) RegisterPost(ctx context.Context, userRegistration UserRegistration, w http.ResponseWriter) (ImplResponse, error) {
 	existsEmail := database_user.ExistsEmail(ctx, userRegistration.Email)
 	if existsEmail {
-		return Response(400, Error{ErrorMessages: []Message{{Code: "2", Message: "Bad request. Please check your input data."}}}), nil
+		return Response(400, Error{ErrorMessages: []Message{{Code: "101", Message: "Bad request. Please check your input data."}}}), nil
 	}
 
 	user, err := database_user.CreateUser(ctx, userRegistration.Email, userRegistration.Password)
 	if err != nil {
-		return Response(400, Error{ErrorMessages: []Message{{Code: "2", Message: "Bad request. Please check your input data."}}}), nil
+		return Response(400, Error{ErrorMessages: []Message{{Code: "101", Message: "Bad request. Please check your input data."}}}), nil
 	}
 
 	sanitized := database_user.SanitizeUserProfile(user)
 	signedJWT, _, err := database_user.CreateJWT(sanitized)
 	if err != nil {
 		log.Error().Msg(err.Error())
-		return Response(400, Error{ErrorMessages: []Message{{Code: "2", Message: "Bad request. Please check your input data."}}}), nil
+		return Response(400, Error{ErrorMessages: []Message{{Code: "101", Message: "Bad request. Please check your input data."}}}), nil
 	}
 	openapi_common.WriteTokenToHeader(&signedJWT, w)
 	return Response(200, Success{}), nil

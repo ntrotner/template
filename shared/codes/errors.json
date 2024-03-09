@@ -1,0 +1,14 @@
+[
+  {
+    "code": "100",
+    "type": "Unauthorized"
+  },
+  {
+    "code": "101",
+    "type": "No user found"
+  },
+  {
+    "code": "200",
+    "type": "Input validation"
+  }
+]

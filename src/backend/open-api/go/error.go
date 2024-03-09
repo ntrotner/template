@@ -60,8 +60,12 @@ func DefaultErrorHandler(w http.ResponseWriter, r *http.Request, err error, resu
 	} else if _, ok := err.(*RequiredError); ok {
 		// Handle missing required errors
 		EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusUnprocessableEntity), w)
-	} else if _, ok := err.(validator.ValidationErrors); ok {
-		EncodeJSONResponse("Input Validation Failed", &defaultValidatorError, w)
+	} else if validationErrors, ok := err.(validator.ValidationErrors); ok {
+		errorMessages := Error{ErrorMessages: []Message{}}
+		for _, e := range validationErrors {
+			errorMessages.ErrorMessages = append(errorMessages.ErrorMessages, Message{Code: "200", Message: e.Field() + ": Validation Failed"})
+		}
+		EncodeJSONResponse(errorMessages, &defaultValidatorError, w)
 		log.Error().Str("request", r.RequestURI).Msg(err.Error())
 	} else {
 		// Handle all other errors
