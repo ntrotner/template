@@ -2,6 +2,7 @@ import { Observable, distinctUntilChanged, map } from "rxjs";
 import { DefaultState } from "../common/state";
 import type { Config, Configuration } from "./model";
 import { defaultLoggerConfig } from "../../analytics/config";
+import { defaultAppConfig } from "../status";
 
 /**
  * ConfigState class is used to manage the state of the configs.
@@ -11,6 +12,7 @@ export class ConfigState extends DefaultState<Configuration> {
   constructor() {
     super();
     this.setState({loaded: false, configMap: {
+      ...defaultAppConfig,
       ...defaultLoggerConfig
     }})
   }

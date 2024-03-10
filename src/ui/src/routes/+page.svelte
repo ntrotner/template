@@ -3,12 +3,15 @@
 
 <script>
   import { logger } from "$lib/analytics";
-  import { fetchConfigurations } from "$lib/states/config";
-  import { checkStatus } from "$lib/states/status";
+  import { configState, fetchConfigurations } from "$lib/states/config";
+  import { AppConfigKey, checkStatus } from "$lib/states/status";
+  import { take } from "rxjs";
   import { onMount } from "svelte";
 
   onMount(() => {
     fetchConfigurations(window.configUrl).then(() => logger.info("page init"));
-    checkStatus();
+    configState.getConfig(AppConfigKey).pipe(
+      take(1)
+    ).subscribe(({healthCheck}) => healthCheck ? checkStatus() : null)
   });
 </script>

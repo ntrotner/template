@@ -1,4 +1,7 @@
 {
+  "app": {
+    "healthCheck": true
+  },
   "logger": {
     "url": null
   }
