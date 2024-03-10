@@ -10,5 +10,9 @@
   {
     "code": "200",
     "type": "Input validation"
+  },
+  {
+    "code": "300",
+    "type": "Rate limited"
   }
 ]

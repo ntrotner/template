@@ -52,6 +52,7 @@ func NewRouter(routers ...Router) *mux.Router {
 			handler = route.HandlerFunc
 			handler = Logger(handler, name)
 			handler = Compress(handler)
+			handler = MaxBytes(handler)
 
 			router.
 				Methods(route.Method).
