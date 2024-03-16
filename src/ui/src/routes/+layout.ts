@@ -1,12 +1,28 @@
 import { getLocale, loadTranslations, setLocale, setLocaleInStorage } from "$lib/i18n/index";
+import { logger } from "$lib/analytics";
+import { configState, fetchConfigurations } from "$lib/states/config";
+import { AppConfigKey, checkStatus, type AppConfig } from "$lib/states/status";
+import { take } from "rxjs";
+import { browser } from "$app/environment";
+
+export const prerender = false;
+export const ssr = false;
 
 export const load = async () => {
-  let locale = getLocale();
-  if (!locale) {
-    locale = 'en';
-    setLocaleInStorage(locale);
+  if (browser) {
+    let locale = getLocale();
+    if (!locale) {
+      locale = 'en';
+      setLocaleInStorage(locale);
+    }
+    setLocale(locale);
+      document.documentElement.lang = locale;
+      await loadTranslations(locale);
+
+    fetchConfigurations(window.configUrl).then(() => logger.info("page init"));
+    configState.getConfig<AppConfig>(AppConfigKey).pipe(
+      take(1)
+    ).subscribe(appConfig => appConfig?.healthCheck ? checkStatus() : null)
   }
-  setLocale(locale);
-  await loadTranslations(locale);
   return {};
 }
