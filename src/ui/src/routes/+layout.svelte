@@ -1,6 +1,9 @@
 <script>
   import "../app.pcss";
-  export const prerender = true;
+  import Navigator from '../components/navigator/Navigator.svelte';
+  import LoginGuard from '$lib/routes/guards/login.svelte';
 </script>
 
+<LoginGuard></LoginGuard>
+<Navigator></Navigator>
 <slot />
