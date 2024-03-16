@@ -4,5 +4,9 @@
   "nav-language.language-description": "Wählen Sie eine Sprache",
   "nav-language.language": "Sprache",
   "nav-links.home": "Startseite",
-  "nav-title": "Template DE"
+  "nav-title": "Template DE",
+  "nav-menu.login": "Anmelden",
+  "nav-menu.profile": "Profil",
+  "nav-menu.settings": "Einstellungen",
+  "nav-menu.logout": "Ausloggen"
 }
