@@ -1,3 +1,6 @@
 export interface AppStatus {
-  href?: string
+  href?: string,
+  width?: number,
+  height?: number,
+  mobile?: boolean
 }

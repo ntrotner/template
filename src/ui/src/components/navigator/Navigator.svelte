@@ -10,7 +10,8 @@
   import type { UserProfile } from "$lib/open-api";
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
-  import { ROUTES } from "../../lib/routes";
+  import { ROUTES } from "$lib/routes";
+  import { appState } from "$lib/states";
 
   function changeLanguage(locale: string) {
     setLocale(locale);
@@ -26,11 +27,13 @@
 
   let user: UserProfile | undefined = undefined;
   userState.observable().subscribe((state) => (user = state));
+  let mobile = false;
+  appState.subscribe((app) => mobile = (app?.width || 0) <= 640);
 </script>
 
 <Sheet.Root>
   <Sheet.Trigger asChild let:builder>
-    <Menubar.Root class="h-12">
+    <Menubar.Root class="{mobile ? 'h-15' : 'h-14'}">
       <div class="nav-left">
         <div class="title">
           <Button
@@ -42,12 +45,12 @@
       </div>
       <div>
         <Button builders={[builder]} variant="ghost" size="icon">
-          <Globe class="h-4 w-4" />
+          <Globe class="{mobile ? 'h-4 w-4' : 'h-5 w-5'}" />
         </Button>
       </div>
       <div class="nav-right">
         <Menubar.Menu>
-          <Menubar.Trigger><HamburgerMenu class="h-4 w-4" /></Menubar.Trigger>
+          <Menubar.Trigger><HamburgerMenu class="{mobile ? 'h-5 w-5' : 'h-6 w-6'}" /></Menubar.Trigger>
           <Menubar.Content>
             {#if user?.email}
               <Menubar.Item>{$t("common.nav-menu.profile")}</Menubar.Item>
@@ -79,7 +82,7 @@
               builders={[builder]}
               on:click={() => changeLanguage(language.locale)}
               variant="link"
-              class="w-full justify-start"
+              class="{mobile ? 'justify-center' : 'justify-start'} w-full language-select"
             >
               {$t(language.key)}
             </Button>
@@ -96,6 +99,10 @@
     display: flex;
     align-items: center;
     width: 100%;
+  }
+
+  .nav-right {
+    margin-left: .6rem !important; /* :( */
   }
 
   .title {
