@@ -10,8 +10,8 @@
   import { appState } from "$lib";
   import { login, register } from '$lib/states/authentication';
   import { type Message, type ModelError, type Success } from "$lib/open-api";
-    import { goto } from "$app/navigation";
-    import { ROUTES } from "../../lib/routes";
+  import { goto } from "$app/navigation";
+  import { ROUTES } from "../../lib/routes";
 
   let errors: Message[] = [];
   let mobile = false;
@@ -142,7 +142,9 @@
           </div>
         </Card.Content>
         <Card.Footer>
-          <Button on:click={submitLogin} disabled={requestInProcess}>{$t("login.login-button")}</Button>
+          <div class="submit">
+            <Button class="w-[100%]" on:click={submitLogin} disabled={requestInProcess}>{$t("login.login-button")}</Button>
+          </div>
         </Card.Footer>
       </Card.Root>
     </Tabs.Content>
@@ -176,7 +178,9 @@
           </div>
         </Card.Content>
         <Card.Footer>
-          <Button on:click={submitRegister} disabled={requestInProcess}>{$t("login.register-button")}</Button>
+          <div class="submit">
+            <Button class="w-[100%]" on:click={submitRegister} disabled={requestInProcess}>{$t("login.register-button")}</Button>
+          </div>  
         </Card.Footer>
       </Card.Root>
     </Tabs.Content>
@@ -188,5 +192,14 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+  }
+
+  .submit {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: nowrap;
   }
 </style>
