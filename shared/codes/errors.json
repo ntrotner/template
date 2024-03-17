@@ -1,5 +1,9 @@
 [
   {
+    "code": "001",
+    "type": "Unexpected serve failure"
+  },
+  {
     "code": "100",
     "type": "Unauthorized"
   },

@@ -1,4 +1,4 @@
-import { AuthenticationApi } from "$lib/open-api";
+import { AuthenticationApi, ResponseError, type ModelError, type Success } from "$lib/open-api";
 import { fetchUserProfile, userState } from "../user";
 import { authenticationState } from ".";
 import { filter, firstValueFrom } from "rxjs";
@@ -8,9 +8,9 @@ import { statusState } from "../status";
  * Login the user.
  * @param {string} email - The email of the user.
  * @param {string} password - The password of the user.
- * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating the success of the login.
+ * @returns {Promise} - A promise that resolves success or error object.
  */
-export async function login(email: string, password: string) {
+export async function login(email: string, password: string): Promise<Success | ModelError | undefined> {
   const authApi = new AuthenticationApi();
 
   await firstValueFrom(statusState.observable().pipe(
@@ -26,10 +26,14 @@ export async function login(email: string, password: string) {
     // await fetchUserProfile();
     authenticationState.setAuthStatus(true)
     return response;
-  } catch {
+  } catch (e: unknown) {
+    let errorResponse: ModelError | undefined = undefined;
+    if (e instanceof ResponseError) {
+      errorResponse = await e.response.json() as ModelError;
+    }
     userState.setState(undefined);
     authenticationState.setAuthStatus(false);
-    return undefined;
+    return errorResponse;
   }
 }
 
@@ -37,9 +41,9 @@ export async function login(email: string, password: string) {
  * Register the user.
  * @param {string} email - The email of the user.
  * @param {string} password - The password of the user.
- * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating the success of the registration.
+ * @returns {Promise} - A promise that resolves success or error object.
  */
-export async function register(email: string, password: string) {
+export async function register(email: string, password: string): Promise<Success | ModelError | undefined> {
   const authApi = new AuthenticationApi();
 
   await firstValueFrom(statusState.observable().pipe(
@@ -55,10 +59,14 @@ export async function register(email: string, password: string) {
     // await fetchUserProfile();
     authenticationState.setAuthStatus(true);
     return response;
-  } catch {
+  } catch (e: unknown) {
+    let errorResponse: ModelError | undefined = undefined;
+    if (e instanceof ResponseError) {
+      errorResponse = await e.response.json() as ModelError;
+    }
     userState.setState(undefined);
-    authenticationState.setAuthStatus(false)
-    return undefined;
+    authenticationState.setAuthStatus(false);
+    return errorResponse;
   }
 }
 
