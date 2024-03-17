@@ -4,6 +4,7 @@ import { configState, fetchConfigurations } from "$lib/states/config";
 import { AppConfigKey, checkStatus, type AppConfig } from "$lib/states/status";
 import { take } from "rxjs";
 import { browser } from "$app/environment";
+import { refreshToken } from "$lib/states/authentication";
 
 export const prerender = false;
 export const ssr = false;
@@ -24,6 +25,9 @@ export const load = async () => {
     configState.getConfig<AppConfig>(AppConfigKey).pipe(
       take(1)
     ).subscribe(appConfig => appConfig?.healthCheck ? checkStatus() : null)
+
+    await refreshToken()
+    setInterval(() => refreshToken(), 1000 * 60 * 5);
   }
   return {};
 }

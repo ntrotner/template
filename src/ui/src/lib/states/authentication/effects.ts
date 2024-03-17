@@ -3,6 +3,7 @@ import { fetchUserProfile, userState } from "../user";
 import { authenticationState } from ".";
 import { filter, firstValueFrom } from "rxjs";
 import { statusState } from "../status";
+import { clearToken } from "../../open-api/helpers";
 
 /**
  * Login the user.
@@ -110,6 +111,7 @@ export async function refreshToken() {
   } catch {
     userState.setState(undefined);
     authenticationState.setAuthStatus(false);
+    clearToken();
     return false;
   }
 }
