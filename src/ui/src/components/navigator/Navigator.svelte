@@ -26,7 +26,7 @@
   }
 
   let user: UserProfile | undefined = undefined;
-  userState.observable().subscribe((state) => (user = state));
+  userState.subscribe((state) => (user = state));
   let mobile = false;
   appState.subscribe((app) => mobile = (app?.width || 0) <= 640);
 </script>

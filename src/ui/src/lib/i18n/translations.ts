@@ -34,6 +34,20 @@ const config = ({
       loader: async () => (
         await import('./languages/home/de.json')
       ).default,
+    },
+    {
+      locale: 'en',
+      key: 'login',
+      loader: async () => (
+        await import('./languages/login/en.json')
+      ).default,
+    },
+    {
+      locale: 'de',
+      key: 'login',
+      loader: async () => (
+        await import('./languages/login/de.json')
+      ).default,
     }
   ],
 });

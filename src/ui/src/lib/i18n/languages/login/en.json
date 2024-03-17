@@ -1,0 +1,13 @@
+{
+  "login-title": "Login",
+  "login-description": "Please input your credentials",
+  "username": "E-Mail",
+  "password": "Password",
+  "login-button": "Submit",
+  "register-title": "Register",
+  "register-description": "Please input your credentials",
+  "register-button": "Submit",
+  "password-repeat": "Repeat Password",
+  "input-error-title": "Error",
+  "input-error-description": "Your input is invalid"
+}
