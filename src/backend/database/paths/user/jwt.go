@@ -14,7 +14,7 @@ type JWTContent struct {
 	jwt.RegisteredClaims
 }
 
-func CreateJWT(user *PublicUserProfile) (string, time.Time, error) {
+func CreateJWT(user *UserProfile) (string, time.Time, error) {
 	expirationTime := time.Now().Add(time.Minute * 10)
 	content := &JWTContent{
 		ID: user.ID,

@@ -28,10 +28,5 @@ func IsUserAuthorized(ctx context.Context, r *http.Request) (*database_user.User
 		return nil, errors.New("no user")
 	}
 
-	if user.Roles == database_user.TemporaryUser {
-		log.Error().Msg("User isn't confirmed and can't create Funnel")
-		return nil, errors.New("Unauthorized")
-	}
-
 	return user, nil
 }

@@ -14,6 +14,10 @@ import (
 	"context"
 	"errors"
 	"net/http"
+	database_user "template_backend/database/paths/user"
+	openapi_common "template_backend/open-api/common"
+
+	"github.com/rs/zerolog/log"
 )
 
 // UserAPIService is a service that implements the logic for the UserAPIServicer
@@ -62,18 +66,12 @@ func (s *UserAPIService) PasswordResetPost(ctx context.Context, passwordReset Pa
 }
 
 // ProfileGet - Get user profile
-func (s *UserAPIService) ProfileGet(ctx context.Context) (ImplResponse, error) {
-	// TODO - update ProfileGet with the required logic for this service method.
-	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-
-	// TODO: Uncomment the next line to return response Response(200, UserProfile{}) or use other options such as http.Ok ...
-	// return Response(200, UserProfile{}), nil
-
-	// TODO: Uncomment the next line to return response Response(400, Error{}) or use other options such as http.Ok ...
-	// return Response(400, Error{}), nil
-
-	// TODO: Uncomment the next line to return response Response(401, Error{}) or use other options such as http.Ok ...
-	// return Response(401, Error{}), nil
-
-	return Response(http.StatusNotImplemented, nil), errors.New("ProfileGet method not implemented")
+func (s *UserAPIService) ProfileGet(ctx context.Context, r *http.Request) (ImplResponse, error) {
+	user, err := openapi_common.IsUserAuthorized(ctx, r)
+	if err != nil {
+		log.Error().Msg(err.Error())
+		return Response(401, Error{ErrorMessages: []Message{{Code: "100", Message: "Unauthorized."}}}), nil
+	}
+	sanitized := database_user.SanitizeUserProfile(user)
+	return Response(200, sanitized), nil
 }

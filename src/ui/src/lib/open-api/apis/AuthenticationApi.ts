@@ -27,6 +27,7 @@ import {
     UserRegistrationFromJSON,
     UserRegistrationToJSON,
 } from '../models/index';
+import { clearToken, setToken } from '../helpers';
 
 export interface LoginPostRequest {
     userLogin?: UserLogin;
@@ -67,6 +68,7 @@ export class AuthenticationApi extends runtime.BaseAPI {
             body: UserLoginToJSON(requestParameters.userLogin),
         }, initOverrides);
 
+        setToken(response.headers.get('Authorization'));
         return new runtime.JSONApiResponse(response, (jsonValue) => SuccessFromJSON(jsonValue));
     }
 
@@ -101,6 +103,7 @@ export class AuthenticationApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
+        clearToken();
         return new runtime.JSONApiResponse(response, (jsonValue) => SuccessFromJSON(jsonValue));
     }
 
@@ -135,6 +138,7 @@ export class AuthenticationApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
+        setToken(response.headers.get('Authorization'));
         return new runtime.JSONApiResponse(response, (jsonValue) => SuccessFromJSON(jsonValue));
     }
 
@@ -172,6 +176,7 @@ export class AuthenticationApi extends runtime.BaseAPI {
             body: UserRegistrationToJSON(requestParameters.userRegistration),
         }, initOverrides);
 
+        setToken(response.headers.get('Authorization'));
         return new runtime.JSONApiResponse(response, (jsonValue) => SuccessFromJSON(jsonValue));
     }
 

@@ -37,8 +37,7 @@ func (s *AuthenticationAPIService) LoginPost(ctx context.Context, userLogin User
 		return Response(401, Error{ErrorMessages: []Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
 
-	sanitized := database_user.SanitizeUserProfile(user)
-	tokenString, _, err := database_user.CreateJWT(sanitized)
+	tokenString, _, err := database_user.CreateJWT(user)
 	if err != nil {
 		log.Error().Msg(err.Error())
 		return Response(401, Error{ErrorMessages: []Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
@@ -74,8 +73,7 @@ func (s *AuthenticationAPIService) RefreshTokenPost(ctx context.Context, w http.
 		return Response(401, Error{ErrorMessages: []Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
 
-	sanitized := database_user.SanitizeUserProfile(user)
-	tokenString, _, err := database_user.CreateJWT(sanitized)
+	tokenString, _, err := database_user.CreateJWT(user)
 	if err != nil {
 		log.Error().Msg(err.Error())
 		return Response(401, Error{ErrorMessages: []Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
@@ -97,8 +95,7 @@ func (s *AuthenticationAPIService) RegisterPost(ctx context.Context, userRegistr
 		return Response(400, Error{ErrorMessages: []Message{{Code: "101", Message: "Bad request. Please check your input data."}}}), nil
 	}
 
-	sanitized := database_user.SanitizeUserProfile(user)
-	signedJWT, _, err := database_user.CreateJWT(sanitized)
+	signedJWT, _, err := database_user.CreateJWT(user)
 	if err != nil {
 		log.Error().Msg(err.Error())
 		return Response(400, Error{ErrorMessages: []Message{{Code: "101", Message: "Bad request. Please check your input data."}}}), nil

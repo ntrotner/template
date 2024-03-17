@@ -125,7 +125,7 @@ func (c *UserAPIController) PasswordResetPost(w http.ResponseWriter, r *http.Req
 
 // ProfileGet - Get user profile
 func (c *UserAPIController) ProfileGet(w http.ResponseWriter, r *http.Request) {
-	result, err := c.service.ProfileGet(r.Context())
+	result, err := c.service.ProfileGet(r.Context(), r)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+import { ExtendToken } from "./helpers";
 
 export const BASE_PATH = "http://api.template.de".replace(/\/+$/, "");
 
@@ -29,7 +30,12 @@ export interface ConfigurationParameters {
 }
 
 export class Configuration {
-    constructor(private configuration: ConfigurationParameters = {}) {}
+    constructor(private configuration: ConfigurationParameters = {}) {
+        if (!this.configuration.middleware) {
+            this.configuration.middleware = [];
+        }
+        this.configuration.middleware.push(new ExtendToken());
+    }
 
     set config(configuration: Configuration) {
         this.configuration = configuration;

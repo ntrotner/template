@@ -67,5 +67,5 @@ type StatusAPIServicer interface {
 type UserAPIServicer interface {
 	ChangePasswordPost(context.Context, ChangePassword) (ImplResponse, error)
 	PasswordResetPost(context.Context, PasswordReset) (ImplResponse, error)
-	ProfileGet(context.Context) (ImplResponse, error)
+	ProfileGet(context.Context, *http.Request) (ImplResponse, error)
 }

@@ -14,7 +14,7 @@ export async function login(email: string, password: string): Promise<Success | 
   const authApi = new AuthenticationApi();
 
   await firstValueFrom(statusState.observable().pipe(
-    filter(health => !!health.db && !!health.server)
+    filter(health =>  !!health && !!health.db && !!health.server)
   ));
   try {
     const response = await authApi.loginPost({
@@ -23,7 +23,7 @@ export async function login(email: string, password: string): Promise<Success | 
         password
       }
     });
-    // await fetchUserProfile();
+    await fetchUserProfile();
     authenticationState.setAuthStatus(true)
     return response;
   } catch (e: unknown) {
@@ -47,7 +47,7 @@ export async function register(email: string, password: string): Promise<Success
   const authApi = new AuthenticationApi();
 
   await firstValueFrom(statusState.observable().pipe(
-    filter(health => !!health.db && !!health.server)
+    filter(health =>  !!health &&  !!health.db && !!health.server)
   ));
   try {
     const response = await authApi.registerPost({
@@ -56,7 +56,7 @@ export async function register(email: string, password: string): Promise<Success
         password
       }
     });
-    // await fetchUserProfile();
+    await fetchUserProfile();
     authenticationState.setAuthStatus(true);
     return response;
   } catch (e: unknown) {
@@ -79,7 +79,7 @@ export async function logout() {
   let requestFailed = false;
 
   await firstValueFrom(statusState.observable().pipe(
-    filter(health => !!health.db && !!health.server)
+    filter(health => !!health && !!health.db && !!health.server)
   ));
   try {
     await authApi.logoutPost();
@@ -100,7 +100,7 @@ export async function refreshToken() {
   const authApi = new AuthenticationApi();
 
   await firstValueFrom(statusState.observable().pipe(
-    filter(health => !!health.db && !!health.server)
+    filter(health => !!health && !!health.db && !!health.server)
   ));
   try {
     await authApi.refreshTokenPost();
