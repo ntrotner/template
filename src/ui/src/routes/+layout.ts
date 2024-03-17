@@ -19,7 +19,8 @@ export const load = async () => {
       document.documentElement.lang = locale;
       await loadTranslations(locale);
 
-    fetchConfigurations(window.configUrl).then(() => logger.info("page init"));
+    await fetchConfigurations(window.configUrl)
+    logger.info("page init")
     configState.getConfig<AppConfig>(AppConfigKey).pipe(
       take(1)
     ).subscribe(appConfig => appConfig?.healthCheck ? checkStatus() : null)
