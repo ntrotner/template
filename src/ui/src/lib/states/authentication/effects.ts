@@ -17,19 +17,19 @@ export async function login(email: string, password: string) {
     filter(health => !!health.db && !!health.server)
   ));
   try {
-    await authApi.loginPost({
+    const response = await authApi.loginPost({
       userLogin: {
         email,
         password
       }
     });
-    await fetchUserProfile();
+    // await fetchUserProfile();
     authenticationState.setAuthStatus(true)
-    return true;
+    return response;
   } catch {
     userState.setState(undefined);
     authenticationState.setAuthStatus(false);
-    return false;
+    return undefined;
   }
 }
 
@@ -46,19 +46,19 @@ export async function register(email: string, password: string) {
     filter(health => !!health.db && !!health.server)
   ));
   try {
-    await authApi.registerPost({
+    const response = await authApi.registerPost({
       userRegistration: {
         email,
         password
       }
     });
-    await fetchUserProfile();
+    // await fetchUserProfile();
     authenticationState.setAuthStatus(true);
-    return true;
+    return response;
   } catch {
     userState.setState(undefined);
     authenticationState.setAuthStatus(false)
-    return false;
+    return undefined;
   }
 }
 

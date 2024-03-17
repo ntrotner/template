@@ -31,13 +31,13 @@ export interface ModelError {
      * @type {Array<Message>}
      * @memberof ModelError
      */
-    warningMessages: Array<Message>;
+    warningMessages?: Array<Message>;
     /**
      * 
      * @type {Array<Message>}
      * @memberof ModelError
      */
-    errorMessages: Array<Message>;
+    errorMessages?: Array<Message>;
 }
 
 /**
@@ -45,8 +45,6 @@ export interface ModelError {
  */
 export function instanceOfModelError(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "warningMessages" in value;
-    isInstance = isInstance && "errorMessages" in value;
 
     return isInstance;
 }
@@ -61,8 +59,8 @@ export function ModelErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'warningMessages': ((json['warningMessages'] as Array<any>).map(MessageFromJSON)),
-        'errorMessages': ((json['errorMessages'] as Array<any>).map(MessageFromJSON)),
+        'warningMessages': !exists(json, 'warningMessages') ? undefined : ((json['warningMessages'] as Array<any>).map(MessageFromJSON)),
+        'errorMessages': !exists(json, 'errorMessages') ? undefined : ((json['errorMessages'] as Array<any>).map(MessageFromJSON)),
     };
 }
 
@@ -75,8 +73,8 @@ export function ModelErrorToJSON(value?: ModelError | null): any {
     }
     return {
         
-        'warningMessages': ((value.warningMessages as Array<any>).map(MessageToJSON)),
-        'errorMessages': ((value.errorMessages as Array<any>).map(MessageToJSON)),
+        'warningMessages': value.warningMessages === undefined ? undefined : ((value.warningMessages as Array<any>).map(MessageToJSON)),
+        'errorMessages': value.errorMessages === undefined ? undefined : ((value.errorMessages as Array<any>).map(MessageToJSON)),
     };
 }
 

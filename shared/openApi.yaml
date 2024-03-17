@@ -184,9 +184,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Message'
-      required:
-        - messages
-        - warningMessages
     Error:
       type: object
       properties:
@@ -198,9 +195,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Message'
-      required:
-        - warningMessages
-        - errorMessages
     Message:
       type: object
       properties:

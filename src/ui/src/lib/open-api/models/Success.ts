@@ -31,13 +31,13 @@ export interface Success {
      * @type {Array<Message>}
      * @memberof Success
      */
-    messages: Array<Message>;
+    messages?: Array<Message>;
     /**
      * 
      * @type {Array<Message>}
      * @memberof Success
      */
-    warningMessages: Array<Message>;
+    warningMessages?: Array<Message>;
 }
 
 /**
@@ -45,8 +45,6 @@ export interface Success {
  */
 export function instanceOfSuccess(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "messages" in value;
-    isInstance = isInstance && "warningMessages" in value;
 
     return isInstance;
 }
@@ -61,8 +59,8 @@ export function SuccessFromJSONTyped(json: any, ignoreDiscriminator: boolean): S
     }
     return {
         
-        'messages': ((json['messages'] as Array<any>).map(MessageFromJSON)),
-        'warningMessages': ((json['warningMessages'] as Array<any>).map(MessageFromJSON)),
+        'messages': !exists(json, 'messages') ? undefined : ((json['messages'] as Array<any>).map(MessageFromJSON)),
+        'warningMessages': !exists(json, 'warningMessages') ? undefined : ((json['warningMessages'] as Array<any>).map(MessageFromJSON)),
     };
 }
 
@@ -75,8 +73,8 @@ export function SuccessToJSON(value?: Success | null): any {
     }
     return {
         
-        'messages': ((value.messages as Array<any>).map(MessageToJSON)),
-        'warningMessages': ((value.warningMessages as Array<any>).map(MessageToJSON)),
+        'messages': value.messages === undefined ? undefined : ((value.messages as Array<any>).map(MessageToJSON)),
+        'warningMessages': value.warningMessages === undefined ? undefined : ((value.warningMessages as Array<any>).map(MessageToJSON)),
     };
 }
 
