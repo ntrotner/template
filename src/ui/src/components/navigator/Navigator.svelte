@@ -56,7 +56,8 @@
               <Menubar.Item>{$t("common.nav-menu.profile")}</Menubar.Item>
               <Menubar.Item>{$t("common.nav-menu.settings")}</Menubar.Item>
               <Menubar.Separator />
-              <Menubar.Item>{$t("common.nav-menu.logout")}</Menubar.Item>
+              <Menubar.Item on:click={() => redirect(ROUTES.LOGOUT)}
+                >{$t("common.nav-menu.logout")}</Menubar.Item>
             {:else}
               <Menubar.Item on:click={() => redirect(ROUTES.LOGIN)}
                 >{$t("common.nav-menu.login")}</Menubar.Item

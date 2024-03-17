@@ -48,6 +48,20 @@ const config = ({
       loader: async () => (
         await import('./languages/login/de.json')
       ).default,
+    },
+    {
+      locale: 'en',
+      key: 'logout',
+      loader: async () => (
+        await import('./languages/logout/en.json')
+      ).default,
+    },
+    {
+      locale: 'de',
+      key: 'logout',
+      loader: async () => (
+        await import('./languages/logout/de.json')
+      ).default,
     }
   ],
 });
