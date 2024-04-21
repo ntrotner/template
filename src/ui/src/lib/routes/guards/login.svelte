@@ -1,7 +1,7 @@
 <script>
   import { firstValueFrom } from "rxjs";
-  import { userState } from "../..";
-  import { ROUTES } from "..";
+  import { userState } from "$lib/states";
+  import { ROUTES } from "$lib/routes";
   import { beforeNavigate, goto } from "$app/navigation";
 
   beforeNavigate(async (navigation) => {

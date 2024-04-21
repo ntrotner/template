@@ -5,13 +5,12 @@
   import HamburgerMenu from "svelte-radix/HamburgerMenu.svelte";
   import { Separator } from "$lib/components/ui/separator/index.js";
   import { Button } from "$lib/components/ui/button/index.js";
-  import { languages, setLocale, setLocaleInStorage, t } from "$lib/i18n/index";
-  import { userState } from "$lib/states/user";
+  import { languages, setLocale, setLocaleInStorage, t } from "$lib/i18n";
   import type { UserProfile } from "$lib/open-api";
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
   import { ROUTES } from "$lib/routes";
-  import { appState } from "$lib/states";
+  import { appState, userState } from "$lib/states";
 
   let menuBarOptions: Menubar.Menubar;
 

@@ -1,10 +1,8 @@
-import { getLocale, loadTranslations, setLocale, setLocaleInStorage } from "$lib/i18n/index";
+import { getLocale, loadTranslations, setLocale, setLocaleInStorage } from "$lib/i18n";
 import { logger } from "$lib/analytics";
-import { configState, fetchConfigurations } from "$lib/states/config";
-import { AppConfigKey, checkStatus, type AppConfig } from "$lib/states/status";
+import { AppConfigKey, checkStatus, type AppConfig, configState, fetchConfigurations, refreshToken } from "$lib/states";
 import { take } from "rxjs";
 import { browser } from "$app/environment";
-import { refreshToken } from "$lib/states/authentication";
 
 export const prerender = true;
 export const ssr = false;

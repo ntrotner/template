@@ -6,12 +6,11 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
   import { Label } from "$lib/components/ui/label/index.js";
-  import { t } from "$lib/i18n/index";
-  import { appState } from "$lib";
-  import { login, register } from '$lib/states/authentication';
+  import { t } from "$lib/i18n";
+  import { appState, login, register } from '$lib/states';
   import { type Message, type ModelError, type Success } from "$lib/open-api";
   import { goto } from "$app/navigation";
-  import { ROUTES } from "../../lib/routes";
+  import { ROUTES } from "$lib/routes";
 
   let errors: Message[] = [];
   let mobile = false;

@@ -1,5 +1,5 @@
 <script>
-  import { logout } from "$lib";
+  import { logout } from "$lib/states";
   import { t } from "$lib/i18n";
 
   logout();
