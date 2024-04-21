@@ -6,7 +6,7 @@ import { take } from "rxjs";
 import { browser } from "$app/environment";
 import { refreshToken } from "$lib/states/authentication";
 
-export const prerender = false;
+export const prerender = true;
 export const ssr = false;
 
 export const load = async () => {

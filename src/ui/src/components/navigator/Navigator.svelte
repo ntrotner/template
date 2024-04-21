@@ -13,6 +13,13 @@
   import { ROUTES } from "$lib/routes";
   import { appState } from "$lib/states";
 
+  let menuBarOptions: Menubar.Menubar;
+
+  function changeMenuState(nextState: boolean) {
+    // @ts-ignore
+    menuBarOptions.$inject_state({'open' : nextState})
+  }
+
   function changeLanguage(locale: string) {
     setLocale(locale);
     setLocaleInStorage(locale);
@@ -44,12 +51,12 @@
         </div>
       </div>
       <div>
-        <Button builders={[builder]} variant="ghost" size="icon">
+        <Button on:click={() => changeMenuState(false)} builders={[builder]} variant="ghost" size="icon">
           <Globe class="{mobile ? 'h-4 w-4' : 'h-5 w-5'}" />
         </Button>
       </div>
       <div class="nav-right">
-        <Menubar.Menu>
+        <Menubar.Menu onOutsideClick={() => changeMenuState(false)} bind:this={menuBarOptions}>
           <Menubar.Trigger><HamburgerMenu class="{mobile ? 'h-5 w-5' : 'h-6 w-6'}" /></Menubar.Trigger>
           <Menubar.Content>
             {#if user?.email}
