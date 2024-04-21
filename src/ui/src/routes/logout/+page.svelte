@@ -1,5 +1,5 @@
 <script>
-  import { logout } from "$lib/states";
+  import { logout } from "$lib/states/authentication";
   import { t } from "$lib/i18n";
 
   logout();

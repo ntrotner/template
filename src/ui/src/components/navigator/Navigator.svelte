@@ -10,7 +10,8 @@
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
   import { ROUTES } from "$lib/routes";
-  import { appState, userState } from "$lib/states";
+  import { appState } from "$lib/states/app";
+  import { userState } from "$lib/states/user";
 
   let menuBarOptions: Menubar.Menubar;
 

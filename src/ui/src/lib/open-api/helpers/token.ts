@@ -18,6 +18,10 @@ export function clearToken() {
   localStorage.removeItem(AuthorizationToken);
 }
 
+export function existsToken(): boolean {
+  return !!localStorage.getItem(AuthorizationToken);
+}
+
 export class ExtendToken implements Middleware {
   pre?(context: RequestContext): Promise<FetchParams | void> {
     const savedToken = readToken();

@@ -1,10 +1,13 @@
 import { getLocale, loadTranslations, setLocale, setLocaleInStorage } from "$lib/i18n";
 import { logger } from "$lib/analytics";
-import { AppConfigKey, checkStatus, type AppConfig, configState, fetchConfigurations, refreshToken } from "$lib/states";
+import { refreshToken } from "$lib/states/authentication";
 import { take } from "rxjs";
 import { browser } from "$app/environment";
+import { fetchConfigurations, configState } from "../lib/states/config";
+import { type AppConfig, AppConfigKey, checkStatus } from "../lib/states/status";
+import { existsToken } from "../lib/open-api/helpers";
 
-export const prerender = true;
+export const prerender = false;
 export const ssr = false;
 
 export const load = async () => {
@@ -24,7 +27,9 @@ export const load = async () => {
       take(1)
     ).subscribe(appConfig => appConfig?.healthCheck ? checkStatus() : null)
 
-    await refreshToken()
+    if (existsToken()) {
+      await refreshToken()
+    }
     setInterval(() => refreshToken(), 1000 * 60 * 5);
   }
   return {};
