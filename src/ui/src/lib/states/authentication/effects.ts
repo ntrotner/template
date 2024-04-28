@@ -11,7 +11,7 @@ import { clearToken } from "../../open-api/helpers";
  * @param {string} password - The password of the user.
  * @returns {Promise} - A promise that resolves success or error object.
  */
-export async function login(email: string, password: string): Promise<Success | ModelError | undefined> {
+export async function login(email: string, password: string): Promise<Success & ModelError | undefined> {
   const authApi = new AuthenticationApi();
 
   await firstValueFrom(statusState.observable().pipe(
@@ -44,7 +44,7 @@ export async function login(email: string, password: string): Promise<Success | 
  * @param {string} password - The password of the user.
  * @returns {Promise} - A promise that resolves success or error object.
  */
-export async function register(email: string, password: string): Promise<Success | ModelError | undefined> {
+export async function register(email: string, password: string): Promise<Success & ModelError | undefined> {
   const authApi = new AuthenticationApi();
 
   await firstValueFrom(statusState.observable().pipe(

@@ -1,4 +1,4 @@
-import { UserApi, type Success } from "$lib/open-api";
+import { UserApi, type Success, type ModelError, ResponseError } from "$lib/open-api";
 import { userState } from "./user";
 
 /**
@@ -20,14 +20,22 @@ export function resetPasswordOfUser(email: string) {
  * @param {string} newPassword - The new password of the user.
  * @returns {Promise<Success>} - A promise that resolves to a Success object.
  */
-export function changePasswordOfUser(currentPassword: string, newPassword: string): Promise<Success> {
+export async function changePasswordOfUser(currentPassword: string, newPassword: string): Promise<Success & ModelError | undefined> {
   const userApi = new UserApi();
-  return userApi.changePasswordPost({
-    changePassword: {
-      currentPassword,
-      newPassword
+  try {
+    return userApi.changePasswordPost({
+      changePassword: {
+        currentPassword,
+        newPassword
+      }
+    });
+  } catch (e: unknown) {
+    let errorResponse: ModelError | undefined = undefined;
+    if (e instanceof ResponseError) {
+      errorResponse = await e.response.json() as ModelError;
     }
-  });
+    return errorResponse;
+  }
 }
 
 /**
