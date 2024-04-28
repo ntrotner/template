@@ -12,7 +12,10 @@
   import { ROUTES } from "$lib/routes";
   import { appState } from "$lib/states/app";
   import { userState } from "$lib/states/user";
+  import { onDestroy } from "svelte";
+  import type { Unsubscriber } from "svelte/store";
 
+  const subscriptions: Unsubscriber[] = [];
   let menuBarOptions: Menubar.Menubar;
 
   function changeMenuState(nextState: boolean) {
@@ -35,7 +38,9 @@
   let user: UserProfile | undefined = undefined;
   userState.subscribe((state) => (user = state));
   let mobile = false;
-  appState.subscribe((app) => mobile = (app?.width || 0) <= 640);
+  subscriptions.push(appState.subscribe((app) => mobile = (app?.width || 0) <= 640));
+
+  onDestroy(() => subscriptions.forEach(s => s()));
 </script>
 
 <Sheet.Root>
@@ -60,9 +65,9 @@
           <Menubar.Trigger><HamburgerMenu class="{mobile ? 'h-5 w-5' : 'h-6 w-6'}" /></Menubar.Trigger>
           <Menubar.Content>
             {#if user?.email}
-              <Menubar.Item>{$t("common.nav-menu.profile")}</Menubar.Item>
-              <Menubar.Item>{$t("common.nav-menu.settings")}</Menubar.Item>
-              <Menubar.Separator />
+            <Menubar.Item on:click={() => redirect(ROUTES.HOME)}>{$t("common.nav-links.home")}</Menubar.Item>
+            <Menubar.Item on:click={() => redirect(ROUTES.PROFILE)}>{$t("common.nav-menu.profile")}</Menubar.Item>
+            <Menubar.Separator />
               <Menubar.Item on:click={() => redirect(ROUTES.LOGOUT)}
                 >{$t("common.nav-menu.logout")}</Menubar.Item>
             {:else}
