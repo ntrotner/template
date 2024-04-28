@@ -7,5 +7,6 @@
   "nav-title": "Template DE",
   "nav-menu.login": "Anmelden",
   "nav-menu.profile": "Profil",
-  "nav-menu.logout": "Ausloggen"
+  "nav-menu.logout": "Ausloggen",
+  "backend-down": "Wir haben einen unerwarteten Serviceausfall. Bitte schauen Sie später noch einmal nach!"
 }

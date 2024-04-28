@@ -7,5 +7,6 @@
   "nav-title": "Template EN",
   "nav-menu.login": "Login",
   "nav-menu.profile": "Profile",
-  "nav-menu.logout": "Logout"
+  "nav-menu.logout": "Logout",
+  "backend-down": "We experience an unexpected service outage. Please check back later!"
 }

@@ -23,7 +23,7 @@ class Logger {
     return {
       message,
       type,
-      timestamp: (new Date()).getUTCMilliseconds()
+      timestamp: (new Date()).getTime()
     }
   }
 

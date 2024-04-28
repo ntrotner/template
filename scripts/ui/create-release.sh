@@ -1,6 +1,8 @@
 #!/bin/bash
 
 source ./environment/prod/build.env
+echo "" >> ./src/ui/.env
+cat ./environment/prod/build.env >> ./src/ui/.env
 
 cd ./src/ui
 npm install
