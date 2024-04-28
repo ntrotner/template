@@ -5,6 +5,7 @@ import (
 	"errors"
 	database_common "template_backend/database/common"
 
+	"github.com/go-kivik/kivik"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 )
@@ -16,6 +17,7 @@ func CreateUser(ctx context.Context, email string, password string) (*UserProfil
 		log.Error().
 			Str("email", email).
 			Msg(err.Error())
+		return nil, err
 	}
 
 	user := UserProfile{
@@ -51,4 +53,43 @@ func CreateUser(ctx context.Context, email string, password string) (*UserProfil
 	}
 
 	return dbUser, nil
+}
+
+func ChangeUserEmail(ctx context.Context, id *string, newEmail *string) (*UserProfile, error) {
+	user := FindUserById(ctx, id)
+	if user == nil {
+		return nil, errors.New("couldn't find user")
+	}
+	user.Email = *newEmail
+	_, err := DatabaseUser.Put(ctx, user.ID, user, kivik.Options{"_rev": user.Rev})
+	if err != nil {
+		return nil, errors.New("couldn't update user")
+	}
+
+	return user, nil
+}
+
+func ChangeUserPassword(ctx context.Context, id *string, newPassword *string) (*UserProfile, error) {
+	user := FindUserById(ctx, id)
+	if user == nil {
+		return nil, errors.New("couldn't find user")
+	}
+
+	hash, salt, err := database_common.CreatePassword(newPassword)
+	if err != nil {
+		log.Error().
+			Str("id", *id).
+			Msg(err.Error())
+		return nil, err
+	}
+
+	user.Hash = hash
+	user.Salt = salt
+
+	_, err = DatabaseUser.Put(ctx, user.ID, user, kivik.Options{"_rev": user.Rev})
+	if err != nil {
+		return nil, errors.New("couldn't update user")
+	}
+
+	return user, nil
 }

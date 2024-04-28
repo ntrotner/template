@@ -15,12 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
+  ChangeEmail,
   ChangePassword,
   PasswordReset,
   Success,
   UserProfile,
 } from '../models/index';
 import {
+    ChangeEmailFromJSON,
+    ChangeEmailToJSON,
     ChangePasswordFromJSON,
     ChangePasswordToJSON,
     PasswordResetFromJSON,
@@ -30,6 +33,10 @@ import {
     UserProfileFromJSON,
     UserProfileToJSON,
 } from '../models/index';
+
+export interface ChangeEmailPostRequest {
+    changeEmail?: ChangeEmail;
+}
 
 export interface ChangePasswordPostRequest {
     changePassword?: ChangePassword;
@@ -43,6 +50,43 @@ export interface PasswordResetPostRequest {
  * 
  */
 export class UserApi extends runtime.BaseAPI {
+
+    /**
+     * Change user email
+     */
+    async changeEmailPostRaw(requestParameters: ChangeEmailPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Success>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/change-email`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ChangeEmailToJSON(requestParameters.changeEmail),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SuccessFromJSON(jsonValue));
+    }
+
+    /**
+     * Change user email
+     */
+    async changeEmailPost(requestParameters: ChangeEmailPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Success> {
+        const response = await this.changeEmailPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Change user password

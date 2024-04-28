@@ -36,6 +36,7 @@ type StatusAPIRouter interface {
 // The UserAPIRouter implementation should parse necessary information from the http request,
 // pass the data to a UserAPIServicer to perform the required actions, then write the service results to the http response.
 type UserAPIRouter interface {
+	ChangeEmailPost(http.ResponseWriter, *http.Request)
 	ChangePasswordPost(http.ResponseWriter, *http.Request)
 	PasswordResetPost(http.ResponseWriter, *http.Request)
 	ProfileGet(http.ResponseWriter, *http.Request)
@@ -65,7 +66,8 @@ type StatusAPIServicer interface {
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type UserAPIServicer interface {
-	ChangePasswordPost(context.Context, ChangePassword) (ImplResponse, error)
+	ChangeEmailPost(context.Context, ChangeEmail, *http.Request) (ImplResponse, error)
+	ChangePasswordPost(context.Context, ChangePassword, *http.Request) (ImplResponse, error)
 	PasswordResetPost(context.Context, PasswordReset) (ImplResponse, error)
 	ProfileGet(context.Context, *http.Request) (ImplResponse, error)
 }

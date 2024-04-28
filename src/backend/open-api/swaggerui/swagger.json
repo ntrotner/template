@@ -184,6 +184,28 @@
           }
         }
       }
+    },
+    "/change-email": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Change user email",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ChangeEmail"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Success"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
     }
   },
   "security": [
@@ -281,6 +303,16 @@
             }
           }
         }
+      },
+      "ChangeEmail": {
+        "description": "Email change",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ChangeEmail"
+            }
+          }
+        }
       }
     },
     "schemas": {
@@ -299,11 +331,7 @@
               "$ref": "#/components/schemas/Message"
             }
           }
-        },
-        "required": [
-          "messages",
-          "warningMessages"
-        ]
+        }
       },
       "Error": {
         "type": "object",
@@ -320,11 +348,7 @@
               "$ref": "#/components/schemas/Message"
             }
           }
-        },
-        "required": [
-          "warningMessages",
-          "errorMessages"
-        ]
+        }
       },
       "Message": {
         "type": "object",
@@ -429,6 +453,21 @@
         "required": [
           "currentPassword",
           "newPassword"
+        ]
+      },
+      "ChangeEmail": {
+        "type": "object",
+        "properties": {
+          "currentEmail": {
+            "type": "string"
+          },
+          "newEmail": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "currentEmail",
+          "newEmail"
         ]
       }
     }

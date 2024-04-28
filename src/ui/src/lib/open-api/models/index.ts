@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './ChangeEmail';
 export * from './ChangePassword';
 export * from './Health';
 export * from './Message';

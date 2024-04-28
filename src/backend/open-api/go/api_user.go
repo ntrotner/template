@@ -51,6 +51,11 @@ func NewUserAPIController(s UserAPIServicer, opts ...UserAPIOption) Router {
 // Routes returns all the api routes for the UserAPIController
 func (c *UserAPIController) Routes() Routes {
 	return Routes{
+		"ChangeEmailPost": Route{
+			strings.ToUpper("Post"),
+			"/change-email",
+			c.ChangeEmailPost,
+		},
 		"ChangePasswordPost": Route{
 			strings.ToUpper("Post"),
 			"/change-password",
@@ -67,6 +72,33 @@ func (c *UserAPIController) Routes() Routes {
 			c.ProfileGet,
 		},
 	}
+}
+
+// ChangeEmailPost - Change user email
+func (c *UserAPIController) ChangeEmailPost(w http.ResponseWriter, r *http.Request) {
+	changeEmailParam := ChangeEmail{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&changeEmailParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if err := AssertChangeEmailRequired(changeEmailParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertChangeEmailConstraints(changeEmailParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.ChangeEmailPost(r.Context(), changeEmailParam, r)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // ChangePasswordPost - Change user password
@@ -86,7 +118,7 @@ func (c *UserAPIController) ChangePasswordPost(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.ChangePasswordPost(r.Context(), changePasswordParam)
+	result, err := c.service.ChangePasswordPost(r.Context(), changePasswordParam, r)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

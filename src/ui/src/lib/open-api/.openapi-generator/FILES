@@ -3,6 +3,7 @@ apis/StatusApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
+models/ChangeEmail.ts
 models/ChangePassword.ts
 models/Health.ts
 models/Message.ts

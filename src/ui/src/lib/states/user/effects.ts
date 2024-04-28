@@ -39,6 +39,32 @@ export async function changePasswordOfUser(currentPassword: string, newPassword:
 }
 
 /**
+ * Change the email of the user.
+ * @param {string} currentEmail- The current email of the user.
+ * @param {string} newEmail - The new email of the user.
+ * @returns {Promise<Success>} - A promise that resolves to a Success object.
+ */
+export async function changeEmailOfUser(currentEmail: string, newEmail: string): Promise<Success & ModelError | undefined> {
+  const userApi = new UserApi();
+  try {
+    const response = await userApi.changeEmailPost({
+      changeEmail: {
+        currentEmail,
+        newEmail
+      }
+    });
+    await fetchUserProfile();
+    return response;
+  } catch (e: unknown) {
+    let errorResponse: ModelError | undefined = undefined;
+    if (e instanceof ResponseError) {
+      errorResponse = await e.response.json() as ModelError;
+    }
+    return errorResponse;
+  }
+}
+
+/**
  * Fetch the profile of the user.
  */
 export async function fetchUserProfile() {

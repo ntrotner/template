@@ -196,6 +196,32 @@ paths:
       summary: Change user password
       tags:
       - user
+  /change-email:
+    post:
+      requestBody:
+        $ref: '#/components/requestBodies/ChangeEmail'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error messages
+      summary: Change user email
+      tags:
+      - user
 components:
   requestBodies:
     UserRegistration:
@@ -222,6 +248,12 @@ components:
           schema:
             $ref: '#/components/schemas/ChangePassword'
       description: Password change
+    ChangeEmail:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChangeEmail'
+      description: Email change
   responses:
     Success:
       content:
@@ -269,9 +301,6 @@ components:
           items:
             $ref: '#/components/schemas/Message'
           type: array
-      required:
-      - messages
-      - warningMessages
       type: object
     Error:
       properties:
@@ -283,9 +312,6 @@ components:
           items:
             $ref: '#/components/schemas/Message'
           type: array
-      required:
-      - errorMessages
-      - warningMessages
       type: object
     Message:
       example:
@@ -379,6 +405,19 @@ components:
       required:
       - currentPassword
       - newPassword
+      type: object
+    ChangeEmail:
+      example:
+        newEmail: newEmail
+        currentEmail: currentEmail
+      properties:
+        currentEmail:
+          type: string
+        newEmail:
+          type: string
+      required:
+      - currentEmail
+      - newEmail
       type: object
   securitySchemes:
     bearerAuth:

@@ -112,3 +112,16 @@ func AuthenticateUser(ctx context.Context, email string, password string) *UserP
 
 	return user
 }
+
+func AuthenticateUserById(ctx context.Context, id string, password string) *UserProfile {
+	user := FindUserById(ctx, &id)
+	if user == nil {
+		return nil
+	}
+	passwordMatches := database_common.CheckPassword(&password, &user.Hash, &user.Salt)
+	if !passwordMatches {
+		return nil
+	}
+
+	return user
+}
