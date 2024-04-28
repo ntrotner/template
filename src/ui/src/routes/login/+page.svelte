@@ -1,7 +1,6 @@
 <script lang="ts">
   import * as Tabs from "$lib/components/ui/tabs/index.js";
   import * as Card from "$lib/components/ui/card/index.js";
-  import * as Alert from "$lib/components/ui/alert/index.js";
   import Info from "svelte-radix/InfoCircled.svelte"
   import { Button } from "$lib/components/ui/button/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
@@ -9,27 +8,31 @@
   import { t } from "$lib/i18n";
   import { appState} from '$lib/states/app';
   import { login, register } from '$lib/states/authentication';
-  import { type Message, type ModelError, type Success } from "$lib/open-api";
+  import { type ModelError, type Success } from "$lib/open-api";
   import { goto } from "$app/navigation";
   import { ROUTES } from "$lib/routes";
+  import { writable, type Unsubscriber } from "svelte/store";
+  import { onDestroy } from "svelte";
+  import Alert from "../../components/alert/Alert.svelte";
 
-  let errors: Message[] = [];
+  const subscriptions: Unsubscriber[] = [];
+  let errors = writable<string[]>([]);
   let mobile = false;
   let requestInProcess = false;
-  appState.subscribe((app) => (mobile = (app?.width || 0) <= 640));
+  subscriptions.push(appState.subscribe((app) => (mobile = (app?.width || 0) <= 640)));
 
   function isValid(input: string) {
     return input.trim().length !== 0 
   }
 
-  function fillErrors(errorInput: Success | ModelError | undefined) {
-    errors = [];
+  function fillErrors(errorInput: Success & ModelError | undefined) {
+    $errors = [];
     if (!!(errorInput as ModelError)?.errorMessages) {
-      errors = (errorInput as ModelError).errorMessages || [];
+      $errors = ((errorInput as ModelError).errorMessages?.map(({message}) => message).filter(message => typeof message === 'string')) as string[] || [];
     }
   }
 
-  function isError(input: Success | ModelError | undefined) {
+  function isError(input: Success & ModelError | undefined) {
     return !!(input as ModelError)?.errorMessages;
   }
 
@@ -101,13 +104,15 @@
   }
 
   function clear() {
-    errors = [];
+    $errors = [];
     (document.querySelector('#registerusername') as HTMLInputElement).value = '';
     (document.querySelector('#registerpassword') as HTMLInputElement).value = '';
     (document.querySelector('#loginusername') as HTMLInputElement).value = '';
     (document.querySelector('#loginpassword') as HTMLInputElement).value = '';
 
   }
+
+  onDestroy(() => subscriptions.forEach(s => s()));
 </script>
 
 <div class="container {mobile ? 'pt-8' : 'pt-16'}">
@@ -117,19 +122,8 @@
       <Tabs.Trigger value="register" disabled={requestInProcess}>{$t("login.register-title")}</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="login">
-      {#if showErrors(errors)}
-      <Alert.Root class="mt-4 mb-4" variant="destructive">
-        <Info class="h-4 w-4" />
-        <Alert.Title>{$t("login.input-error-title")}</Alert.Title>
-        <Alert.Description>
-          <ul>
-            {#each errors as { message }}
-              <li>{message}</li>
-            {/each}
-          </ul>
-        </Alert.Description>
-      </Alert.Root>
-      {/if}
+      <Alert messages={$errors} title={$t("login.input-error-title")} variant="destructive">
+      </Alert>
       <Card.Root>
         <Card.Content class="space-y-2 mt-5">
           <div class="space-y-1">
@@ -149,19 +143,8 @@
       </Card.Root>
     </Tabs.Content>
     <Tabs.Content value="register">
-      {#if showErrors(errors)}
-      <Alert.Root class="mt-4 mb-4" variant="destructive">
-        <Info class="h-4 w-4" />
-        <Alert.Title>{$t("login.input-error-title")}</Alert.Title>
-        <Alert.Description>
-          <ul>
-            {#each errors as { message }}
-              <li>{message}</li>
-            {/each}
-          </ul>
-        </Alert.Description>
-      </Alert.Root>
-      {/if}
+      <Alert messages={$errors} title={$t("login.input-error-title")} variant="destructive">
+      </Alert>
       <Card.Root>
         <Card.Content class="space-y-2 mt-5">
           <div class="space-y-1">
