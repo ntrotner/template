@@ -14,7 +14,7 @@
 
 import { ExtendToken } from "./helpers";
 
-export const BASE_PATH = "http://api.template.de".replace(/\/+$/, "");
+export const BASE_PATH = import.meta.env.VITE_endpoint || "http://api.template.de".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path

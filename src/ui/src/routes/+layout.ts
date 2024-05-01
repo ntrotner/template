@@ -37,6 +37,8 @@ export const load = async () => {
             healthStatus = await checkStatus();
             if (!healthStatus && retryCount === 0) {
               toast.error(message, parameters)
+            } else if (healthStatus) {
+              toast.dismiss()
             }
           } catch {
             if (retryCount === 0) {
