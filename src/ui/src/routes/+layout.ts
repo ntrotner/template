@@ -5,7 +5,6 @@ import { take } from "rxjs";
 import { browser } from "$app/environment";
 import { fetchConfigurations, configState } from "../lib/states/config";
 import { type AppConfig, AppConfigKey, checkStatus } from "../lib/states/status";
-import { existsToken } from "../lib/open-api/helpers";
 import { toast } from "svelte-sonner";
 
 export const prerender = true;
@@ -54,9 +53,7 @@ export const load = async () => {
       }
     })
 
-    if (existsToken()) {
-      await refreshToken()
-    }
+    refreshToken();
     setInterval(() => refreshToken(), 1000 * 60 * 5);
   }
   return {};
