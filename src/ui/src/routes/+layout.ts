@@ -1,6 +1,5 @@
 import { getLocale, loadTranslations, setLocale, setLocaleInStorage, t } from "$lib/i18n";
 import { logger } from "$lib/analytics";
-import { refreshToken } from "$lib/states/authentication";
 import { take } from "rxjs";
 import { browser } from "$app/environment";
 import { fetchConfigurations, configState } from "../lib/states/config";

@@ -5,9 +5,12 @@
   import { appState } from "$lib/states/app";
   import { DoubleBounce } from "svelte-loading-spinners";
   import { refreshToken } from "$lib/states/authentication";
+  import { browser } from "$app/environment";
 
-  setInterval(() => refreshToken(), 1000 * 60 * 5);
-  refreshToken().finally(() => appState.setLoaded(true));
+  if (browser) {
+    setInterval(() => refreshToken(), 1000 * 60 * 5);
+    refreshToken().finally(() => appState.setLoaded(true));
+  }
   $: currentAppState = appState.getAsyncState();
 </script>
 

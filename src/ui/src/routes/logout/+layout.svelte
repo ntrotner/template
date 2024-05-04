@@ -1,13 +1,16 @@
 <script lang="ts">
   import { userState } from "$lib/states/user";
   import { browser } from "$app/environment";
-  import { guardUnauthenticatedUserEndpoint } from "$lib/routes/guards/authentication";
+  import { isUserAuthenticated } from "$lib/routes/guards/authentication";
   import { ROUTES } from "$lib/routes";
+  import { goto } from "$app/navigation";
 
   $: {
     if (browser) {
       const user = userState.getSyncState();
-      guardUnauthenticatedUserEndpoint(ROUTES.HOME, user);
+      if (!isUserAuthenticated(user)) {
+        goto(ROUTES.HOME);
+      }
     }
   }
 </script>
