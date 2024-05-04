@@ -53,7 +53,7 @@ export const load = async () => {
       }
     })
 
-    refreshToken();
+    await refreshToken();
     setInterval(() => refreshToken(), 1000 * 60 * 5);
   }
   return {};

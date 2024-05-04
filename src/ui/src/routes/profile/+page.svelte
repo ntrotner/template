@@ -25,7 +25,7 @@
   const { form: passwordFormData } = passwordForm;
   const userStateEmail = userState
     .observable()
-    .pipe(map((state) => state.email));
+    .pipe(map((state) => state?.email));
 
   async function submitChangeEmail() {
     if (
