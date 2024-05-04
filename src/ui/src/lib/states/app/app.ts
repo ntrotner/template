@@ -31,6 +31,10 @@ export class AppState extends DefaultState<AppStatus> {
   public setHeight(height: number) {
     this.setState({ ...this.getSyncState(), height })
   }
+
+  public setLoaded(loaded: boolean) {
+    this.setState({ ...this.getSyncState(), loaded })
+  }
 }
 export const appState = new AppState();
 

@@ -29,22 +29,22 @@ export const load = async () => {
       if (appConfig?.healthCheck) {
         const [message, parameters] = [t.get('common.backend-down'), { duration: 10000000 }];
         let healthStatus = false;
-        let retryCount = 0;
+        let firstTry = false;
 
-        while (!healthStatus && retryCount < 5) {
+        while (!healthStatus) {
           try {
             healthStatus = await checkStatus();
-            if (!healthStatus && retryCount === 0) {
+            if (!healthStatus && !firstTry) {
               toast.error(message, parameters)
             } else if (healthStatus) {
               toast.dismiss()
             }
           } catch {
-            if (retryCount === 0) {
+            if (!firstTry) {
               toast.error(message, parameters)
             }
           } finally {
-            retryCount += 1;
+            firstTry = true;
           }
           if (!healthStatus) {
             await new Promise(resolve => setTimeout(resolve, 15000));
@@ -52,9 +52,6 @@ export const load = async () => {
         }
       }
     })
-
-    await refreshToken();
-    setInterval(() => refreshToken(), 1000 * 60 * 5);
   }
   return {};
 }
