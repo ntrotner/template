@@ -1,5 +1,12 @@
-import type { UserProfile } from "../../open-api";
+import { filter, firstValueFrom, take } from "rxjs";
+import { authenticationState } from "../../states/authentication";
+import { userState } from "../../states/user";
 
-export function isUserAuthenticated(user: UserProfile | undefined) {
-  return user?.email
+export async function isUserAuthenticated() {
+  const userAuthenticationState = await firstValueFrom(authenticationState.observable().pipe(
+    filter(state => typeof state.authenticated !== 'undefined'),
+    take(1)
+  ))
+  const user = userState.getSyncState();
+  return !!userAuthenticationState.authenticated || !!user?.email;
 }

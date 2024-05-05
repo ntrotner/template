@@ -1,20 +1,37 @@
-<script>
+<script lang="ts">
   import "../app.pcss";
   import Navigator from "../components/navigator/Navigator.svelte";
   import { Toaster } from "$lib/components/ui/sonner";
   import { appState } from "$lib/states/app";
   import { DoubleBounce } from "svelte-loading-spinners";
-  import { refreshToken } from "$lib/states/authentication";
+  import {
+    authenticationState,
+    refreshToken,
+  } from "$lib/states/authentication";
+  import { writable } from "svelte/store";
+  import { TOKEN_REFRESH_IN_MS } from "$lib/open-api/helpers";
   import { browser } from "$app/environment";
+  import { configState } from "$lib/states/config";
+  import { type AppConfig, AppConfigKey } from "$lib/states/status";
+  import { map } from "rxjs";
+
+  const loading = writable(true);
 
   if (browser) {
-    setInterval(() => refreshToken(), 1000 * 60 * 5);
-    refreshToken().finally(() => appState.setLoaded(true));
+    setInterval(() => refreshToken(), TOKEN_REFRESH_IN_MS);
+    refreshToken();
+    appState.setLoaded(true);
+    authenticationState
+      .getAsyncState()
+      .subscribe((state) =>
+        loading.set(typeof state?.authenticated === "undefined"),
+      );
   }
-  $: currentAppState = appState.getAsyncState();
+
+  $: enableLoadingScreen = configState.getConfig<AppConfig>(AppConfigKey).pipe(map(config => !!config?.showLoadingIndicator));
 </script>
 
-{#if !$currentAppState?.loaded}
+{#if $loading && $enableLoadingScreen}
   <div class="overlay">
     <div class="loading">
       <DoubleBounce color="#0f172a"></DoubleBounce>
@@ -23,7 +40,9 @@
 {/if}
 <Navigator></Navigator>
 <Toaster></Toaster>
-<slot />
+{#if !$loading || !$enableLoadingScreen}
+  <slot />
+{/if}
 
 <style>
   .loading {
@@ -36,7 +55,7 @@
   .overlay {
     display: block;
     position: fixed;
-    width: 100%; 
+    width: 100%;
     height: 100%;
     top: 0;
     left: 0;

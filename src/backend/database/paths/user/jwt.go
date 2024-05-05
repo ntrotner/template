@@ -15,7 +15,7 @@ type JWTContent struct {
 }
 
 func CreateJWT(user *UserProfile) (string, time.Time, error) {
-	expirationTime := time.Now().Add(time.Minute * 10)
+	expirationTime := time.Now().Add(time.Minute * 30)
 	content := &JWTContent{
 		ID: user.ID,
 		RegisteredClaims: jwt.RegisteredClaims{

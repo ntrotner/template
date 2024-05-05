@@ -3,7 +3,7 @@ import { fetchUserProfile, userState } from "../user";
 import { authenticationState } from ".";
 import { filter, firstValueFrom } from "rxjs";
 import { statusState } from "../status";
-import { clearToken, existsToken } from "../../open-api/helpers";
+import { clearToken, existsToken, isTokenTimeValid } from "../../open-api/helpers";
 
 /**
  * Login the user.
@@ -15,7 +15,7 @@ export async function login(email: string, password: string): Promise<Success & 
   const authApi = new AuthenticationApi();
 
   await firstValueFrom(statusState.observable().pipe(
-    filter(health =>  !!health && !!health.db && !!health.server)
+    filter(health => !!health && !!health.db && !!health.server)
   ));
   try {
     const response = await authApi.loginPost({
@@ -48,7 +48,7 @@ export async function register(email: string, password: string): Promise<Success
   const authApi = new AuthenticationApi();
 
   await firstValueFrom(statusState.observable().pipe(
-    filter(health =>  !!health &&  !!health.db && !!health.server)
+    filter(health => !!health && !!health.db && !!health.server)
   ));
   try {
     const response = await authApi.registerPost({
@@ -98,7 +98,9 @@ export async function logout() {
  * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating the success of the token refresh.
  */
 export async function refreshToken() {
-  if (!existsToken()) {
+  if (!existsToken() || !isTokenTimeValid()) {
+    clearToken();
+    authenticationState.setAuthStatus(false)
     return false;
   }
   const authApi = new AuthenticationApi();

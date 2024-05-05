@@ -1,6 +1,10 @@
 import type { FetchParams, Middleware, RequestContext } from "..";
 
+export const TOKEN_VALID_IN_MS = 5 * 60 * 1000;
+export const TOKEN_REFRESH_IN_MS = 2 * 60 * 1000;
+
 const AuthorizationToken = 'authToken';
+const AuthorizationTokenTime = 'authTokenTime';
 
 export function setToken(token: string | null) {
   if (!token) {
@@ -8,6 +12,7 @@ export function setToken(token: string | null) {
   }
   token = token.replace('Bearer ', '')
   localStorage.setItem(AuthorizationToken, token);
+  localStorage.setItem(AuthorizationTokenTime, new Date().getTime().toString())
 }
 
 export function readToken(): string | null {
@@ -16,10 +21,21 @@ export function readToken(): string | null {
 
 export function clearToken() {
   localStorage.removeItem(AuthorizationToken);
+  localStorage.removeItem(AuthorizationTokenTime);
 }
 
 export function existsToken(): boolean {
   return !!localStorage.getItem(AuthorizationToken);
+}
+
+export function isTokenTimeValid(): boolean {
+  const savedDate = localStorage.getItem(AuthorizationTokenTime);
+  if (!savedDate) {
+    return false;
+  }
+
+  const validFrom = new Date().getTime() - TOKEN_VALID_IN_MS;
+  return new Date(Number(savedDate)).getTime() > validFrom;
 }
 
 export class ExtendToken implements Middleware {

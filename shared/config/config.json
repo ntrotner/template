@@ -1,6 +1,7 @@
 {
   "app": {
-    "healthCheck": true
+    "healthCheck": true,
+    "showLoadingIndicator": false
   },
   "logger": {
     "url": null
