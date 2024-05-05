@@ -20,11 +20,11 @@ export const load = async () => {
     document.documentElement.lang = locale;
     loadTranslations(locale);
 
-    logger.info("page init")
     fetchConfigurations(import.meta.env.VITE_configUrl || window.configUrl).then(() => {
       configState.getConfig<AppConfig>(AppConfigKey).pipe(
         take(1)
       ).subscribe(async appConfig => {
+        logger.info("page init")
         if (appConfig?.healthCheck) {
           const [message, parameters] = [t.get('common.backend-down'), { duration: 10000000 }];
           let healthStatus = false;
