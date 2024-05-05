@@ -1,8 +1,12 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import { enhancedImages } from '@sveltejs/enhanced-img';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-	plugins: [sveltekit()],
+	plugins: [
+		enhancedImages(), // usage: <enhanced:img src="./path/to/your/image.jpg" alt="An alt text" />
+		sveltekit()
+	],
 	server: {
 		host: "0.0.0.0",
 		port: process.env.port
