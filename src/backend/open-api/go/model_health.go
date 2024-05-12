@@ -10,10 +10,11 @@
 
 package openapi
 
+// remove omitifempty
 type Health struct {
-	Server bool `json:"server,omitempty"`
+	Server bool `json:"server"`
 
-	Db bool `json:"db,omitempty"`
+	Db bool `json:"db"`
 }
 
 // AssertHealthRequired checks if the required fields are not zero-ed

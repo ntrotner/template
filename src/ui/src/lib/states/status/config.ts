@@ -1,10 +1,10 @@
 export interface AppConfig {
-  healthCheck?: boolean
-  showLoadingIndicator?: boolean
+  isBackendAware?: boolean,
+  user?: boolean
 }
 
 export const AppConfigKey = 'app';
 
 export const defaultAppConfig: { [AppConfigKey]: AppConfig } = {
-  [AppConfigKey]: {healthCheck: true, showLoadingIndicator: true}
+  [AppConfigKey]: {isBackendAware: true, user: true}
 }

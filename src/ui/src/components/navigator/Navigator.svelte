@@ -14,8 +14,12 @@
   import { userState } from "$lib/states/user";
   import { onDestroy } from "svelte";
   import type { Unsubscriber } from "svelte/store";
+  import { configState } from "../../lib/states/config";
+  import { type AppConfig, AppConfigKey } from "../../lib/states/status";
+  import { map } from "rxjs";
 
   const subscriptions: Unsubscriber[] = [];
+  const isUserEnabled = configState.getConfig<AppConfig>(AppConfigKey).pipe(map(config => config?.user));
   let menuBarOptions: Menubar.Menubar;
 
   function changeMenuState(nextState: boolean) {
@@ -61,6 +65,7 @@
         </Button>
       </div>
       <div class="nav-right">
+        {#if $isUserEnabled}
         <Menubar.Menu onOutsideClick={() => changeMenuState(false)} bind:this={menuBarOptions}>
           <Menubar.Trigger><HamburgerMenu class="{mobile ? 'h-5 w-5' : 'h-6 w-6'}" /></Menubar.Trigger>
           <Menubar.Content>
@@ -77,6 +82,7 @@
             {/if}
           </Menubar.Content>
         </Menubar.Menu>
+        {/if}
       </div>
     </Menubar.Root>
   </Sheet.Trigger>

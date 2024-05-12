@@ -4,34 +4,12 @@
   import { Toaster } from "$lib/components/ui/sonner";
   import { appState } from "$lib/states/app";
   import { DoubleBounce } from "svelte-loading-spinners";
-  import {
-    authenticationState,
-    refreshToken,
-  } from "$lib/states/authentication";
-  import { writable } from "svelte/store";
-  import { TOKEN_REFRESH_IN_MS } from "$lib/open-api/helpers";
-  import { browser } from "$app/environment";
-  import { configState } from "$lib/states/config";
-  import { type AppConfig, AppConfigKey } from "$lib/states/status";
   import { map } from "rxjs";
 
-  const loading = writable(true);
-
-  if (browser) {
-    setInterval(() => refreshToken(), TOKEN_REFRESH_IN_MS);
-    refreshToken();
-    appState.setLoaded(true);
-    authenticationState
-      .getAsyncState()
-      .subscribe((state) =>
-        loading.set(typeof state?.authenticated === "undefined"),
-      );
-  }
-
-  $: enableLoadingScreen = configState.getConfig<AppConfig>(AppConfigKey).pipe(map(config => !!config?.showLoadingIndicator));
+  const loaded = appState.observable().pipe(map(state => state.loaded));
 </script>
 
-{#if $loading && $enableLoadingScreen}
+{#if !$loaded}
   <div class="overlay">
     <div class="loading">
       <DoubleBounce color="#0f172a"></DoubleBounce>
@@ -40,7 +18,7 @@
 {/if}
 <Navigator></Navigator>
 <Toaster></Toaster>
-{#if !$loading || !$enableLoadingScreen}
+{#if $loaded}
   <slot />
 {/if}
 

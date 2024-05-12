@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { ExtendToken } from "./helpers";
+import { AwaitBackendHealth, ExtendToken } from "./helpers";
 
 export const BASE_PATH = import.meta.env.VITE_endpoint || "http://api.template.de".replace(/\/+$/, "");
 
@@ -34,6 +34,7 @@ export class Configuration {
         if (!this.configuration.middleware) {
             this.configuration.middleware = [];
         }
+        this.configuration.middleware.push(new AwaitBackendHealth());
         this.configuration.middleware.push(new ExtendToken());
     }
 

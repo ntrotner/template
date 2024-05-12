@@ -1,4 +1,4 @@
-import { StatusApi } from "$lib/open-api";
+import { StatusApi, type Health } from "$lib/open-api";
 import { statusState } from "./status";
 
 /**
@@ -9,9 +9,9 @@ export async function checkStatus() {
   const statusApi = new StatusApi();
 
   try {
-    const health = await statusApi.health();
+    const health = await statusApi.health({signal: AbortSignal.timeout(5000)});
     statusState.setState(health);
-    return true;
+    return (Object.keys(health) as (keyof Health)[]).every((system) => !!health[system]);
   } catch {
     statusState.setState({db: false, server: false});
     return false;

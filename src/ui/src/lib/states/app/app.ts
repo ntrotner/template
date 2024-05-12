@@ -1,3 +1,4 @@
+import { browser } from '$app/environment';
 import { page } from '$app/stores';
 import { DefaultState } from '../common/state';
 import type { AppStatus } from './model';
@@ -9,14 +10,18 @@ export class AppState extends DefaultState<AppStatus> {
 
   constructor() {
     super();
-    page.subscribe(() => this.setHref(document.location.pathname));
+    this.setLoaded(false);
 
-    this.setWidth(document.documentElement.clientWidth);
-    this.setHeight(document.documentElement.clientHeight);
-    addEventListener("resize", () => {
+    if (browser) {
+      page.subscribe(() => this.setHref(document.location.pathname));
+
       this.setWidth(document.documentElement.clientWidth);
       this.setHeight(document.documentElement.clientHeight);
-    });
+      addEventListener("resize", () => {
+        this.setWidth(document.documentElement.clientWidth);
+        this.setHeight(document.documentElement.clientHeight);
+      });
+    }
   }
   
   public setHref(href: string) {

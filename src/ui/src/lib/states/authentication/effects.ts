@@ -1,9 +1,8 @@
 import { AuthenticationApi, ResponseError, type ModelError, type Success } from "$lib/open-api";
 import { fetchUserProfile, userState } from "../user";
 import { authenticationState } from ".";
-import { filter, firstValueFrom } from "rxjs";
-import { statusState } from "../status";
 import { clearToken, existsToken, isTokenTimeValid } from "../../open-api/helpers";
+import { appState } from "../app";
 
 /**
  * Login the user.
@@ -14,9 +13,6 @@ import { clearToken, existsToken, isTokenTimeValid } from "../../open-api/helper
 export async function login(email: string, password: string): Promise<Success & ModelError | undefined> {
   const authApi = new AuthenticationApi();
 
-  await firstValueFrom(statusState.observable().pipe(
-    filter(health => !!health && !!health.db && !!health.server)
-  ));
   try {
     const response = await authApi.loginPost({
       userLogin: {
@@ -47,9 +43,6 @@ export async function login(email: string, password: string): Promise<Success & 
 export async function register(email: string, password: string): Promise<Success & ModelError | undefined> {
   const authApi = new AuthenticationApi();
 
-  await firstValueFrom(statusState.observable().pipe(
-    filter(health => !!health && !!health.db && !!health.server)
-  ));
   try {
     const response = await authApi.registerPost({
       userRegistration: {
@@ -79,9 +72,6 @@ export async function logout() {
   const authApi = new AuthenticationApi();
   let requestFailed = false;
 
-  await firstValueFrom(statusState.observable().pipe(
-    filter(health => !!health && !!health.db && !!health.server)
-  ));
   try {
     await authApi.logoutPost();
   } catch {
@@ -100,22 +90,22 @@ export async function logout() {
 export async function refreshToken() {
   if (!existsToken() || !isTokenTimeValid()) {
     clearToken();
-    authenticationState.setAuthStatus(false)
+    authenticationState.setAuthStatus(false);
+    appState.setLoaded(true);
     return false;
   }
   const authApi = new AuthenticationApi();
 
-  await firstValueFrom(statusState.observable().pipe(
-    filter(health => !!health && !!health.db && !!health.server)
-  ));
   try {
     await authApi.refreshTokenPost();
     await fetchUserProfile();
     authenticationState.setAuthStatus(true);
+    appState.setLoaded(true);
     return true;
   } catch {
     userState.setState(undefined);
     authenticationState.setAuthStatus(false);
+    appState.setLoaded(true);
     clearToken();
     return false;
   }
