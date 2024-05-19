@@ -1,0 +1,93 @@
+#!make
+
+# Env setup
+DOCKER_COMPOSE := ""
+ifneq ($(shell command -v docker-compose),)
+	DOCKER_COMPOSE = docker-compose
+else ifneq ($(shell command -v docker compose),)
+	DOCKER_COMPOSE = docker compose
+else
+	$(error Neither docker-compose nor docker compose is available)
+	exit 1
+endif
+
+# Prod setup
+include ${PWD}/environment/prod/build.env
+export $(shell sed 's/=.*//' ${PWD}/environment/prod/build.env)
+
+SHELL := /bin/bash
+
+setup-env:
+	cp ${PWD}/scripts/git/* ${PWD}/.git/hooks/
+	go install github.com/gordonklaus/ineffassign@latest
+	go install github.com/fzipp/gocyclo/cmd/gocyclo@latest
+	go install github.com/bykof/go-plantuml@latest
+
+# Start
+# run app in local for development
+run-dev:
+	export docker_env=dev
+	make shutdown
+	make run
+
+run-prod: 
+	export docker_env=prod
+	make shutdown
+	make run
+
+run:
+	docker network create host_network || true
+	${DOCKER_COMPOSE} up --build --remove-orphans
+
+shutdown:
+	$(DOCKER_COMPOSE) down
+
+clean:
+	make shutdown
+	docker container rm nginx
+	docker network rm host_network
+
+# OpenAPI
+openapi-generate-backend:
+	docker run --rm --user 1000:1000 \
+			-v ${PWD}/src/backend/open-api:/local \
+			-v ${PWD}/shared:/shared \
+			-v /usr/local/go/bin/gofmt:/usr/local/bin/gofmt \
+			-e GO_POST_PROCESS_FILE="/usr/local/bin/gofmt -w" \
+			openapitools/openapi-generator-cli generate \
+			-i /shared/openApi.yaml \
+			-g go-server \
+			-o /local/ \
+			--additional-properties="outputAsLibrary=true,enablePostProcessFile=true"
+	cat ${PWD}/shared/openApi.yaml | yq -o=json -I2 > ${PWD}/src/backend/open-api/swaggerui/swagger.json
+
+openapi-generate-ui:
+	docker run --rm --user 1000:1000 \
+			-v ${PWD}/src/ui/src/lib/open-api:/local \
+			-v ${PWD}/shared:/shared \
+			openapitools/openapi-generator-cli generate \
+			-i /shared/openApi.yaml \
+			-g typescript-fetch \
+			-o /local/
+
+openapi-generate:
+	make openapi-generate-backend
+	make openapi-generate-ui
+
+# Release
+release-ui:
+	echo "" >> ${PWD}/src/ui/.env
+	cat ${PWD}/environment/prod/build.env >> ${PWD}/src/ui/.env
+	cd ${PWD}/src/ui && npm install && npm run build
+
+	swa login
+	cd ${PWD}/src/ui && swa deploy ${PWD}/src/ui/build --env=${docker_env} --subscription-id=${AZURE_SUBSCRIPTION_ID} --deployment-token=${SWA_CLI_DEPLOYMENT_TOKEN}
+
+release-backend:
+	docker build -f ${PWD}/dockerfiles/backend.Dockerfile -t ${container_registry}/${app_name}-backend:${VERSION} .
+	docker image push ${container_registry}/${app_name}-backend:${VERSION}
+
+release:
+	make shutdown 
+	make release-ui
+	make release-backend

@@ -1,5 +1,15 @@
 ## Setup
-Run `./scripts/setup.sh`
+Run `make setup-env`
+
+## Run
+Run `make run-dev` / `make run-prod`
+
+## Regenerate OpenAPI
+Run `make openapi-generate`
+Consolidate updated openapi output.
+
+## Create Release
+Run `make release VERSION=1.0.0`
 
 ## Proxy
 [NGINX Proxy Manager](https://nginxproxymanager.com/)
