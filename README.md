@@ -1,8 +1,10 @@
 ## Setup
 Run `make setup-env`
 
+See `/docs/best-practice` for code guide
+
 ## Run
-Run `make run-dev` / `make run-prod`
+Run `make run TARGET=dev` / `make run TARGET=prod`
 
 ## Regenerate OpenAPI
 Run `make openapi-generate`

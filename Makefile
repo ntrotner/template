@@ -25,19 +25,11 @@ setup-env:
 
 # Start
 # run app in local for development
-run-dev:
-	export docker_env=dev
-	make shutdown
-	make run
-
-run-prod: 
-	export docker_env=prod
-	make shutdown
-	make run
-
+# TARGET = dev/prod
 run:
+	make shutdown
 	docker network create host_network || true
-	${DOCKER_COMPOSE} up --build --remove-orphans
+	export docker_env=${TARGET} && ${DOCKER_COMPOSE} up --build --remove-orphans
 
 shutdown:
 	$(DOCKER_COMPOSE) down
