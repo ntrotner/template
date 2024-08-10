@@ -9,7 +9,10 @@ export default defineConfig({
 	],
 	server: {
 		host: "0.0.0.0",
-		port: process.env.port
+		port: process.env.port,
+		watch: {
+			ignored: ['**/playwright-report/**']
+		}
 	},
 	preview: {
 		host: "0.0.0.0",
