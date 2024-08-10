@@ -59,7 +59,7 @@
           >
         </div>
       </div>
-      <div>
+      <div class="language">
         <Button on:click={() => changeMenuState(false)} builders={[builder]} variant="ghost" size="icon">
           <Globe class="{mobile ? 'h-4 w-4' : 'h-5 w-5'}" />
         </Button>
