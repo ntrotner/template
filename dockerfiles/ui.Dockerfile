@@ -1,5 +1,4 @@
-FROM node:20-alpine3.17
-RUN apk add --no-cache git
+FROM node:20-bullseye
 COPY ./src/ui /src
 WORKDIR /src
 RUN npm install

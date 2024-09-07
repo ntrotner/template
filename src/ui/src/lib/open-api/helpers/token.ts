@@ -1,4 +1,4 @@
-import type { FetchParams, Middleware, RequestContext } from "..";
+import type { FetchParams, Middleware, RequestContext } from "../runtime";
 
 export const TOKEN_VALID_IN_MS = 5 * 60 * 1000;
 export const TOKEN_REFRESH_IN_MS = 2 * 60 * 1000;

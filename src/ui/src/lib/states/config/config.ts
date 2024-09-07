@@ -7,7 +7,7 @@ import { defaultAppConfig } from "../status";
 /**
  * ConfigState class is used to manage the state of the configs.
  */
-export class ConfigState extends DefaultState<Configuration> {
+class ConfigState extends DefaultState<Configuration> {
 
   constructor() {
     super();
@@ -46,6 +46,10 @@ export class ConfigState extends DefaultState<Configuration> {
     ) as Observable<T | undefined>
   }
 }
-export const configState = new ConfigState();
 
-export const CONFIG_STATE = 'configState';
+export type ConfigStateInstance = ConfigState;
+
+export async function configStateFactory(): Promise<ConfigStateInstance> {
+  return new ConfigState();
+}
+

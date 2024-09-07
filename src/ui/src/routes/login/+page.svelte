@@ -5,7 +5,6 @@
   import { Input } from "$lib/components/ui/input/index.js";
   import { Label } from "$lib/components/ui/label/index.js";
   import { t } from "$lib/i18n";
-  import { appState} from '$lib/states/app';
   import { login, register } from '$lib/states/authentication';
   import { type ModelError, type Success } from "$lib/open-api";
   import { goto } from "$app/navigation";
@@ -13,12 +12,12 @@
   import { writable, type Unsubscriber } from "svelte/store";
   import { onDestroy } from "svelte";
   import Alert from "../../components/alert/Alert.svelte";
+  import { Injector } from "$lib/injector";
 
   const subscriptions: Unsubscriber[] = [];
   let errors = writable<string[]>([]);
-  let mobile = false;
+  let mobile = writable(false);
   let requestInProcess = false;
-  subscriptions.push(appState.subscribe((app) => (mobile = (app?.width || 0) <= 640)));
 
   function isValid(input: string) {
     return input.trim().length !== 0 
@@ -26,7 +25,7 @@
 
   function fillErrors(errorInput: Success & ModelError | undefined) {
     $errors = [];
-    if (!!(errorInput as ModelError)?.errorMessages) {
+    if ((errorInput as ModelError)?.errorMessages) {
       $errors = ((errorInput as ModelError).errorMessages?.map(({message}) => message).filter(message => typeof message === 'string')) as string[] || [];
     }
   }
@@ -108,13 +107,16 @@
     (document.querySelector('#registerpassword') as HTMLInputElement).value = '';
     (document.querySelector('#loginusername') as HTMLInputElement).value = '';
     (document.querySelector('#loginpassword') as HTMLInputElement).value = '';
-
   }
+
+  (async () => {
+    subscriptions.push((await Injector.getService('appState')).subscribe((app) => mobile.set((app?.width || 0) <= 640)));
+  })()
 
   onDestroy(() => subscriptions.forEach(s => s()));
 </script>
 
-<div class="container {mobile ? 'pt-8' : 'pt-16'}">
+<div class="container {$mobile ? 'pt-8' : 'pt-16'}">
   <Tabs.Root onValueChange={clear} value="login" class="w-[475px]">
     <Tabs.List class="grid w-full grid-cols-2 mb-4">
       <Tabs.Trigger value="login" disabled={requestInProcess}>{$t("login.login-title")}</Tabs.Trigger>

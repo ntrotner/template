@@ -4,7 +4,7 @@ import type { AuthenticationStatus } from './model';
 /**
  * AuthenticationState class is used to manage the state of the authentication.
  */
-export class AuthenticationState extends DefaultState<AuthenticationStatus> {
+class AuthenticationState extends DefaultState<AuthenticationStatus> {
   constructor() {
     super();
     this.setState({ authenticated: undefined })
@@ -14,6 +14,10 @@ export class AuthenticationState extends DefaultState<AuthenticationStatus> {
     this.setState({ ...this.getSyncState(), authenticated: isAuthenticated })
   }
 }
-export const authenticationState = new AuthenticationState();
 
-export const AUTHENTICATION_STATE = 'authState';
+export type AuthenticationStateInstance = AuthenticationState;
+
+export async function authenticationStateFactory(): Promise<AuthenticationStateInstance> {
+  return new AuthenticationState();
+}
+

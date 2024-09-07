@@ -1,21 +1,23 @@
 import { filter, switchMap, take } from "rxjs";
-import { configState } from "../../states/config";
 import { type LoggerConfig, LoggerConfigKey } from "../config";
 import { MessageType, type Log } from "./model";
+import { Injector } from "$lib/injector";
 
 class Logger {
   enabled: boolean = false;
   config: LoggerConfig = {};
   constructor() {
-    configState.isLoaded().pipe(
-      filter(isLoaded => isLoaded),
-      take(1),
-      switchMap(() => configState.getConfig<LoggerConfig>(LoggerConfigKey))
-    ).subscribe(config => {
-      if (config?.url) {
-        this.enabled = true;
-        this.config = config;
-      }
+    Injector.getService('configState').then(configState => {
+      configState.isLoaded().pipe(
+        filter(isLoaded => isLoaded),
+        take(1),
+        switchMap(() => configState.getConfig<LoggerConfig>(LoggerConfigKey))
+      ).subscribe(config => {
+        if (config?.url) {
+          this.enabled = true;
+          this.config = config;
+        }
+      })
     })
   }
 
@@ -56,4 +58,9 @@ class Logger {
 
 }
 
-export const logger = new Logger();
+export type LoggerInstance = Logger;
+
+export async function loggerFactory(): Promise<LoggerInstance> {
+  return new Logger();
+}
+

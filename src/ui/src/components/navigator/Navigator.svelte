@@ -10,16 +10,13 @@
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
   import { ROUTES } from "$lib/routes";
-  import { appState } from "$lib/states/app";
-  import { userState } from "$lib/states/user";
   import { onDestroy } from "svelte";
-  import type { Unsubscriber } from "svelte/store";
-  import { configState } from "../../lib/states/config";
-  import { type AppConfig, AppConfigKey } from "../../lib/states/status";
-  import { map } from "rxjs";
+  import { writable, type Unsubscriber, type Writable } from "svelte/store";
+  import { Injector } from "$lib/injector";
+  import { AppConfigKey, type AppConfig } from "$lib/states/status";
 
   const subscriptions: Unsubscriber[] = [];
-  const isUserEnabled = configState.getConfig<AppConfig>(AppConfigKey).pipe(map(config => config?.user));
+  const isUserEnabled = writable(false);
   let menuBarOptions: Menubar.Menubar;
 
   function changeMenuState(nextState: boolean) {
@@ -39,10 +36,15 @@
     goto(page)
   }
 
-  let user: UserProfile | undefined = undefined;
-  userState.subscribe((state) => (user = state));
+  let user: Writable<UserProfile | undefined> = writable(undefined);
   let mobile = false;
-  subscriptions.push(appState.subscribe((app) => mobile = (app?.width || 0) <= 640));
+  (async () => {
+    subscriptions.push((await Injector.getService('appState')).subscribe((app) => mobile = (app?.width || 0) <= 640));
+    subscriptions.push((await Injector.getService('userState')).subscribe((state) => user.set(state)))
+    subscriptions.push(
+      (await Injector.getService('configState')).getConfig<AppConfig>(AppConfigKey).subscribe(config => isUserEnabled.set(!!config?.user)).unsubscribe
+    )
+  })()
 
   onDestroy(() => subscriptions.forEach(s => s()));
 </script>
@@ -69,7 +71,7 @@
         <Menubar.Menu onOutsideClick={() => changeMenuState(false)} bind:this={menuBarOptions}>
           <Menubar.Trigger><HamburgerMenu class="{mobile ? 'h-5 w-5' : 'h-6 w-6'}" /></Menubar.Trigger>
           <Menubar.Content>
-            {#if user?.email}
+            {#if $user?.email}
             <Menubar.Item on:click={() => redirect(ROUTES.HOME)}>{$t("common.nav-links.home")}</Menubar.Item>
             <Menubar.Item on:click={() => redirect(ROUTES.PROFILE)}>{$t("common.nav-menu.profile")}</Menubar.Item>
             <Menubar.Separator />

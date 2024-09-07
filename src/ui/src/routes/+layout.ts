@@ -1,13 +1,12 @@
 import { getLocale, loadTranslations, setLocale, setLocaleInStorage, t } from "$lib/i18n";
-import { logger } from "$lib/analytics";
 import { take } from "rxjs";
 import { browser } from "$app/environment";
-import { fetchConfigurations, configState } from "../lib/states/config";
+import { fetchConfigurations } from "../lib/states/config";
 import { type AppConfig, AppConfigKey, checkStatus } from "../lib/states/status";
 import { toast } from "svelte-sonner";
 import { TOKEN_REFRESH_IN_MS } from "../lib/open-api/helpers";
-import { appState } from "../lib/states/app";
 import { refreshToken } from "../lib/states/authentication";
+import { Injector } from "$lib/injector";
 
 export const prerender = true;
 export const ssr = false;
@@ -59,13 +58,16 @@ async function setupToken() {
 
 export const load = async () => {
   if (browser) {
+    const appState = await Injector.getService('appState');
+    const configState = (await Injector.getService('configState'));
+    await Injector.getService('statusState');
     setupLocalization();
     await loadConfig();
 
     configState.getConfig<AppConfig>(AppConfigKey).pipe(
       take(1)
     ).subscribe(async appConfig => {
-      logger.info("page init")
+      (await Injector.getService('loggerService')).info("page init")
       if (appConfig?.isBackendAware) {
         checkBackendStatus();
       }

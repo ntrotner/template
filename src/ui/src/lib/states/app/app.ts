@@ -6,7 +6,7 @@ import type { AppStatus } from './model';
 /**
  * AppState class is used to expose app specific variables.
  */
-export class AppState extends DefaultState<AppStatus> {
+class AppState extends DefaultState<AppStatus> {
 
   constructor() {
     super();
@@ -41,6 +41,10 @@ export class AppState extends DefaultState<AppStatus> {
     this.setState({ ...this.getSyncState(), loaded })
   }
 }
-export const appState = new AppState();
 
-export const APP_STATE = 'appState';
+export type AppStateInstance = AppState;
+
+export async function appStateFactory(): Promise<AppStateInstance> {
+  return new AppState();
+}
+

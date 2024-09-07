@@ -2,11 +2,22 @@
   import "../app.pcss";
   import Navigator from "../components/navigator/Navigator.svelte";
   import { Toaster } from "$lib/components/ui/sonner";
-  import { appState } from "$lib/states/app";
   import { DoubleBounce } from "svelte-loading-spinners";
-  import { map } from "rxjs";
+  import { Injector } from "$lib/injector";
+  import { writable, type Unsubscriber } from "svelte/store";
+  import { onDestroy } from "svelte";
+ 
+  const subscriptions: Unsubscriber[] = [];
+  const loaded = writable(false);
 
-  const loaded = appState.observable().pipe(map(state => state.loaded));
+  (async () => {
+    const appState = await Injector.getService('appState');
+    subscriptions.push(
+      appState.subscribe(state => loaded.set(!!state?.loaded))
+    );
+  })()
+
+  onDestroy(() => subscriptions.forEach(s => s()));
 </script>
 
 {#if !$loaded}

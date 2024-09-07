@@ -1,12 +1,11 @@
+import { Injector } from "$lib/injector";
 import { filter, firstValueFrom, take } from "rxjs";
-import { authenticationState } from "../../states/authentication";
-import { userState } from "../../states/user";
 
 export async function isUserAuthenticated() {
-  const userAuthenticationState = await firstValueFrom(authenticationState.observable().pipe(
+  const userAuthenticationState = await firstValueFrom((await Injector.getService('authenticationState')).observable().pipe(
     filter(state => typeof state.authenticated !== 'undefined'),
     take(1)
   ))
-  const user = userState.getSyncState();
+  const user = (await Injector.getService('userState')).getSyncState();
   return !!userAuthenticationState.authenticated || !!user?.email;
 }

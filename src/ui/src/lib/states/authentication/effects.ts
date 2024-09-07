@@ -1,8 +1,7 @@
-import { AuthenticationApi, ResponseError, type ModelError, type Success } from "$lib/open-api";
-import { fetchUserProfile, userState } from "../user";
-import { authenticationState } from ".";
+import { type ModelError, type Success } from "$lib/open-api";
+import { fetchUserProfile } from "../user";
 import { clearToken, existsToken, isTokenTimeValid } from "../../open-api/helpers";
-import { appState } from "../app";
+import { Injector } from "$lib/injector";
 
 /**
  * Login the user.
@@ -11,7 +10,8 @@ import { appState } from "../app";
  * @returns {Promise} - A promise that resolves success or error object.
  */
 export async function login(email: string, password: string): Promise<Success & ModelError | undefined> {
-  const authApi = new AuthenticationApi();
+  const authApi = await Injector.getService('authenticationApi'); 
+  const authenticationState = await Injector.getService('authenticationState');
 
   try {
     const response = await authApi.loginPost({
@@ -25,10 +25,10 @@ export async function login(email: string, password: string): Promise<Success & 
     return response;
   } catch (e: unknown) {
     let errorResponse: ModelError | undefined = undefined;
-    if (e instanceof ResponseError) {
-      errorResponse = await e.response.json() as ModelError;
+    if (e instanceof Error) {
+      errorResponse = await (e as any).response.json() as ModelError;
     }
-    userState.setState(undefined);
+    (await Injector.getService('userState')).setState(undefined);
     authenticationState.setAuthStatus(false);
     return errorResponse;
   }
@@ -41,7 +41,8 @@ export async function login(email: string, password: string): Promise<Success & 
  * @returns {Promise} - A promise that resolves success or error object.
  */
 export async function register(email: string, password: string): Promise<Success & ModelError | undefined> {
-  const authApi = new AuthenticationApi();
+  const authApi = await Injector.getService('authenticationApi');
+  const authenticationState = await Injector.getService('authenticationState');
 
   try {
     const response = await authApi.registerPost({
@@ -55,10 +56,10 @@ export async function register(email: string, password: string): Promise<Success
     return response;
   } catch (e: unknown) {
     let errorResponse: ModelError | undefined = undefined;
-    if (e instanceof ResponseError) {
-      errorResponse = await e.response.json() as ModelError;
+    if (e instanceof Error) {
+      errorResponse = await (e as any).response.json() as ModelError;
     }
-    userState.setState(undefined);
+    (await Injector.getService('userState')).setState(undefined);
     authenticationState.setAuthStatus(false);
     return errorResponse;
   }
@@ -69,7 +70,7 @@ export async function register(email: string, password: string): Promise<Success
  * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating the success of the logout.
  */
 export async function logout() {
-  const authApi = new AuthenticationApi();
+  const authApi = await Injector.getService('authenticationApi');
   let requestFailed = false;
 
   try {
@@ -78,8 +79,8 @@ export async function logout() {
     requestFailed = true;
   }
 
-  userState.setState(undefined);
-  authenticationState.setAuthStatus(false);
+  (await Injector.getService('userState')).setState(undefined);
+  (await Injector.getService('authenticationState')).setAuthStatus(false);
   return !requestFailed;
 }
 
@@ -88,13 +89,15 @@ export async function logout() {
  * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating the success of the token refresh.
  */
 export async function refreshToken() {
+  const appState = await Injector.getService('appState');
+  const authenticationState = await Injector.getService('authenticationState');
   if (!existsToken() || !isTokenTimeValid()) {
     clearToken();
     authenticationState.setAuthStatus(false);
     appState.setLoaded(true);
     return false;
   }
-  const authApi = new AuthenticationApi();
+  const authApi = await Injector.getService('authenticationApi');
 
   try {
     await authApi.refreshTokenPost();
@@ -103,7 +106,7 @@ export async function refreshToken() {
     appState.setLoaded(true);
     return true;
   } catch {
-    userState.setState(undefined);
+    (await Injector.getService('userState')).setState(undefined);
     authenticationState.setAuthStatus(false);
     appState.setLoaded(true);
     clearToken();

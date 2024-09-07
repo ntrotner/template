@@ -1,5 +1,5 @@
+import { Injector } from '$lib/injector';
 import { type Config } from './model';
-import { configState } from './config';
 
 /**
  * Fetches the application configurations from a JSON file and updates the state.
@@ -21,7 +21,7 @@ export async function fetchConfigurations(url?: string) {
     }
 
     const config: Record<string, Config> = await response.json();
-    configState.setConfigMap(config);
+    (await Injector.getService('configState')).setConfigMap(config);
   } catch (error) {
     console.error('Failed to fetch configurations: ', error);
   }

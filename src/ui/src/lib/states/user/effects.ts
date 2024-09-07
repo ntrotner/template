@@ -1,14 +1,14 @@
-import { UserApi, type Success, type ModelError, ResponseError } from "$lib/open-api";
-import { userState } from "./user";
+import { Injector } from "$lib/injector";
+import { type Success, type ModelError } from "$lib/open-api";
 
 /**
  * Reset the password of the user.
  * @param {string} email - The email of the user.
  */
-export function resetPasswordOfUser(email: string) {
-  userState.setState(undefined);
+export async function resetPasswordOfUser(email: string) {
+  (await Injector.getService('userState')).setState(undefined);
   
-  const userApi = new UserApi();
+  const userApi = await Injector.getService('userApi');
   return userApi.passwordResetPost({
     passwordReset: { email }
   })
@@ -21,7 +21,7 @@ export function resetPasswordOfUser(email: string) {
  * @returns {Promise<Success>} - A promise that resolves to a Success object.
  */
 export async function changePasswordOfUser(currentPassword: string, newPassword: string): Promise<Success & ModelError | undefined> {
-  const userApi = new UserApi();
+  const userApi = await Injector.getService('userApi'); 
   try {
     return userApi.changePasswordPost({
       changePassword: {
@@ -31,8 +31,8 @@ export async function changePasswordOfUser(currentPassword: string, newPassword:
     });
   } catch (e: unknown) {
     let errorResponse: ModelError | undefined = undefined;
-    if (e instanceof ResponseError) {
-      errorResponse = await e.response.json() as ModelError;
+    if (e instanceof Error) {
+      errorResponse = await (e as any).response.json() as ModelError;
     }
     return errorResponse;
   }
@@ -45,7 +45,7 @@ export async function changePasswordOfUser(currentPassword: string, newPassword:
  * @returns {Promise<Success>} - A promise that resolves to a Success object.
  */
 export async function changeEmailOfUser(currentEmail: string, newEmail: string): Promise<Success & ModelError | undefined> {
-  const userApi = new UserApi();
+  const userApi = await Injector.getService('userApi');
   try {
     const response = await userApi.changeEmailPost({
       changeEmail: {
@@ -57,8 +57,8 @@ export async function changeEmailOfUser(currentEmail: string, newEmail: string):
     return response;
   } catch (e: unknown) {
     let errorResponse: ModelError | undefined = undefined;
-    if (e instanceof ResponseError) {
-      errorResponse = await e.response.json() as ModelError;
+    if (e instanceof Error) {
+      errorResponse = await (e as any).response.json() as ModelError;
     }
     return errorResponse;
   }
@@ -68,7 +68,7 @@ export async function changeEmailOfUser(currentEmail: string, newEmail: string):
  * Fetch the profile of the user.
  */
 export async function fetchUserProfile() {
-  const userApi = new UserApi();
+  const userApi = await Injector.getService('userApi');
   const userProfile = await userApi.profileGet();
-  userState.setState(userProfile);
+  (await Injector.getService('userState')).setState(userProfile);
 }

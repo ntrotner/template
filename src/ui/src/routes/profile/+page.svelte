@@ -7,12 +7,14 @@
   import {
     changeEmailOfUser,
     changePasswordOfUser,
-    userState,
   } from "$lib/states/user";
-  import { map } from "rxjs";
   import Alert from "../../components/alert/Alert.svelte";
-  import { writable } from "svelte/store";
+  import { writable, type Unsubscriber, type Writable } from "svelte/store";
   import { toast } from "svelte-sonner";
+  import { Injector } from "$lib/injector";
+    import { onDestroy } from "svelte";
+
+  const subscriptions: Unsubscriber[] = [];
 
   let errorsEmail = writable<string[]>([]);
   let errorsPassword = writable<string[]>([]);
@@ -23,14 +25,14 @@
   const passwordForm = superForm(passwordData);
   const { form: emailFormData } = emailForm;
   const { form: passwordFormData } = passwordForm;
-  const userStateEmail = userState
-    .observable()
-    .pipe(map((state) => state?.email));
+
+  const userStateEmail: Writable<string | undefined> = writable(undefined); 
 
   async function submitChangeEmail() {
     if (
       $emailFormData.value === "" ||
-      $emailFormData.value !== $emailFormData.repeated
+      $emailFormData.value !== $emailFormData.repeated ||
+      !$userStateEmail
     ) {
       $errorsEmail = ["Please check your input"];
       return;
@@ -78,6 +80,14 @@
     $passwordFormData = { value: "", old: "", repeated: "" };
     $errorsPassword = [];
   }
+
+  (async () => {
+    subscriptions.push(
+      (await Injector.getService('userState')).subscribe((state) => userStateEmail.set(state?.email))
+    );
+  })()
+
+  onDestroy(() => subscriptions.forEach(s => s()));
 </script>
 
 <div class="wrapper">
