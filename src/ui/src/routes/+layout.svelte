@@ -6,7 +6,7 @@
   import { DoubleBounce } from "svelte-loading-spinners";
   import { map } from "rxjs";
 
-  const loaded = appState.observable().pipe(map(state => state.loaded));
+  const loaded = appState.observable().pipe(map((state) => state.loaded));
 </script>
 
 {#if !$loaded}

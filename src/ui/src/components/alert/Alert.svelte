@@ -15,7 +15,7 @@
 </script>
 
 {#if messages.length > 0}
-  <Alert.Root class="!mt-2 !mb-2" variant={variant}>
+  <Alert.Root class="!mt-2 !mb-2" {variant}>
     <Info class="h-4 w-4" />
     <Alert.Title>{title}</Alert.Title>
     <Alert.Description>

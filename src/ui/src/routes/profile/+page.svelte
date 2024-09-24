@@ -38,7 +38,7 @@
 
     const response = await changeEmailOfUser(
       $userStateEmail,
-      $emailFormData.value,
+      $emailFormData.value
     );
     $errorsEmail = (response?.errorMessages
       ?.map(({ message }) => message)
@@ -64,7 +64,7 @@
     }
     const response = await changePasswordOfUser(
       $passwordFormData.old,
-      $passwordFormData.value,
+      $passwordFormData.value
     );
     $errorsPassword = (response?.errorMessages
       ?.map(({ message }) => message)

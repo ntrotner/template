@@ -6,7 +6,6 @@
   import { Separator } from "$lib/components/ui/separator/index.js";
   import { Button } from "$lib/components/ui/button/index.js";
   import { languages, setLocale, setLocaleInStorage, t } from "$lib/i18n";
-  import type { UserProfile } from "$lib/open-api";
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
   import { ROUTES } from "$lib/routes";
@@ -19,12 +18,18 @@
   import { map } from "rxjs";
 
   const subscriptions: Unsubscriber[] = [];
-  const isUserEnabled = configState.getConfig<AppConfig>(AppConfigKey).pipe(map(config => config?.user));
+  const isUserEnabled = configState
+    .getConfig<AppConfig>(AppConfigKey)
+    .pipe(map((config) => config?.user));
+  const user = userState.getAsyncState();
+  const mobile = appState
+    .observable()
+    .pipe(map((state) => (state?.width || 0) <= 640));
   let menuBarOptions: Menubar.Menubar;
 
   function changeMenuState(nextState: boolean) {
     // @ts-ignore
-    menuBarOptions.$inject_state({'open' : nextState})
+    menuBarOptions.$inject_state({ open: nextState });
   }
 
   function changeLanguage(locale: string) {
@@ -32,24 +37,19 @@
     setLocaleInStorage(locale);
     if (browser) {
       document.documentElement.lang = locale;
-    } 
+    }
   }
 
   function redirect(page: string) {
-    goto(page)
+    goto(page);
   }
 
-  let user: UserProfile | undefined = undefined;
-  userState.subscribe((state) => (user = state));
-  let mobile = false;
-  subscriptions.push(appState.subscribe((app) => mobile = (app?.width || 0) <= 640));
-
-  onDestroy(() => subscriptions.forEach(s => s()));
+  onDestroy(() => subscriptions.forEach((s) => s()));
 </script>
 
 <Sheet.Root>
   <Sheet.Trigger asChild let:builder>
-    <Menubar.Root class="{mobile ? 'h-15' : 'h-14'}">
+    <Menubar.Root class={$mobile ? "h-15" : "h-14"}>
       <div class="nav-left">
         <div class="title">
           <Button
@@ -60,28 +60,45 @@
         </div>
       </div>
       <div class="language">
-        <Button on:click={() => changeMenuState(false)} builders={[builder]} variant="ghost" size="icon">
-          <Globe class="{mobile ? 'h-4 w-4' : 'h-5 w-5'}" />
+        <Button
+          on:click={() => changeMenuState(false)}
+          builders={[builder]}
+          variant="ghost"
+          size="icon"
+        >
+          <Globe class={$mobile ? "h-4 w-4" : "h-5 w-5"} />
         </Button>
       </div>
       <div class="nav-right">
         {#if $isUserEnabled}
-        <Menubar.Menu onOutsideClick={() => changeMenuState(false)} bind:this={menuBarOptions}>
-          <Menubar.Trigger><HamburgerMenu class="{mobile ? 'h-5 w-5' : 'h-6 w-6'}" /></Menubar.Trigger>
-          <Menubar.Content>
-            {#if user?.email}
-            <Menubar.Item on:click={() => redirect(ROUTES.HOME)}>{$t("common.nav-links.home")}</Menubar.Item>
-            <Menubar.Item on:click={() => redirect(ROUTES.PROFILE)}>{$t("common.nav-menu.profile")}</Menubar.Item>
-            <Menubar.Separator />
-              <Menubar.Item on:click={() => redirect(ROUTES.LOGOUT)}
-                >{$t("common.nav-menu.logout")}</Menubar.Item>
-            {:else}
-              <Menubar.Item on:click={() => redirect(ROUTES.LOGIN)}
-                >{$t("common.nav-menu.login")}</Menubar.Item
-              >
-            {/if}
-          </Menubar.Content>
-        </Menubar.Menu>
+          <Menubar.Menu
+            onOutsideClick={() => changeMenuState(false)}
+            bind:this={menuBarOptions}
+          >
+            <Menubar.Trigger
+              ><HamburgerMenu
+                class={$mobile ? "h-5 w-5" : "h-6 w-6"}
+              /></Menubar.Trigger
+            >
+            <Menubar.Content>
+              {#if $user?.email}
+                <Menubar.Item on:click={() => redirect(ROUTES.HOME)}
+                  >{$t("common.nav-links.home")}</Menubar.Item
+                >
+                <Menubar.Item on:click={() => redirect(ROUTES.PROFILE)}
+                  >{$t("common.nav-menu.profile")}</Menubar.Item
+                >
+                <Menubar.Separator />
+                <Menubar.Item on:click={() => redirect(ROUTES.LOGOUT)}
+                  >{$t("common.nav-menu.logout")}</Menubar.Item
+                >
+              {:else}
+                <Menubar.Item on:click={() => redirect(ROUTES.LOGIN)}
+                  >{$t("common.nav-menu.login")}</Menubar.Item
+                >
+              {/if}
+            </Menubar.Content>
+          </Menubar.Menu>
         {/if}
       </div>
     </Menubar.Root>
@@ -101,7 +118,9 @@
               builders={[builder]}
               on:click={() => changeLanguage(language.locale)}
               variant="link"
-              class="{mobile ? 'justify-center' : 'justify-start'} w-full language-select"
+              class="{$mobile
+                ? 'justify-center'
+                : 'justify-start'} w-full language-select"
             >
               {$t(language.key)}
             </Button>
@@ -121,7 +140,7 @@
   }
 
   .nav-right {
-    margin-left: .6rem !important; /* :( */
+    margin-left: 0.6rem !important; /* :( */
   }
 
   .title {
