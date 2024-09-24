@@ -22,11 +22,19 @@
     .observable()
     .pipe(map((state) => (state?.width || 0) <= 640));
   let menuBarOptions: Menubar.Menubar;
+  let profileBarOptions: Menubar.Menubar;
 
   function changeMenuState(nextState: boolean) {
     if (menuBarOptions) {
       // @ts-ignore
-      menuBarOptions.$inject_state({ open: nextState });
+      menuBarOptions.$set({ open: nextState });
+    }
+  }
+
+  function changeProfileState(nextState: boolean) {
+    if (profileBarOptions) {
+      // @ts-ignore
+      profileBarOptions.$set({ open: nextState });
     }
   }
 
@@ -74,8 +82,11 @@
             <div>
               <Menubar.Root class="border-0">
                 <Menubar.Menu
-                  onOutsideClick={() => changeMenuState(false)}
-                  bind:this={menuBarOptions}
+                  onOutsideClick={() => {
+                    changeProfileState(false);
+                    changeMenuState(false);
+                  }}
+                  bind:this={profileBarOptions}
                 >
                   <Menubar.Trigger>
                     <Avatar.Root>
@@ -101,7 +112,10 @@
         <div>
           <Menubar.Root class="border-0">
             <Menubar.Menu
-              onOutsideClick={() => changeMenuState(false)}
+              onOutsideClick={() => {
+                changeProfileState(false);
+                changeMenuState(false);
+              }}
               bind:this={menuBarOptions}
             >
               <Menubar.Trigger
