@@ -22,21 +22,23 @@ setup-env:
 	go install github.com/gordonklaus/ineffassign@latest
 	go install github.com/fzipp/gocyclo/cmd/gocyclo@latest
 	go install github.com/bykof/go-plantuml@latest
+	cd ./src/ui && npm install
 
 # Start
 # run app in local for development
 # TARGET = dev/prod
 run:
-	make shutdown
+	make clean || true
 	docker network create host_network || true
-	export docker_env=${TARGET} && ${DOCKER_COMPOSE} up --build --remove-orphans
+	export docker_env=${TARGET} && ${DOCKER_COMPOSE} up --build --remove-orphans --force-recreate
 
 shutdown:
 	$(DOCKER_COMPOSE) down
+	$(DOCKER_COMPOSE) stop ui db backend nginx
 
 clean:
 	make shutdown
-	docker container rm nginx
+	docker container rm nginx ui backend db
 	docker network rm host_network
 
 # OpenAPI

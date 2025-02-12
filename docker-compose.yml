@@ -34,7 +34,7 @@ services:
     networks:
       - host_network
     volumes:
-      - ./src/ui:/src
+      - ./src/ui/src:/src/src
     env_file:
       - ./environment/dev/ui.env
   backend:

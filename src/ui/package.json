@@ -9,7 +9,8 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "eslint ./src",
-    "e2e": "playwright test --headed --project chromium"
+    "e2e": "playwright test --headed --project chromium",
+    "postinstall": "svelte-kit sync"
   },
   "devDependencies": {
     "@playwright/test": "^1.46.0",

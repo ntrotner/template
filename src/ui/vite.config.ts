@@ -12,11 +12,13 @@ export default defineConfig({
 		port: process.env.port,
 		watch: {
 			ignored: ['**/playwright-report/**']
-		}
+		},
+		allowedHosts: true
 	},
 	preview: {
 		host: "0.0.0.0",
-		port: process.env.port
+		port: process.env.port,
+		allowedHosts: true
 	},
 	define: {
 		configUrl: JSON.stringify(process.env.configUrl)

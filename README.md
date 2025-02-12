@@ -1,5 +1,12 @@
 ## Setup
+Requirements:
+- node
+- npm
+- go
+- docker + docker-compose
+
 Run `make setup-env`
+
 
 See `/docs/best-practice` for code guide
 
