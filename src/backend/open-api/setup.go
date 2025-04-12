@@ -2,30 +2,33 @@ package openapi
 
 import (
 	"net/http"
-	"template_backend/common"
-	openapi "template_backend/open-api/go"
+	config "template_backend/core/config"
+	authentication "template_backend/open-api/handlers/authentication"
+	core "template_backend/open-api/handlers/core"
+	user "template_backend/open-api/handlers/user"
+	runtime "template_backend/open-api/runtime"
 
 	"github.com/rs/zerolog/log"
 )
 
 func SetupHttp() {
-	AuthenticationAPIService := openapi.NewAuthenticationAPIService()
-	AuthenticationAPIController := openapi.NewAuthenticationAPIController(AuthenticationAPIService)
+	AuthenticationAPIService := authentication.NewAuthenticationAPIService()
+	AuthenticationAPIController := authentication.NewAuthenticationAPIController(AuthenticationAPIService)
 
-	StatusAPIService := openapi.NewStatusAPIService()
-	StatusAPIController := openapi.NewStatusAPIController(StatusAPIService)
+	StatusAPIService := core.NewStatusAPIService()
+	StatusAPIController := core.NewStatusAPIController(StatusAPIService)
 
-	UserAPIService := openapi.NewUserAPIService()
-	UserAPIController := openapi.NewUserAPIController(UserAPIService)
+	UserAPIService := user.NewUserAPIService()
+	UserAPIController := user.NewUserAPIController(UserAPIService)
 
-	router := openapi.NewRouter(
+	router := runtime.NewRouter(
 		AuthenticationAPIController,
 		StatusAPIController,
 		UserAPIController,
 	)
-	common.SetupPerformanceLogger(router)
-	common.SetupSwaggerUi(router)
+	core.SetupPerformanceLogger(router)
+	core.SetupSwaggerUi(router)
 
-	log.Info().Msg("Listening on: " + common.EnvironmentConfig.Host)
-	log.Fatal().Msg(http.ListenAndServe(common.EnvironmentConfig.Host, router).Error())
+	log.Info().Msg("Listening on: " + config.GlobalConfig.Server.Address)
+	log.Fatal().Msg(http.ListenAndServe(config.GlobalConfig.Server.Address, router).Error())
 }
