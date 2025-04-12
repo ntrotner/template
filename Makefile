@@ -24,9 +24,11 @@ setup-env:
 
 # TARGET = dev/prod
 setup-env-file:
+	./scripts/setup-env-file.sh ${TARGET}
   export $(shell sed 's/=.*//' ${PWD}/environment/global.env)
 
 setup-env-file-deployment:
+	./scripts/setup-env-file.sh prod
   export $(shell sed 's/=.*//' ${PWD}/environment/global.env)
 
 deploy:
