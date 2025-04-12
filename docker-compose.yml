@@ -1,8 +1,6 @@
-version: '3.7'
-
 services:
   proxy:
-    container_name: nginx
+    container_name: ${APP_NAME}_nginx
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     networks:
@@ -23,53 +21,65 @@ services:
       - ui
       - backend
       - database
+    profiles:
+      - local
   ui:
-    container_name: ui
+    container_name: ${APP_NAME}_ui
     build:
       context: .
       dockerfile: ./dockerfiles/ui.Dockerfile
-    environment:
-      - app_env=${docker_env}
     restart: unless-stopped
     networks:
       - host_network
     volumes:
       - ./src/ui/src:/src/src
+    environment:
+      - app_env=${docker_env}
     env_file:
-      - ./environment/dev/ui.env
+      - ./environment/global.env
+    profiles:
+      - local
+      - deployment
   backend:
-    container_name: backend
+    container_name: ${APP_NAME}_backend
     build:
       context: .
       dockerfile: ./dockerfiles/backend.Dockerfile
-    environment:
-      - app_env=${docker_env}
     restart: unless-stopped
     networks:
       - host_network
     volumes:
       - ./src/backend:/app
+    environment:
+      - app_env=${docker_env}
     env_file:
-      - ./environment/dev/backend.env
+      - ./environment/global.env
     depends_on:
       - database
+    profiles:
+      - local
+      - deployment
   database:
-    container_name: db
+    container_name: ${APP_NAME}_db
     build:
       context: .
       dockerfile: ./dockerfiles/database.Dockerfile
-    attach: false
+    restart: always
     environment:
       - app_env=${docker_env}
-    restart: always
     env_file:
-      - ./environment/dev/database.env
+      - ./environment/global.env
+    logging:
+      driver: none
+    attach: false
     volumes:
-        - db:/opt/couchdb/data
+        - ./dockerfiles/db:/opt/couchdb/data
     networks:
       - host_network
-volumes:
-  db:
+    profiles:
+      - local
+      - deployment
+
 networks:
   host_network:
     external: true
