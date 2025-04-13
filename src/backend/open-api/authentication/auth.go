@@ -31,3 +31,31 @@ func IsUserAuthorized(ctx context.Context, r *http.Request) (*database_user.User
 
 	return user, nil
 }
+
+func IsConfirmedUser(ctx context.Context, r *http.Request) (*database_user.UserProfile, error) {
+	user, err := IsUserAuthorized(ctx, r)
+	if err != nil {
+		return nil, err
+	}
+
+	if user.Roles != database_user.ConfirmedUser {
+		log.Error().Msg("User is not a confirmed user")
+		return nil, errors.New("user is not a confirmed user")
+	}
+
+	return user, nil
+}
+
+func IsAdmin(ctx context.Context, r *http.Request) (*database_user.UserProfile, error) {
+	user, err := IsUserAuthorized(ctx, r)
+	if err != nil {
+		return nil, err
+	}
+
+	if user.Roles != database_user.AdminUser {
+		log.Error().Msg("User is not an admin")
+		return nil, errors.New("user is not an admin")
+	}
+
+	return user, nil
+}
