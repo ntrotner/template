@@ -17,7 +17,7 @@
   // Error stores
   const errorsEmail = writable<string[]>([]);
   const errorsPassword = writable<string[]>([]);
-  
+
   // Form data initial values
   const emailInitialData = { value: "", repeated: "" };
   const passwordInitialData = { old: "", value: "", repeated: "" };
@@ -27,7 +27,7 @@
   const passwordForm = superForm(passwordInitialData);
   const { form: emailFormData } = emailForm;
   const { form: passwordFormData } = passwordForm;
-  
+
   // User email from state
   const userStateEmail = userState
     .observable()
@@ -49,9 +49,9 @@
     // Submit change request
     const response = await changeEmailOfUser(
       $userStateEmail,
-      $emailFormData.value
+      $emailFormData.value,
     );
-    
+
     // Process any error messages
     $errorsEmail = (response?.errorMessages
       ?.map(({ message }) => message)
@@ -61,7 +61,7 @@
     if ($errorsEmail.length > 0) {
       return;
     }
-    
+
     // Show success message and reset form
     toast.success($t("profile.email-change-successful"));
     $emailFormData = { value: "", repeated: "" };
@@ -81,13 +81,13 @@
       $errorsPassword = ["Please check your input"];
       return;
     }
-    
+
     // Submit change request
     const response = await changePasswordOfUser(
       $passwordFormData.old,
-      $passwordFormData.value
+      $passwordFormData.value,
     );
-    
+
     // Process any error messages
     $errorsPassword = (response?.errorMessages
       ?.map(({ message }) => message)
@@ -97,7 +97,7 @@
     if ($errorsPassword.length > 0) {
       return;
     }
-    
+
     // Show success message and reset form
     toast.success($t("profile.password-change-successful"));
     $passwordFormData = { value: "", old: "", repeated: "" };
@@ -114,7 +114,7 @@
       {$t("profile.profile-description")}
     </p>
   </div>
-  
+
   <Separator />
 
   <div class="profile-form-wrapper">

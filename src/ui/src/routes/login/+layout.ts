@@ -10,15 +10,18 @@ export const load = async ({ parent }) => {
   if (browser) {
     await parent();
 
-    firstValueFrom(configState.getConfig<AppConfig>(AppConfigKey)
-      .pipe(map((config) => config?.user))).then(async isUserEnabled => {
-        if (!isUserEnabled) {
-          goto(ROUTES.HOME);
-        }
-        const authenticated = await isUserAuthenticated();
-        if (authenticated) {
-          goto(ROUTES.HOME);
-        }
-      })
+    firstValueFrom(
+      configState
+        .getConfig<AppConfig>(AppConfigKey)
+        .pipe(map((config) => config?.user)),
+    ).then(async (isUserEnabled) => {
+      if (!isUserEnabled) {
+        goto(ROUTES.HOME);
+      }
+      const authenticated = await isUserAuthenticated();
+      if (authenticated) {
+        goto(ROUTES.HOME);
+      }
+    });
   }
-}
+};

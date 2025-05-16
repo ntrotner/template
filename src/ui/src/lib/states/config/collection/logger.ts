@@ -1,9 +1,9 @@
 export interface LoggerConfig {
-  url?: string
+  url?: string;
 }
 
-export const LoggerConfigKey = 'logger';
+export const LoggerConfigKey = "logger";
 
 export const defaultLoggerConfig: { [LoggerConfigKey]: LoggerConfig } = {
-  [LoggerConfigKey]: {}
-}
+  [LoggerConfigKey]: {},
+};

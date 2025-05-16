@@ -1,7 +1,16 @@
-import { AuthenticationApi, ResponseError, type ModelError, type Success } from "$lib/open-api";
+import {
+  AuthenticationApi,
+  ResponseError,
+  type ModelError,
+  type Success,
+} from "$lib/open-api";
 import { fetchUserProfile, userState } from "../user";
 import { authenticationState } from ".";
-import { clearToken, existsToken, isTokenTimeValid } from "../../open-api/helpers";
+import {
+  clearToken,
+  existsToken,
+  isTokenTimeValid,
+} from "../../open-api/helpers";
 import { appState } from "../app";
 
 /**
@@ -10,23 +19,26 @@ import { appState } from "../app";
  * @param {string} password - The password of the user.
  * @returns {Promise} - A promise that resolves success or error object.
  */
-export async function login(email: string, password: string): Promise<Success & ModelError | undefined> {
+export async function login(
+  email: string,
+  password: string,
+): Promise<(Success & ModelError) | undefined> {
   const authApi = new AuthenticationApi();
 
   try {
     const response = await authApi.loginPost({
       userLogin: {
         email,
-        password
-      }
+        password,
+      },
     });
     await fetchUserProfile();
-    authenticationState.setAuthStatus(true)
+    authenticationState.setAuthStatus(true);
     return response;
   } catch (e: unknown) {
     let errorResponse: ModelError | undefined = undefined;
     if (e instanceof ResponseError) {
-      errorResponse = await e.response.json() as ModelError;
+      errorResponse = (await e.response.json()) as ModelError;
     }
     userState.setState(undefined);
     authenticationState.setAuthStatus(false);
@@ -40,15 +52,18 @@ export async function login(email: string, password: string): Promise<Success & 
  * @param {string} password - The password of the user.
  * @returns {Promise} - A promise that resolves success or error object.
  */
-export async function register(email: string, password: string): Promise<Success & ModelError | undefined> {
+export async function register(
+  email: string,
+  password: string,
+): Promise<(Success & ModelError) | undefined> {
   const authApi = new AuthenticationApi();
 
   try {
     const response = await authApi.registerPost({
       userRegistration: {
         email,
-        password
-      }
+        password,
+      },
     });
     await fetchUserProfile();
     authenticationState.setAuthStatus(true);
@@ -56,7 +71,7 @@ export async function register(email: string, password: string): Promise<Success
   } catch (e: unknown) {
     let errorResponse: ModelError | undefined = undefined;
     if (e instanceof ResponseError) {
-      errorResponse = await e.response.json() as ModelError;
+      errorResponse = (await e.response.json()) as ModelError;
     }
     userState.setState(undefined);
     authenticationState.setAuthStatus(false);

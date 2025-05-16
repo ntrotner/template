@@ -117,9 +117,7 @@
               }}
               bind:this={menuBarOptions}
             >
-              <Menubar.Trigger
-                ><MenuIcon class="h-5 w-5" /></Menubar.Trigger
-              >
+              <Menubar.Trigger><MenuIcon class="h-5 w-5" /></Menubar.Trigger>
               <Menubar.Content>
                 {#if $user?.email}
                   <Menubar.Item on:click={() => redirect(ROUTES.HOME)}

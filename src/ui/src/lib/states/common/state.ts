@@ -1,5 +1,10 @@
 import { Observable } from "rxjs";
-import { writable, type Subscriber, get, type Unsubscriber } from "svelte/store";
+import {
+  writable,
+  type Subscriber,
+  get,
+  type Unsubscriber,
+} from "svelte/store";
 
 export abstract class DefaultState<U> {
   private state = writable<U | undefined>();
@@ -17,7 +22,7 @@ export abstract class DefaultState<U> {
   }
 
   public subscribe(run: Subscriber<U | undefined>) {
-    return this.state.subscribe(run)
+    return this.state.subscribe(run);
   }
 
   public observable() {
