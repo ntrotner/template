@@ -1,8 +1,7 @@
 <script lang="ts">
   import * as Menubar from "$lib/components/ui/menubar";
   import * as Sheet from "$lib/components/ui/sheet/index.js";
-  import Globe from "svelte-radix/Globe.svelte";
-  import HamburgerMenu from "svelte-radix/HamburgerMenu.svelte";
+  import { MenuIcon, Globe } from "lucide-svelte";
   import { Separator } from "$lib/components/ui/separator/index.js";
   import { Button } from "$lib/components/ui/button/index.js";
   import { languages, setLocale, setLocaleInStorage, t } from "$lib/i18n";
@@ -76,7 +75,7 @@
             bind:this={menuBarOptions}
           >
             <Menubar.Trigger
-              ><HamburgerMenu
+              ><MenuIcon
                 class={$mobile ? "h-5 w-5" : "h-6 w-6"}
               /></Menubar.Trigger
             >

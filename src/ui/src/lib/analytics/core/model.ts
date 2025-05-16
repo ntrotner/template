@@ -1,11 +1,11 @@
 export enum MessageType {
   info = "info",
   debug = "debug",
-  error = "error"
+  error = "error",
 }
 
 export interface Log {
-  timestamp: number,
-  type: MessageType
-  message: string
+  timestamp: number;
+  type: MessageType;
+  message: string;
 }

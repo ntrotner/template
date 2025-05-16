@@ -20,17 +20,17 @@
   const subscriptions: Unsubscriber[] = [];
   const errors = writable<string[]>([]);
   const requestInProcess = writable(false);
-  
+
   // Form data stores
   const loginData = { username: "", password: "" };
   const registerData = { username: "", password: "", repeatPassword: "" };
-  
+
   // Initialize superForms
   const loginForm = superForm(loginData);
   const registerForm = superForm(registerData);
   const { form: loginFormData } = loginForm;
   const { form: registerFormData } = registerForm;
-  
+
   // Responsive state
   const mobile = appState
     .observable()
@@ -58,16 +58,16 @@
     requestInProcess.set(true);
     try {
       const { username, password } = $loginFormData;
-      
+
       if (!isValid(username) || !isValid(password)) {
         fillErrors({
           errorMessages: [{ code: "200", message: "User or Password Invalid" }],
         });
         throw new Error("");
       }
-      
+
       const response = await login(username, password);
-      
+
       if (!response) {
         fillErrors({
           errorMessages: [{ code: "100", message: "Server Failure" }],
@@ -93,7 +93,7 @@
         });
         throw new Error("");
       }
-      
+
       if (password !== repeatPassword) {
         fillErrors({
           errorMessages: [{ code: "200", message: "Passwords don't match" }],
@@ -102,7 +102,7 @@
       }
 
       const response = await register(username, password);
-      
+
       if (!response) {
         fillErrors({
           errorMessages: [{ code: "100", message: "Server Failure" }],
@@ -136,14 +136,14 @@
         {$t("login.register-title")}
       </Tabs.Trigger>
     </Tabs.List>
-    
+
     <Tabs.Content value="login">
       <Alert
         messages={$errors}
         title={$t("login.input-error-title")}
         variant="destructive"
       />
-      
+
       <Card.Root>
         <form on:submit|preventDefault={submitLogin}>
           <Card.Content class="space-y-2 mt-5">
@@ -158,7 +158,7 @@
                 />
               </Form.Control>
             </Form.Field>
-            
+
             <Form.Field form={loginForm} name="password">
               <Form.Control let:attrs>
                 <Form.Label>{$t("login.password")}</Form.Label>
@@ -171,27 +171,23 @@
               </Form.Control>
             </Form.Field>
           </Card.Content>
-          
+
           <Card.Footer>
-            <Button
-              type="submit"
-              class="w-full"
-              disabled={$requestInProcess}
-            >
+            <Button type="submit" class="w-full" disabled={$requestInProcess}>
               {$t("login.login-button")}
             </Button>
           </Card.Footer>
         </form>
       </Card.Root>
     </Tabs.Content>
-    
+
     <Tabs.Content value="register">
       <Alert
         messages={$errors}
         title={$t("login.input-error-title")}
         variant="destructive"
       />
-      
+
       <Card.Root>
         <form on:submit|preventDefault={submitRegister}>
           <Card.Content class="space-y-2 mt-5">
@@ -206,7 +202,7 @@
                 />
               </Form.Control>
             </Form.Field>
-            
+
             <Form.Field form={registerForm} name="password">
               <Form.Control let:attrs>
                 <Form.Label>{$t("login.password")}</Form.Label>
@@ -218,7 +214,7 @@
                 />
               </Form.Control>
             </Form.Field>
-            
+
             <Form.Field form={registerForm} name="repeatPassword">
               <Form.Control let:attrs>
                 <Form.Label>{$t("login.password-repeat")}</Form.Label>
@@ -231,13 +227,9 @@
               </Form.Control>
             </Form.Field>
           </Card.Content>
-          
+
           <Card.Footer>
-            <Button
-              type="submit"
-              class="w-full"
-              disabled={$requestInProcess}
-            >
+            <Button type="submit" class="w-full" disabled={$requestInProcess}>
               {$t("login.register-button")}
             </Button>
           </Card.Footer>
