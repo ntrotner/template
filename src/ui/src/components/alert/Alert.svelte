@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Variant } from "$lib/components/ui/alert/index.js";
   import * as Alert from "$lib/components/ui/alert/index.js";
-  import Info from "svelte-radix/InfoCircled.svelte";
+  import { Info } from "lucide-svelte";
   import type { HTMLAttributes } from "svelte/elements";
 
   type $$Props = HTMLAttributes<HTMLDivElement> & {
