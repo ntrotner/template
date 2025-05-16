@@ -55,9 +55,9 @@
 <Sheet.Root>
   <Sheet.Trigger asChild let:builder>
     <div
-      class="container px-2 pt-0 sm:pt-2 mt-3 h-12 grid grid-flow-col grid-cols-8 justify-stretch"
+      class="container px-2 sm:px-4 mx-0 mb-1 sm:mb-2 mt-3 sm:mt-5 h-12 grid grid-flow-col grid-cols-10 justify-stretch"
     >
-      <div class="nav-left col-span-2">
+      <div class="nav-left col-span-3">
         <div class="title">
           <Button
             on:click={() => redirect(ROUTES.HOME)}
@@ -68,9 +68,17 @@
         </div>
       </div>
 
-      <div class="nav-middle col-span-4"></div>
+      <div class="nav-middle col-span-6 flex justify-end">
+        {#if !$mobile}
+          {#if !$user?.email}
+            <Button variant="link" on:click={() => redirect(ROUTES.LOGIN)}>
+              {$t("common.nav-menu.login")}
+            </Button>
+          {/if}
+        {/if}
+      </div>
 
-      <div class="nav-right flex col-span-2 justify-end">
+      <div class="nav-right flex col-span-1 justify-end">
         <div class="language mr-2">
           <Button builders={[builder]} variant="ghost" size="icon">
             <Globe class="h-5 w-5" />
@@ -109,31 +117,34 @@
           </div>
         {/if}
         <div>
-          <Menubar.Root class="border-0">
-            <Menubar.Menu
-              onOutsideClick={() => {
-                changeProfileState(false);
-                changeMenuState(false);
-              }}
-              bind:this={menuBarOptions}
-            >
-              <Menubar.Trigger><MenuIcon class="h-5 w-5" /></Menubar.Trigger>
-              <Menubar.Content>
-                {#if $user?.email}
-                  <Menubar.Item on:click={() => redirect(ROUTES.HOME)}
-                    >{$t("common.nav-links.home")}</Menubar.Item
-                  >
-                {:else}
-                  <Menubar.Item on:click={() => redirect(ROUTES.LOGIN)}
-                    >{$t("common.nav-menu.login")}</Menubar.Item
-                  >
-                {/if}
-              </Menubar.Content>
-            </Menubar.Menu>
-          </Menubar.Root>
+          {#if $mobile}
+            <Menubar.Root class="border-0">
+              <Menubar.Menu
+                onOutsideClick={() => {
+                  changeProfileState(false);
+                  changeMenuState(false);
+                }}
+                bind:this={menuBarOptions}
+              >
+                <Menubar.Trigger><MenuIcon class="h-5 w-5" /></Menubar.Trigger>
+                <Menubar.Content>
+                  {#if $user?.email}
+                    <Menubar.Item on:click={() => redirect(ROUTES.HOME)}
+                      >{$t("common.nav-links.home")}</Menubar.Item
+                    >
+                  {:else}
+                    <Menubar.Item on:click={() => redirect(ROUTES.LOGIN)}
+                      >{$t("common.nav-menu.login")}</Menubar.Item
+                    >
+                  {/if}
+                </Menubar.Content>
+              </Menubar.Menu>
+            </Menubar.Root>
+          {/if}
         </div>
       </div>
     </div>
+    <div class="border-b-2 border-gray-200"></div>
   </Sheet.Trigger>
   <Sheet.Content side="right">
     <Sheet.Header>
