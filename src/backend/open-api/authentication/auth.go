@@ -38,7 +38,7 @@ func IsConfirmedUser(ctx context.Context, r *http.Request) (*database_user.UserP
 		return nil, err
 	}
 
-	if user.Roles != database_user.ConfirmedUser {
+	if user.Roles != database_user.User {
 		log.Error().Msg("User is not a confirmed user")
 		return nil, errors.New("user is not a confirmed user")
 	}

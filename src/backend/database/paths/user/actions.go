@@ -26,7 +26,7 @@ func CreateUser(ctx context.Context, email string, password string) (*UserProfil
 		Hash:  hash,
 		Salt:  salt,
 		Email: email,
-		Roles: TemporaryUser,
+		Roles: Unconfirmed,
 	}
 
 	// Insert the document into the database
