@@ -144,7 +144,6 @@
         </div>
       </div>
     </div>
-    <div class="border-b-2 border-gray-200"></div>
   </Sheet.Trigger>
   <Sheet.Content side="right">
     <Sheet.Header>
