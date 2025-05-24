@@ -1,6 +1,7 @@
 package config
 
 import (
+	"encoding/json"
 	"os"
 	"strconv"
 
@@ -23,6 +24,7 @@ type Config struct {
 	Server      ServerConfig
 	Database    DatabaseConfig
 	Auth        AuthConfig
+	Shared      SharedConfig
 }
 
 // ServerConfig holds all server related configuration
@@ -44,6 +46,25 @@ type AuthConfig struct {
 	TokenExpirationMinutes int
 }
 
+// AppConfig holds all app related configuration
+type AppConfig struct {
+	IsBackendAware bool
+	User           bool
+	AdminOnly      bool
+	Navigation     string
+}
+
+// LoggerConfig holds all logger related configuration
+type LoggerConfig struct {
+	URL string
+}
+
+// SharedConfig holds all shared configuration
+type SharedConfig struct {
+	App    AppConfig
+	Logger LoggerConfig
+}
+
 // Load loads all configuration from environment variables
 func Load() {
 	// Load .env file if it exists
@@ -61,6 +82,13 @@ func Load() {
 		}
 	}
 
+	// unmarshal shared config from env
+	sharedConfig := SharedConfig{}
+	err = json.Unmarshal([]byte(getEnv("sharedConfig", "{}")), &sharedConfig)
+	if err != nil {
+		log.Fatal().Msg("Failed to unmarshal shared config")
+	}
+
 	GlobalConfig = &Config{
 		Environment: determineEnvironment(),
 		Server: ServerConfig{
@@ -73,6 +101,7 @@ func Load() {
 			JWTSecret:              getEnv("jwtKey", "test-secret"),
 			TokenExpirationMinutes: tokenExpiration,
 		},
+		Shared: sharedConfig,
 	}
 }
 

@@ -17,6 +17,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"template_backend/core/config"
 	models "template_backend/open-api/models"
 	runtime "template_backend/open-api/runtime"
 )
@@ -151,6 +152,11 @@ func (c *AuthenticationAPIController) RefreshTokenPost(w http.ResponseWriter, r 
 
 // RegisterPost - Register a new user
 func (c *AuthenticationAPIController) RegisterPost(w http.ResponseWriter, r *http.Request) {
+	if !config.GlobalConfig.Shared.App.AdminOnly {
+		c.errorHandler(w, r, errors.New("Forbidden"), nil)
+		return
+	}
+
 	userRegistrationParam := models.UserRegistration{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()

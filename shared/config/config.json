@@ -1,7 +1,9 @@
 {
   "app": {
     "isBackendAware": true,
-    "user": true
+    "user": true,
+    "adminOnly": false,
+    "navigation": "slim"
   },
   "logger": {
     "url": null

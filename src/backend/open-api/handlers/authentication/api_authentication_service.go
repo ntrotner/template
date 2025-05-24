@@ -13,6 +13,7 @@ package openapi
 import (
 	"context"
 	"net/http"
+	"template_backend/core/config"
 	database_user "template_backend/database/paths/user"
 	authentication "template_backend/infrastructure/authentication"
 	api_authentication "template_backend/open-api/authentication"
@@ -38,6 +39,11 @@ func (s *AuthenticationAPIService) LoginPost(ctx context.Context, userLogin mode
 	if user == nil {
 		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
+
+	if config.GlobalConfig.Shared.App.AdminOnly && user.Roles != database_user.AdminUser {
+		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
+	}
+
 	log.Info().Msgf("User authenticated: %s", user.ID)
 
 	tokenString, _, err := authentication.CreateJWT(&user.ID)
