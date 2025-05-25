@@ -56,21 +56,15 @@ func NewUserAPIService() UserAPIServicer {
 
 // ChangeEmailPost - Change user email
 func (s *UserAPIService) ChangeEmailPost(ctx context.Context, changeEmail models.ChangeEmail, r *http.Request) (models.ImplResponse, error) {
-	token, found := api_authentication.ReadTokenFromHeader(r)
-	if !found {
-		log.Error().Msg("Bearer format invalid")
-		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
+	user, err := api_authentication.IsUserAuthorized(ctx, r)
+	if err != nil {
+		log.Error().Msg(err.Error())
+		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized."}}}), nil
 	}
 
-	_, content, err := authentication.VerifyJWT(&token)
+	_, err = database_user.ChangeUserEmail(ctx, &user.ID, &changeEmail.NewEmail)
 	if err != nil {
-		log.Error().Msg("Couldn't verify token to refresh")
-		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
-	}
-
-	_, err = database_user.ChangeUserEmail(ctx, &content.ID, &changeEmail.NewEmail)
-	if err != nil {
-		log.Error().Str("id", content.ID).Msg("Couldn't update email for user")
+		log.Error().Str("id", user.ID).Msg("Couldn't update email for user")
 		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
 
