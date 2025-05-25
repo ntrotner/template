@@ -108,3 +108,22 @@ func ChangeUserPassword(ctx context.Context, id *string, newPassword *string) (*
 
 	return user, nil
 }
+
+func ChangeUserRole(ctx context.Context, id *string, newRole UserRole) (*UserProfile, error) {
+	user := FindUserById(ctx, id)
+	if user == nil {
+		return nil, errors.New("couldn't find user")
+	}
+
+	user.Roles = newRole
+	_, err := DatabaseUser.Put(ctx, user.ID, user, kivik.Options{"_rev": user.Rev})
+	if err != nil {
+		log.Error().
+			Str("id", *id).
+			Msg("Couldn't update user role")
+
+		return nil, errors.New("couldn't update user")
+	}
+
+	return user, nil
+}

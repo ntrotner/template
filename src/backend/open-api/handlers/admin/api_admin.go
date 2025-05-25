@@ -10,8 +10,12 @@
 package openapi
 
 import (
+	"encoding/json"
+	"errors"
+	"io"
 	"net/http"
 	"strings"
+	models "template_backend/open-api/models"
 	runtime "template_backend/open-api/runtime"
 )
 
@@ -73,7 +77,7 @@ func (c *AdminAPIController) Routes() runtime.Routes {
 
 // AdminGetUsers - Get user roles
 func (c *AdminAPIController) AdminGetUsers(w http.ResponseWriter, r *http.Request) {
-	result, err := c.service.AdminGetUsers(r.Context())
+	result, err := c.service.AdminGetUsers(r.Context(), r)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -85,7 +89,22 @@ func (c *AdminAPIController) AdminGetUsers(w http.ResponseWriter, r *http.Reques
 
 // ChangeRole - Change user role
 func (c *AdminAPIController) ChangeRole(w http.ResponseWriter, r *http.Request) {
-	result, err := c.service.ChangeRole(r.Context())
+	var adminChangeRoleParam models.AdminChangeRole
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&adminChangeRoleParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &models.ParsingError{Err: err}, nil)
+		return
+	}
+	if err := models.AssertAdminChangeRoleRequired(adminChangeRoleParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := models.AssertAdminChangeRoleConstraints(adminChangeRoleParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.ChangeRole(r.Context(), adminChangeRoleParam, r)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -97,7 +116,7 @@ func (c *AdminAPIController) ChangeRole(w http.ResponseWriter, r *http.Request) 
 
 // AdminGetMetadata - Get backend metadata
 func (c *AdminAPIController) AdminGetMetadata(w http.ResponseWriter, r *http.Request) {
-	result, err := c.service.AdminGetMetadata(r.Context())
+	result, err := c.service.AdminGetMetadata(r.Context(), r)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -109,7 +128,20 @@ func (c *AdminAPIController) AdminGetMetadata(w http.ResponseWriter, r *http.Req
 
 // AdminChangeMetadata - Change backend metadata
 func (c *AdminAPIController) AdminChangeMetadata(w http.ResponseWriter, r *http.Request) {
-	result, err := c.service.AdminChangeMetadata(r.Context())
+	var metadataItemParam []models.MetadataItem
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&metadataItemParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &models.ParsingError{Err: err}, nil)
+		return
+	}
+	for _, el := range metadataItemParam {
+		if err := models.AssertMetadataItemRequired(el); err != nil {
+			c.errorHandler(w, r, err, nil)
+			return
+		}
+	}
+	result, err := c.service.AdminChangeMetadata(r.Context(), metadataItemParam, r)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

@@ -11,9 +11,13 @@ package openapi
 
 import (
 	"context"
-	"errors"
 	"net/http"
+	database_metadata "template_backend/database/paths/metadata"
+	database_user "template_backend/database/paths/user"
+	api_authentication "template_backend/open-api/authentication"
 	models "template_backend/open-api/models"
+
+	"github.com/rs/zerolog/log"
 )
 
 // AdminAPIRouter defines the required methods for binding the api requests to a responses for the AdminAPI
@@ -31,10 +35,10 @@ type AdminAPIRouter interface {
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type AdminAPIServicer interface {
-	AdminGetUsers(context.Context) (models.ImplResponse, error)
-	ChangeRole(context.Context) (models.ImplResponse, error)
-	AdminGetMetadata(context.Context) (models.ImplResponse, error)
-	AdminChangeMetadata(context.Context) (models.ImplResponse, error)
+	AdminGetUsers(context.Context, *http.Request) (models.ImplResponse, error)
+	ChangeRole(context.Context, models.AdminChangeRole, *http.Request) (models.ImplResponse, error)
+	AdminGetMetadata(context.Context, *http.Request) (models.ImplResponse, error)
+	AdminChangeMetadata(context.Context, []models.MetadataItem, *http.Request) (models.ImplResponse, error)
 }
 
 // AdminAPIService is a service that implements the logic for the AdminAPIServicer
@@ -49,57 +53,73 @@ func NewAdminAPIService() *AdminAPIService {
 }
 
 // AdminGetUsers - Get user roles
-func (s *AdminAPIService) AdminGetUsers(ctx context.Context) (models.ImplResponse, error) {
-	// TODO - update AdminGetUsers with the required logic for this service method.
-	// Add api_admin_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+func (s *AdminAPIService) AdminGetUsers(ctx context.Context, r *http.Request) (models.ImplResponse, error) {
+	user, err := api_authentication.IsAdmin(ctx, r)
+	if err != nil || user == nil {
+		log.Error().Msg(err.Error())
+		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized."}}}), nil
+	}
+	users := database_user.GetAllUsers(ctx)
 
-	// TODO: Uncomment the next line to return response Response(200, AdminUsers{}) or use other options such as http.Ok ...
-	// return Response(200, AdminUsers{}), nil
-
-	// TODO: Uncomment the next line to return response Response(400, Error{}) or use other options such as http.Ok ...
-	// return Response(400, Error{}), nil
-
-	return models.Response(http.StatusNotImplemented, nil), errors.New("AdminGetUsers method not implemented")
+	usersResponse := []models.UserProfile{}
+	for _, user := range users {
+		usersResponse = append(usersResponse, models.UserProfile{Email: user.Email, Role: models.UserRoles(user.Roles)})
+	}
+	return models.Response(200, models.AdminUsers{Users: usersResponse}), nil
 }
 
 // ChangeRole - Change user role
-func (s *AdminAPIService) ChangeRole(ctx context.Context) (models.ImplResponse, error) {
-	// TODO - update ChangeRole with the required logic for this service method.
-	// Add api_admin_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-
-	// TODO: Uncomment the next line to return response Response(200, AdminChangeRole{}) or use other options such as http.Ok ...
-	// return Response(200, AdminChangeRole{}), nil
-
-	// TODO: Uncomment the next line to return response Response(400, Error{}) or use other options such as http.Ok ...
-	// return Response(400, Error{}), nil
-
-	return models.Response(http.StatusNotImplemented, nil), errors.New("ChangeRole method not implemented")
+func (s *AdminAPIService) ChangeRole(ctx context.Context, changeRole models.AdminChangeRole, r *http.Request) (models.ImplResponse, error) {
+	user, err := api_authentication.IsAdmin(ctx, r)
+	if err != nil || user == nil {
+		log.Error().Msg(err.Error())
+		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized."}}}), nil
+	}
+	database_user.ChangeUserRole(ctx, &user.ID, database_user.UserRole(changeRole.NewRole))
+	return models.Response(200, models.Success{}), nil
 }
 
 // AdminGetMetadata - Get backend metadata
-func (s *AdminAPIService) AdminGetMetadata(ctx context.Context) (models.ImplResponse, error) {
-	// TODO - update AdminGetMetadata with the required logic for this service method.
-	// Add api_admin_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+func (s *AdminAPIService) AdminGetMetadata(ctx context.Context, r *http.Request) (models.ImplResponse, error) {
+	user, err := api_authentication.IsAdmin(ctx, r)
+	if err != nil || user == nil {
+		log.Error().Msg(err.Error())
+		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized."}}}), nil
+	}
+	metadataItems, err := database_metadata.GetMetadata(ctx)
+	if err != nil {
+		log.Error().Msg(err.Error())
+		return models.Response(500, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Internal server error."}}}), nil
+	}
 
-	// TODO: Uncomment the next line to return response Response(200, []MetadataItem{}) or use other options such as http.Ok ...
-	// return Response(200, []MetadataItem{}), nil
+	metadata := []models.MetadataItem{}
+	for _, item := range metadataItems {
+		metadata = append(metadata, models.MetadataItem{Key: item.Key, Value: item.Value, AdminOnly: item.AdminOnly})
+	}
 
-	// TODO: Uncomment the next line to return response Response(400, Error{}) or use other options such as http.Ok ...
-	// return Response(400, Error{}), nil
-
-	return models.Response(http.StatusNotImplemented, nil), errors.New("AdminGetMetadata method not implemented")
+	return models.Response(200, metadata), nil
 }
 
 // AdminChangeMetadata - Change backend metadata
-func (s *AdminAPIService) AdminChangeMetadata(ctx context.Context) (models.ImplResponse, error) {
-	// TODO - update AdminChangeMetadata with the required logic for this service method.
-	// Add api_admin_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+func (s *AdminAPIService) AdminChangeMetadata(ctx context.Context, metadataItem []models.MetadataItem, r *http.Request) (models.ImplResponse, error) {
+	user, err := api_authentication.IsAdmin(ctx, r)
+	if err != nil || user == nil {
+		log.Error().Msg(err.Error())
+		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized."}}}), nil
+	}
 
-	// TODO: Uncomment the next line to return response Response(200, []MetadataItem{}) or use other options such as http.Ok ...
-	// return Response(200, []MetadataItem{}), nil
+	errors := []models.Message{}
 
-	// TODO: Uncomment the next line to return response Response(400, Error{}) or use other options such as http.Ok ...
-	// return Response(400, Error{}), nil
+	for _, item := range metadataItem {
+		err := database_metadata.UpdateMetadata(ctx, database_metadata.MetadataItem{Key: item.Key, Value: item.Value, AdminOnly: item.AdminOnly})
+		if err != nil {
+			errors = append(errors, models.Message{Code: "001", Message: err.Error()})
+		}
+	}
 
-	return models.Response(http.StatusNotImplemented, nil), errors.New("AdminChangeMetadata method not implemented")
+	if len(errors) > 0 {
+		return models.Response(400, models.Error{ErrorMessages: errors}), nil
+	}
+
+	return models.Response(200, models.Success{}), nil
 }

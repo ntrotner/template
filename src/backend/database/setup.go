@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"template_backend/core/config"
+	database_metadata "template_backend/database/paths/metadata"
 	database_user "template_backend/database/paths/user"
 	"time"
 
@@ -66,9 +67,11 @@ func Connect(ctx context.Context) {
 
 	for _, value := range []string{
 		database_user.USER_DB,
+		database_metadata.METADATA_DB,
 	} {
 		createDatabase(ctx, value)
 	}
 
 	go database_user.SetupUser(ctx, databases)
+	go database_metadata.SetupMetadata(ctx, databases)
 }

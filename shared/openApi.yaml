@@ -49,9 +49,11 @@ paths:
         - admin
       summary: Change user role
       operationId: changeRole
+      requestBody:
+        $ref: '#/components/requestBodies/AdminChangeRole'
       responses:
         '200':
-          $ref: '#/components/responses/AdminChangeRole'
+          $ref: '#/components/responses/Success'
         '400':
           $ref: '#/components/responses/Error'
   /admin/metadata:
@@ -71,9 +73,11 @@ paths:
         - admin
       summary: Change backend metadata
       operationId: adminChangeMetadata
+      requestBody:
+        $ref: '#/components/requestBodies/AdminChangeMetadata'
       responses:
         '200':
-          $ref: '#/components/responses/AdminChangeMetadata'
+          $ref: '#/components/responses/Success'
         '400':
           $ref: '#/components/responses/Error'
   /config:
@@ -220,18 +224,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Metadata'
-    AdminChangeMetadata:
-      description: Admin change metadata
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AdminChangeMetadata'
-    AdminChangeRole:
-      description: Change role
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AdminChangeRole'
     Config:
       description: Config
       content:
@@ -251,6 +243,18 @@ components:
           schema:
             $ref: '#/components/schemas/Health'
   requestBodies:
+    AdminChangeRole:
+      description: Change role
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminChangeRole'
+    AdminChangeMetadata:
+      description: Admin change metadata
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminChangeMetadata'
     UserRegistration:
       description: User registration
       content:
@@ -340,6 +344,8 @@ components:
           type: string
         value:
           type: string
+        adminOnly:
+          type: boolean
       required:
         - key
         - value

@@ -51,6 +51,30 @@ func ExistsEmail(ctx context.Context, email string) bool {
 	return false
 }
 
+// GetAllUsers gets all users from the database
+func GetAllUsers(ctx context.Context) []*UserProfile {
+	query := database_common.Query{
+		Selector: map[string]interface{}{},
+		Fields:   []interface{}{},
+		Limit:    0,
+	}
+	rows, err := DatabaseUser.Find(ctx, query)
+	if err != nil {
+		log.Error().Msg(err.Error())
+	}
+	defer rows.Close()
+
+	users := []*UserProfile{}
+	for rows.Next() {
+		var user UserProfile
+		if err := rows.ScanDoc(&user); err != nil {
+			log.Error().Msg(err.Error())
+		}
+		users = append(users, &user)
+	}
+	return users
+}
+
 // FindUserById finds a user in the database by id
 func FindUserById(ctx context.Context, id *string) *UserProfile {
 	userInCache := Cache.getUserById(id)
