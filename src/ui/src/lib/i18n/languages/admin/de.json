@@ -1,0 +1,6 @@
+{
+  "hello": "Hallo {{email}}",
+  "sidebar": {
+    "wrench": "Einstellungen"
+  }
+}

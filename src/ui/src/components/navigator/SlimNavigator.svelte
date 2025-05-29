@@ -5,6 +5,8 @@
   import LazyLoad from "../../directives/LazyLoad.svelte";
   import { browser } from "$app/environment";
 
+  export let showTitle = true;
+
   function redirect(page: string) {
     if (browser) {
       goto(page);
@@ -15,11 +17,13 @@
 <div class="px-2 sm:px-4 mx-0 mb-1 sm:mb-2 mt-3 sm:mt-5 h-12">
   <div class="flex items-center justify-between">
     <div class="title">
-      <a
-        href={ROUTES.HOME}
-        class="text-lg hover:underline"
-        on:click={() => redirect(ROUTES.HOME)}>{$t("common.nav-title")}</a
-      >
+      {#if showTitle}
+        <a
+          href={ROUTES.HOME}
+          class="text-lg hover:underline"
+          on:click={() => redirect(ROUTES.HOME)}>{$t("common.nav-title")}</a
+        >
+      {/if}
     </div>
     <div>
       <LazyLoad

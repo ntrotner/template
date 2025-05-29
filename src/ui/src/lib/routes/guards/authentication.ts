@@ -12,3 +12,8 @@ export async function isUserAuthenticated() {
   const user = userState.getSyncState();
   return !!userAuthenticationState.authenticated || !!user?.email;
 }
+
+export async function isUserAdmin() {
+  const user = userState.getSyncState();
+  return user?.role === "admin";
+}

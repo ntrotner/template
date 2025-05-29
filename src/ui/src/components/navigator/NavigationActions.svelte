@@ -123,6 +123,11 @@
                   >{$t("common.nav-menu.login")}</MenubarItem
                 >
               {/if}
+              {#if $user?.role === "admin"}
+                <MenubarItem on:click={() => redirect(ROUTES.ADMIN)}
+                  >{$t("common.admin")}</MenubarItem
+                >
+              {/if}
             </MenubarContent>
           </MenubarMenu>
         </Menubar>

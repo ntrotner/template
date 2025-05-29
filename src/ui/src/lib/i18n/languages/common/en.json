@@ -1,6 +1,7 @@
 {
   "de": "German",
   "en": "English",
+  "admin": "Admin",
   "nav-language.language-description": "Select a Langugage",
   "nav-language.language": "Language",
   "nav-links.home": "Home",

@@ -57,6 +57,16 @@ const config = {
       key: "profile",
       loader: async () => (await import("./languages/profile/de.json")).default,
     },
+    {
+      locale: "en",
+      key: "admin",
+      loader: async () => (await import("./languages/admin/en.json")).default,
+    },
+    {
+      locale: "de",
+      key: "admin",
+      loader: async () => (await import("./languages/admin/de.json")).default,
+    },
   ],
 };
 

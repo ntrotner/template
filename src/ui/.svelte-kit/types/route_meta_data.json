@@ -1,49 +1,44 @@
 {
-	"/(public)": [
-		"src/routes/+layout.ts",
-		"src/routes/+layout.ts"
-	],
-	"/": [
-		"src/routes/+layout.ts"
-	],
-	"/admin": [
-		"src/routes/admin/+layout.ts",
-		"src/routes/+layout.ts",
-		"src/routes/admin/+layout.ts",
-		"src/routes/+layout.ts"
-	],
-	"/admin/metadata": [
-		"src/routes/admin/metadata/+layout.ts",
-		"src/routes/admin/+layout.ts",
-		"src/routes/+layout.ts",
-		"src/routes/admin/metadata/+layout.ts",
-		"src/routes/admin/+layout.ts",
-		"src/routes/+layout.ts"
-	],
-	"/admin/overview": [
-		"src/routes/admin/overview/+layout.ts",
-		"src/routes/admin/+layout.ts",
-		"src/routes/+layout.ts",
-		"src/routes/admin/overview/+layout.ts",
-		"src/routes/admin/+layout.ts",
-		"src/routes/+layout.ts"
-	],
-	"/(public)/login": [
-		"src/routes/(public)/login/+layout.ts",
-		"src/routes/+layout.ts",
-		"src/routes/(public)/login/+layout.ts",
-		"src/routes/+layout.ts"
-	],
-	"/(public)/logout": [
-		"src/routes/(public)/logout/+layout.ts",
-		"src/routes/+layout.ts",
-		"src/routes/(public)/logout/+layout.ts",
-		"src/routes/+layout.ts"
-	],
-	"/(public)/profile": [
-		"src/routes/(public)/profile/+layout.ts",
-		"src/routes/+layout.ts",
-		"src/routes/(public)/profile/+layout.ts",
-		"src/routes/+layout.ts"
-	]
+  "/(public)": ["src/routes/+layout.ts", "src/routes/+layout.ts"],
+  "/": ["src/routes/+layout.ts"],
+  "/admin": [
+    "src/routes/admin/+layout.ts",
+    "src/routes/+layout.ts",
+    "src/routes/admin/+layout.ts",
+    "src/routes/+layout.ts"
+  ],
+  "/admin/metadata": [
+    "src/routes/admin/metadata/+layout.ts",
+    "src/routes/admin/+layout.ts",
+    "src/routes/+layout.ts",
+    "src/routes/admin/metadata/+layout.ts",
+    "src/routes/admin/+layout.ts",
+    "src/routes/+layout.ts"
+  ],
+  "/admin/overview": [
+    "src/routes/admin/overview/+layout.ts",
+    "src/routes/admin/+layout.ts",
+    "src/routes/+layout.ts",
+    "src/routes/admin/overview/+layout.ts",
+    "src/routes/admin/+layout.ts",
+    "src/routes/+layout.ts"
+  ],
+  "/(public)/login": [
+    "src/routes/(public)/login/+layout.ts",
+    "src/routes/+layout.ts",
+    "src/routes/(public)/login/+layout.ts",
+    "src/routes/+layout.ts"
+  ],
+  "/(public)/logout": [
+    "src/routes/(public)/logout/+layout.ts",
+    "src/routes/+layout.ts",
+    "src/routes/(public)/logout/+layout.ts",
+    "src/routes/+layout.ts"
+  ],
+  "/(public)/profile": [
+    "src/routes/(public)/profile/+layout.ts",
+    "src/routes/+layout.ts",
+    "src/routes/(public)/profile/+layout.ts",
+    "src/routes/+layout.ts"
+  ]
 }
