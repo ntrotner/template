@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -30,11 +30,9 @@ export interface PasswordReset {
 /**
  * Check if a given object implements the PasswordReset interface.
  */
-export function instanceOfPasswordReset(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "email" in value;
-
-    return isInstance;
+export function instanceOfPasswordReset(value: object): value is PasswordReset {
+    if (!('email' in value) || value['email'] === undefined) return false;
+    return true;
 }
 
 export function PasswordResetFromJSON(json: any): PasswordReset {
@@ -42,7 +40,7 @@ export function PasswordResetFromJSON(json: any): PasswordReset {
 }
 
 export function PasswordResetFromJSONTyped(json: any, ignoreDiscriminator: boolean): PasswordReset {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -51,16 +49,18 @@ export function PasswordResetFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function PasswordResetToJSON(value?: PasswordReset | null): any {
-    if (value === undefined) {
-        return undefined;
+export function PasswordResetToJSON(json: any): PasswordReset {
+    return PasswordResetToJSONTyped(json, false);
+}
+
+export function PasswordResetToJSONTyped(value?: PasswordReset | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'email': value.email,
+        'email': value['email'],
     };
 }
 

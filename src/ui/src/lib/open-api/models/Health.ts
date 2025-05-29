@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -36,10 +36,8 @@ export interface Health {
 /**
  * Check if a given object implements the Health interface.
  */
-export function instanceOfHealth(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfHealth(value: object): value is Health {
+    return true;
 }
 
 export function HealthFromJSON(json: any): Health {
@@ -47,27 +45,29 @@ export function HealthFromJSON(json: any): Health {
 }
 
 export function HealthFromJSONTyped(json: any, ignoreDiscriminator: boolean): Health {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'server': !exists(json, 'server') ? undefined : json['server'],
-        'db': !exists(json, 'db') ? undefined : json['db'],
+        'server': json['server'] == null ? undefined : json['server'],
+        'db': json['db'] == null ? undefined : json['db'],
     };
 }
 
-export function HealthToJSON(value?: Health | null): any {
-    if (value === undefined) {
-        return undefined;
+export function HealthToJSON(json: any): Health {
+    return HealthToJSONTyped(json, false);
+}
+
+export function HealthToJSONTyped(value?: Health | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'server': value.server,
-        'db': value.db,
+        'server': value['server'],
+        'db': value['db'],
     };
 }
 

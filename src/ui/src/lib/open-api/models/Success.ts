@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Message } from './Message';
 import {
     MessageFromJSON,
     MessageFromJSONTyped,
     MessageToJSON,
+    MessageToJSONTyped,
 } from './Message';
 
 /**
@@ -43,10 +44,8 @@ export interface Success {
 /**
  * Check if a given object implements the Success interface.
  */
-export function instanceOfSuccess(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfSuccess(value: object): value is Success {
+    return true;
 }
 
 export function SuccessFromJSON(json: any): Success {
@@ -54,27 +53,29 @@ export function SuccessFromJSON(json: any): Success {
 }
 
 export function SuccessFromJSONTyped(json: any, ignoreDiscriminator: boolean): Success {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'messages': !exists(json, 'messages') ? undefined : ((json['messages'] as Array<any>).map(MessageFromJSON)),
-        'warningMessages': !exists(json, 'warningMessages') ? undefined : ((json['warningMessages'] as Array<any>).map(MessageFromJSON)),
+        'messages': json['messages'] == null ? undefined : ((json['messages'] as Array<any>).map(MessageFromJSON)),
+        'warningMessages': json['warningMessages'] == null ? undefined : ((json['warningMessages'] as Array<any>).map(MessageFromJSON)),
     };
 }
 
-export function SuccessToJSON(value?: Success | null): any {
-    if (value === undefined) {
-        return undefined;
+export function SuccessToJSON(json: any): Success {
+    return SuccessToJSONTyped(json, false);
+}
+
+export function SuccessToJSONTyped(value?: Success | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'messages': value.messages === undefined ? undefined : ((value.messages as Array<any>).map(MessageToJSON)),
-        'warningMessages': value.warningMessages === undefined ? undefined : ((value.warningMessages as Array<any>).map(MessageToJSON)),
+        'messages': value['messages'] == null ? undefined : ((value['messages'] as Array<any>).map(MessageToJSON)),
+        'warningMessages': value['warningMessages'] == null ? undefined : ((value['warningMessages'] as Array<any>).map(MessageToJSON)),
     };
 }
 

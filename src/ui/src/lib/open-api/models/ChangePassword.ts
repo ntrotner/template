@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -36,12 +36,10 @@ export interface ChangePassword {
 /**
  * Check if a given object implements the ChangePassword interface.
  */
-export function instanceOfChangePassword(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "currentPassword" in value;
-    isInstance = isInstance && "newPassword" in value;
-
-    return isInstance;
+export function instanceOfChangePassword(value: object): value is ChangePassword {
+    if (!('currentPassword' in value) || value['currentPassword'] === undefined) return false;
+    if (!('newPassword' in value) || value['newPassword'] === undefined) return false;
+    return true;
 }
 
 export function ChangePasswordFromJSON(json: any): ChangePassword {
@@ -49,7 +47,7 @@ export function ChangePasswordFromJSON(json: any): ChangePassword {
 }
 
 export function ChangePasswordFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChangePassword {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -59,17 +57,19 @@ export function ChangePasswordFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function ChangePasswordToJSON(value?: ChangePassword | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ChangePasswordToJSON(json: any): ChangePassword {
+    return ChangePasswordToJSONTyped(json, false);
+}
+
+export function ChangePasswordToJSONTyped(value?: ChangePassword | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'currentPassword': value.currentPassword,
-        'newPassword': value.newPassword,
+        'currentPassword': value['currentPassword'],
+        'newPassword': value['newPassword'],
     };
 }
 

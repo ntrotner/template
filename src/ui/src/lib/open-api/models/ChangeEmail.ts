@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -36,12 +36,10 @@ export interface ChangeEmail {
 /**
  * Check if a given object implements the ChangeEmail interface.
  */
-export function instanceOfChangeEmail(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "currentEmail" in value;
-    isInstance = isInstance && "newEmail" in value;
-
-    return isInstance;
+export function instanceOfChangeEmail(value: object): value is ChangeEmail {
+    if (!('currentEmail' in value) || value['currentEmail'] === undefined) return false;
+    if (!('newEmail' in value) || value['newEmail'] === undefined) return false;
+    return true;
 }
 
 export function ChangeEmailFromJSON(json: any): ChangeEmail {
@@ -49,7 +47,7 @@ export function ChangeEmailFromJSON(json: any): ChangeEmail {
 }
 
 export function ChangeEmailFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChangeEmail {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -59,17 +57,19 @@ export function ChangeEmailFromJSONTyped(json: any, ignoreDiscriminator: boolean
     };
 }
 
-export function ChangeEmailToJSON(value?: ChangeEmail | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ChangeEmailToJSON(json: any): ChangeEmail {
+    return ChangeEmailToJSONTyped(json, false);
+}
+
+export function ChangeEmailToJSONTyped(value?: ChangeEmail | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'currentEmail': value.currentEmail,
-        'newEmail': value.newEmail,
+        'currentEmail': value['currentEmail'],
+        'newEmail': value['newEmail'],
     };
 }
 

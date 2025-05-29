@@ -15,46 +15,39 @@
 
 import * as runtime from '../runtime';
 import type {
-  ChangeEmail,
-  ChangePassword,
-  PasswordReset,
+  AdminChangeRole,
+  AdminUsers,
+  MetadataItem,
   Success,
-  UserProfile,
 } from '../models/index';
 import {
-    ChangeEmailFromJSON,
-    ChangeEmailToJSON,
-    ChangePasswordFromJSON,
-    ChangePasswordToJSON,
-    PasswordResetFromJSON,
-    PasswordResetToJSON,
+    AdminChangeRoleFromJSON,
+    AdminChangeRoleToJSON,
+    AdminUsersFromJSON,
+    AdminUsersToJSON,
+    MetadataItemFromJSON,
+    MetadataItemToJSON,
     SuccessFromJSON,
     SuccessToJSON,
-    UserProfileFromJSON,
-    UserProfileToJSON,
 } from '../models/index';
 
-export interface ChangeEmailPostRequest {
-    changeEmail?: ChangeEmail;
+export interface AdminChangeMetadataRequest {
+    metadataItem?: Array<MetadataItem>;
 }
 
-export interface ChangePasswordPostRequest {
-    changePassword?: ChangePassword;
-}
-
-export interface PasswordResetPostRequest {
-    passwordReset?: PasswordReset;
+export interface ChangeRoleRequest {
+    adminChangeRole?: AdminChangeRole;
 }
 
 /**
  * 
  */
-export class UserApi extends runtime.BaseAPI {
+export class AdminApi extends runtime.BaseAPI {
 
     /**
-     * Change user email
+     * Change backend metadata
      */
-    async changeEmailPostRaw(requestParameters: ChangeEmailPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Success>> {
+    async adminChangeMetadataRaw(requestParameters: AdminChangeMetadataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Success>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -70,102 +63,28 @@ export class UserApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/change-email`,
+            path: `/admin/change-metadata`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ChangeEmailToJSON(requestParameters['changeEmail']),
+            body: requestParameters['metadataItem']!.map(MetadataItemToJSON),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SuccessFromJSON(jsonValue));
     }
 
     /**
-     * Change user email
+     * Change backend metadata
      */
-    async changeEmailPost(requestParameters: ChangeEmailPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Success> {
-        const response = await this.changeEmailPostRaw(requestParameters, initOverrides);
+    async adminChangeMetadata(requestParameters: AdminChangeMetadataRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Success> {
+        const response = await this.adminChangeMetadataRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Change user password
+     * Get backend metadata
      */
-    async changePasswordPostRaw(requestParameters: ChangePasswordPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Success>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/change-password`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: ChangePasswordToJSON(requestParameters['changePassword']),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => SuccessFromJSON(jsonValue));
-    }
-
-    /**
-     * Change user password
-     */
-    async changePasswordPost(requestParameters: ChangePasswordPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Success> {
-        const response = await this.changePasswordPostRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Initiate password reset
-     */
-    async passwordResetPostRaw(requestParameters: PasswordResetPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Success>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/password-reset`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: PasswordResetToJSON(requestParameters['passwordReset']),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => SuccessFromJSON(jsonValue));
-    }
-
-    /**
-     * Initiate password reset
-     */
-    async passwordResetPost(requestParameters: PasswordResetPostRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Success> {
-        const response = await this.passwordResetPostRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Get user profile
-     */
-    async profileGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserProfile>> {
+    async adminGetMetadataRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<MetadataItem>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -179,20 +98,91 @@ export class UserApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/profile`,
+            path: `/admin/metadata`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => UserProfileFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(MetadataItemFromJSON));
     }
 
     /**
-     * Get user profile
+     * Get backend metadata
      */
-    async profileGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserProfile> {
-        const response = await this.profileGetRaw(initOverrides);
+    async adminGetMetadata(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<MetadataItem>> {
+        const response = await this.adminGetMetadataRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get user roles
+     */
+    async adminGetUsersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdminUsers>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/admin/users`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => AdminUsersFromJSON(jsonValue));
+    }
+
+    /**
+     * Get user roles
+     */
+    async adminGetUsers(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AdminUsers> {
+        const response = await this.adminGetUsersRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Change user role
+     */
+    async changeRoleRaw(requestParameters: ChangeRoleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Success>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/admin/change-role`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AdminChangeRoleToJSON(requestParameters['adminChangeRole']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SuccessFromJSON(jsonValue));
+    }
+
+    /**
+     * Change user role
+     */
+    async changeRole(requestParameters: ChangeRoleRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Success> {
+        const response = await this.changeRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
