@@ -6,13 +6,15 @@
   const navigatorStyle = BootstrapConfig.app.navigation;
 </script>
 
-{#if navigatorStyle === "bulky"}
-  <LazyLoad
-    load={navigatorStyle === "bulky"}
-    importStatement={() => import("../../components/navigator/Navigator.svelte")}
-  />
-{/if}
-{#if navigatorStyle === "slim"}
-  <SlimNavigator />
-{/if}
-<slot />
+<div class="mx-auto max-w-screen-2xl">
+  {#if navigatorStyle === "bulky"}
+    <LazyLoad
+      load={navigatorStyle === "bulky"}
+      importStatement={() => import("../../components/navigator/Navigator.svelte")}
+    />
+  {/if}
+  {#if navigatorStyle === "slim"}
+    <SlimNavigator />
+  {/if}
+  <slot />
+</div>

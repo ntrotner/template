@@ -4,8 +4,6 @@ import { goto } from "$app/navigation";
 import { ROUTES } from "$lib/routes";
 import { BootstrapConfig } from "$lib/bootstrap-config/config";
 
-export const ssr = false;
-
 export const load = async ({ parent }) => {
   if (browser) {
     await parent();

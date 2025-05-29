@@ -7,6 +7,7 @@ import { toast } from "svelte-sonner";
 
 export const prerender = true;
 export const ssr = true;
+export const trailingSlash = "always";
 
 async function setupSSRLocalization() {
   let locale = "en";

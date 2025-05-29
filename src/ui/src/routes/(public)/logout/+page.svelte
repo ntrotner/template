@@ -11,8 +11,6 @@
       {$t("logout.bye-message")}
     </h1>
   </div>
-
-  <div class="picture"></div>
 </div>
 
 <style>
@@ -21,20 +19,10 @@
     max-width: 425px;
   }
 
-  .title,
-  .picture {
+  .title {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-  }
-
-  .picture {
-    align-items: flex-end;
-  }
-
-  .picture img {
-    margin-top: 2rem;
-    max-width: 250px;
   }
 </style>

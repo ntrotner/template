@@ -27,8 +27,8 @@
  */
 declare module '$env/static/private' {
 	export const SHELL: string;
-	export const npm_command: string;
 	export const LSCOLORS: string;
+	export const npm_command: string;
 	export const SESSION_MANAGER: string;
 	export const NVM_RC_VERSION: string;
 	export const npm_config_userconfig: string;
@@ -39,8 +39,8 @@ declare module '$env/static/private' {
 	export const HISTCONTROL: string;
 	export const XDG_MENU_PREFIX: string;
 	export const PTYXIS_PROFILE: string;
-	export const HOSTNAME: string;
 	export const HISTSIZE: string;
+	export const HOSTNAME: string;
 	export const VITE_endpoint: string;
 	export const NODE: string;
 	export const VITE_configUrl: string;
@@ -56,8 +56,8 @@ declare module '$env/static/private' {
 	export const EDITOR: string;
 	export const jwtExpirationMinutes: string;
 	export const PWD: string;
-	export const XDG_SESSION_DESKTOP: string;
 	export const LOGNAME: string;
+	export const XDG_SESSION_DESKTOP: string;
 	export const XDG_SESSION_TYPE: string;
 	export const npm_config_init_module: string;
 	export const SYSTEMD_EXEC_PID: string;
@@ -88,14 +88,14 @@ declare module '$env/static/private' {
 	export const TERM: string;
 	export const npm_package_name: string;
 	export const ZSH: string;
-	export const npm_config_prefix: string;
 	export const environment: string;
+	export const npm_config_prefix: string;
 	export const LESSOPEN: string;
 	export const USER: string;
 	export const DISPLAY: string;
 	export const GOMAXPROCS: string;
-	export const npm_lifecycle_event: string;
 	export const APP_NAME: string;
+	export const npm_lifecycle_event: string;
 	export const SHLVL: string;
 	export const NVM_CD_FLAGS: string;
 	export const PAGER: string;
@@ -117,8 +117,8 @@ declare module '$env/static/private' {
 	export const CGO_ENABLED: string;
 	export const DBUS_SESSION_BUS_ADDRESS: string;
 	export const npm_config_python: string;
-	export const npm_config_global_prefix: string;
 	export const npm_config_update_notifier: string;
+	export const npm_config_global_prefix: string;
 	export const MAIL: string;
 	export const PTYXIS_VERSION: string;
 	export const npm_node_execpath: string;
@@ -126,6 +126,8 @@ declare module '$env/static/private' {
 	export const FLATPAK_TTY_PROGRESS: string;
 	export const OLDPWD: string;
 	export const databaseHost: string;
+	export const NODE_ENV: string;
+	export const VIPSHOME: string;
 }
 
 /**
@@ -158,8 +160,8 @@ declare module '$env/static/public' {
 declare module '$env/dynamic/private' {
 	export const env: {
 		SHELL: string;
-		npm_command: string;
 		LSCOLORS: string;
+		npm_command: string;
 		SESSION_MANAGER: string;
 		NVM_RC_VERSION: string;
 		npm_config_userconfig: string;
@@ -170,8 +172,8 @@ declare module '$env/dynamic/private' {
 		HISTCONTROL: string;
 		XDG_MENU_PREFIX: string;
 		PTYXIS_PROFILE: string;
-		HOSTNAME: string;
 		HISTSIZE: string;
+		HOSTNAME: string;
 		VITE_endpoint: string;
 		NODE: string;
 		VITE_configUrl: string;
@@ -187,8 +189,8 @@ declare module '$env/dynamic/private' {
 		EDITOR: string;
 		jwtExpirationMinutes: string;
 		PWD: string;
-		XDG_SESSION_DESKTOP: string;
 		LOGNAME: string;
+		XDG_SESSION_DESKTOP: string;
 		XDG_SESSION_TYPE: string;
 		npm_config_init_module: string;
 		SYSTEMD_EXEC_PID: string;
@@ -219,14 +221,14 @@ declare module '$env/dynamic/private' {
 		TERM: string;
 		npm_package_name: string;
 		ZSH: string;
-		npm_config_prefix: string;
 		environment: string;
+		npm_config_prefix: string;
 		LESSOPEN: string;
 		USER: string;
 		DISPLAY: string;
 		GOMAXPROCS: string;
-		npm_lifecycle_event: string;
 		APP_NAME: string;
+		npm_lifecycle_event: string;
 		SHLVL: string;
 		NVM_CD_FLAGS: string;
 		PAGER: string;
@@ -248,8 +250,8 @@ declare module '$env/dynamic/private' {
 		CGO_ENABLED: string;
 		DBUS_SESSION_BUS_ADDRESS: string;
 		npm_config_python: string;
-		npm_config_global_prefix: string;
 		npm_config_update_notifier: string;
+		npm_config_global_prefix: string;
 		MAIL: string;
 		PTYXIS_VERSION: string;
 		npm_node_execpath: string;
@@ -257,6 +259,8 @@ declare module '$env/dynamic/private' {
 		FLATPAK_TTY_PROGRESS: string;
 		OLDPWD: string;
 		databaseHost: string;
+		NODE_ENV: string;
+		VIPSHOME: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}
