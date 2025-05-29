@@ -11,6 +11,10 @@
   export { className as class };
 </script>
 
+{#if !load && showSkeleton}
+  <Skeleton class={cn("rounded-md border", className)} />
+{/if}
+
 {#if load}
   {#await importStatement()}
     {#if showSkeleton}

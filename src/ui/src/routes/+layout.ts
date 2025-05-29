@@ -1,40 +1,29 @@
-import {
-  getLocale,
-  loadTranslations,
-  setLocale,
-  setLocaleInStorage,
-  t,
-} from "$lib/i18n";
-import { logger } from "$lib/analytics";
-import { take } from "rxjs";
 import { browser } from "$app/environment";
-import { fetchConfigurations, configState } from "../lib/states/config";
-import {
-  type AppConfig,
-  AppConfigKey,
-  checkStatus,
-} from "../lib/states/status";
+import { BootstrapConfig } from "$lib/bootstrap-config/config";
+import { getLocale, setLocaleInStorage } from "$lib/i18n/storage";
+import { loadTranslations, setLocale, t } from "$lib/i18n/translations";
+import { appState } from "$lib/states/app/app";
 import { toast } from "svelte-sonner";
-import { TOKEN_REFRESH_IN_MS } from "../lib/open-api/helpers";
-import { appState } from "../lib/states/app";
-import { refreshToken } from "../lib/states/authentication";
 
 export const prerender = true;
-export const ssr = false;
+export const ssr = true;
 
-function setupLocalization() {
+async function setupSSRLocalization() {
+  let locale = "en";
+  await setLocale(locale);
+  await loadTranslations(locale);
+}
+
+async function setupLocalization() {
   let locale = getLocale();
   if (!locale) {
     locale = "en";
     setLocaleInStorage(locale);
   }
-  setLocale(locale);
+  await setLocale(locale);
   document.documentElement.lang = locale;
-  loadTranslations(locale);
-}
-
-async function loadConfig() {
-  await fetchConfigurations(import.meta.env.VITE_configUrl || window.configUrl);
+  await loadTranslations(locale);
+  appState.setLocalizationLoaded(true);
 }
 
 async function checkBackendStatus() {
@@ -43,15 +32,16 @@ async function checkBackendStatus() {
 
   while (!healthStatus) {
     try {
+      const { checkStatus } = await import("../lib/states/status");
       healthStatus = await checkStatus();
       if (!healthStatus && !firstTry) {
-        toast.error(t.get("common.backend-down"), { duration: 10000000 });
-      } else if (healthStatus) {
+        toast.error(t.get("common.backend-down"), { duration: 15000 });
+      } else if (healthStatus && !firstTry) {
         toast.dismiss();
       }
     } catch {
       if (!firstTry) {
-        toast.error(t.get("common.backend-down"), { duration: 10000000 });
+        toast.error(t.get("common.backend-down"), { duration: 15000 });
       }
     } finally {
       firstTry = true;
@@ -63,30 +53,29 @@ async function checkBackendStatus() {
 }
 
 async function setupToken() {
+  const { refreshToken } = await import("../lib/states/authentication/effects");
+  const { TOKEN_REFRESH_IN_MS } = await import("../lib/open-api/helpers");
   setInterval(() => refreshToken(), TOKEN_REFRESH_IN_MS);
   refreshToken();
 }
 
 export const load = async () => {
   if (browser) {
-    setupLocalization();
-    await loadConfig();
+    const localizationPromise = setupLocalization();
 
-    configState
-      .getConfig<AppConfig>(AppConfigKey)
-      .pipe(take(1))
-      .subscribe(async (appConfig) => {
-        logger.info("page init");
-        if (appConfig?.isBackendAware) {
-          checkBackendStatus();
-        }
+    if (BootstrapConfig.app.isBackendAware) {
+      checkBackendStatus();
+    }
 
-        if (appConfig?.user) {
-          setupToken();
-        } else {
-          appState.setLoaded(true);
-        }
-      });
+    if (BootstrapConfig.app.user) {
+      setupToken();
+    } else {
+      appState.setApiLoaded(true);
+    }
+    await localizationPromise;
+  } else {
+    await setupSSRLocalization();
   }
+
   return {};
 };

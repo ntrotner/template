@@ -47,10 +47,16 @@ run:
 
 clean:
 	make setup-env-file-deployment
+	rm -rf ./src/ui/build
+	rm -rf ./src/ui/.svelte-kit
+	rm -rf ./src/ui/node_modules
 	export docker_env=${TARGET} && $(DOCKER_COMPOSE) --profile local down
 
 clean-deployment:
 	make setup-env-file-deployment
+	rm -rf ./src/ui/build
+	rm -rf ./src/ui/.svelte-kit
+	rm -rf ./src/ui/node_modules
 	export docker_env=prod && $(DOCKER_COMPOSE) --profile deployment down
 
 # OpenAPI

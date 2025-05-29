@@ -1,28 +1,17 @@
-import { filter, switchMap, take } from "rxjs";
-import { configState } from "../../states/config";
 import {
+  BootstrapConfig,
   type LoggerConfig,
-  LoggerConfigKey,
-} from "../../states/config/collection/logger";
+} from "$lib/bootstrap-config/config";
 import { MessageType, type Log } from "./model";
 
 class Logger {
   enabled: boolean = false;
   config: LoggerConfig = {};
   constructor() {
-    configState
-      .isLoaded()
-      .pipe(
-        filter((isLoaded) => isLoaded),
-        take(1),
-        switchMap(() => configState.getConfig<LoggerConfig>(LoggerConfigKey)),
-      )
-      .subscribe((config) => {
-        if (config?.url) {
-          this.enabled = true;
-          this.config = config;
-        }
-      });
+    if (BootstrapConfig.logger.url) {
+      this.enabled = true;
+      this.config = BootstrapConfig.logger;
+    }
   }
 
   private logFactory(type: MessageType, message: string): Log {

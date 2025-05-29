@@ -1,7 +1,20 @@
 <script lang="ts">
-  import * as Tabs from "$lib/components/ui/tabs/index.js";
-  import * as Card from "$lib/components/ui/card/index.js";
-  import * as Form from "$lib/components/ui/form/index.js";
+  import {
+    Tabs,
+    TabsList,
+    TabsTrigger,
+    TabsContent,
+  } from "$lib/components/ui/tabs/index.js";
+  import {
+    Card,
+    CardContent,
+    CardFooter,
+  } from "$lib/components/ui/card/index.js";
+  import {
+    FormField,
+    FormControl,
+    FormLabel,
+  } from "$lib/components/ui/form/index.js";
   import { Button } from "$lib/components/ui/button/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
   import { t } from "$lib/i18n";
@@ -12,7 +25,7 @@
   import { ROUTES } from "$lib/routes";
   import { writable, type Unsubscriber } from "svelte/store";
   import { onDestroy } from "svelte";
-  import Alert from "../../components/alert/Alert.svelte";
+  import Alert from "../../../components/alert/Alert.svelte";
   import { map } from "rxjs";
   import { superForm } from "sveltekit-superforms";
 
@@ -127,116 +140,116 @@
 </script>
 
 <div class="container {$mobile ? 'pt-8' : 'pt-16'}">
-  <Tabs.Root onValueChange={clear} value="login" class="w-[475px]">
-    <Tabs.List class="grid w-full grid-cols-2 mb-4">
-      <Tabs.Trigger value="login" disabled={$requestInProcess}>
+  <Tabs onValueChange={clear} value="login" class="w-[475px]">
+    <TabsList class="grid w-full grid-cols-2 mb-4">
+      <TabsTrigger value="login" disabled={$requestInProcess}>
         {$t("login.login-title")}
-      </Tabs.Trigger>
-      <Tabs.Trigger value="register" disabled={$requestInProcess}>
+      </TabsTrigger>
+      <TabsTrigger value="register" disabled={$requestInProcess}>
         {$t("login.register-title")}
-      </Tabs.Trigger>
-    </Tabs.List>
+      </TabsTrigger>
+    </TabsList>
 
-    <Tabs.Content value="login">
+    <TabsContent value="login">
       <Alert
         messages={$errors}
         title={$t("login.input-error-title")}
         variant="destructive"
       />
 
-      <Card.Root>
+      <Card>
         <form on:submit|preventDefault={submitLogin}>
-          <Card.Content class="space-y-2 mt-5">
-            <Form.Field form={loginForm} name="username">
-              <Form.Control let:attrs>
-                <Form.Label>{$t("login.username")}</Form.Label>
+          <CardContent class="space-y-2 mt-5">
+            <FormField form={loginForm} name="username">
+              <FormControl let:attrs>
+                <FormLabel>{$t("login.username")}</FormLabel>
                 <Input
                   {...attrs}
                   type="email"
                   bind:value={$loginFormData.username}
                   disabled={$requestInProcess}
                 />
-              </Form.Control>
-            </Form.Field>
+              </FormControl>
+            </FormField>
 
-            <Form.Field form={loginForm} name="password">
-              <Form.Control let:attrs>
-                <Form.Label>{$t("login.password")}</Form.Label>
+            <FormField form={loginForm} name="password">
+              <FormControl let:attrs>
+                <FormLabel>{$t("login.password")}</FormLabel>
                 <Input
                   {...attrs}
                   type="password"
                   bind:value={$loginFormData.password}
                   disabled={$requestInProcess}
                 />
-              </Form.Control>
-            </Form.Field>
-          </Card.Content>
+              </FormControl>
+            </FormField>
+          </CardContent>
 
-          <Card.Footer>
+          <CardFooter>
             <Button type="submit" class="w-full" disabled={$requestInProcess}>
               {$t("login.login-button")}
             </Button>
-          </Card.Footer>
+          </CardFooter>
         </form>
-      </Card.Root>
-    </Tabs.Content>
+      </Card>
+    </TabsContent>
 
-    <Tabs.Content value="register">
+    <TabsContent value="register">
       <Alert
         messages={$errors}
         title={$t("login.input-error-title")}
         variant="destructive"
       />
 
-      <Card.Root>
+      <Card>
         <form on:submit|preventDefault={submitRegister}>
-          <Card.Content class="space-y-2 mt-5">
-            <Form.Field form={registerForm} name="username">
-              <Form.Control let:attrs>
-                <Form.Label>{$t("login.username")}</Form.Label>
+          <CardContent class="space-y-2 mt-5">
+            <FormField form={registerForm} name="username">
+              <FormControl let:attrs>
+                <FormLabel>{$t("login.username")}</FormLabel>
                 <Input
                   {...attrs}
                   type="email"
                   bind:value={$registerFormData.username}
                   disabled={$requestInProcess}
                 />
-              </Form.Control>
-            </Form.Field>
+              </FormControl>
+            </FormField>
 
-            <Form.Field form={registerForm} name="password">
-              <Form.Control let:attrs>
-                <Form.Label>{$t("login.password")}</Form.Label>
+            <FormField form={registerForm} name="password">
+              <FormControl let:attrs>
+                <FormLabel>{$t("login.password")}</FormLabel>
                 <Input
                   {...attrs}
                   type="password"
                   bind:value={$registerFormData.password}
                   disabled={$requestInProcess}
                 />
-              </Form.Control>
-            </Form.Field>
+              </FormControl>
+            </FormField>
 
-            <Form.Field form={registerForm} name="repeatPassword">
-              <Form.Control let:attrs>
-                <Form.Label>{$t("login.password-repeat")}</Form.Label>
+            <FormField form={registerForm} name="repeatPassword">
+              <FormControl let:attrs>
+                <FormLabel>{$t("login.password-repeat")}</FormLabel>
                 <Input
                   {...attrs}
                   type="password"
                   bind:value={$registerFormData.repeatPassword}
                   disabled={$requestInProcess}
                 />
-              </Form.Control>
-            </Form.Field>
-          </Card.Content>
+              </FormControl>
+            </FormField>
+          </CardContent>
 
-          <Card.Footer>
+          <CardFooter>
             <Button type="submit" class="w-full" disabled={$requestInProcess}>
               {$t("login.register-button")}
             </Button>
-          </Card.Footer>
+          </CardFooter>
         </form>
-      </Card.Root>
-    </Tabs.Content>
-  </Tabs.Root>
+      </Card>
+    </TabsContent>
+  </Tabs>
 </div>
 
 <style>

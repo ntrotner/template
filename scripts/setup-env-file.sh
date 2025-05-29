@@ -19,5 +19,6 @@ done
 shared_config=$(jq -c '.' "$shared_config_file")
 
 # Add shared config as environment variable
-echo "sharedConfig='$shared_config'" >> "$target_file"
+echo "export sharedConfig='$shared_config'" >> "$target_file"
+echo "export VITE_sharedConfig='$shared_config'" >> "$target_file"
 echo "" >> "$target_file"

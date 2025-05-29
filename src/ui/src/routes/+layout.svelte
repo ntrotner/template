@@ -1,57 +1,13 @@
 <script lang="ts">
   import "../app.pcss";
-  import Navigator from "../components/navigator/Navigator.svelte";
-  import { Toaster } from "$lib/components/ui/sonner";
-  import { appState } from "$lib/states/app";
-  import { DoubleBounce } from "svelte-loading-spinners";
-  import { map } from "rxjs";
-  import SlimNavigator from "../components/navigator/SlimNavigator.svelte";
-  import { configState } from "../lib/states/config";
-  import { type AppConfig, AppConfigKey } from "../lib/states/status";
-
-  const loaded = appState.observable().pipe(map((state) => state.loaded));
-  const navigatorStyle = configState
-    .getConfig<AppConfig>(AppConfigKey)
-    .pipe(map((state) => state?.navigation));
+  import LazyLoad from "../directives/LazyLoad.svelte";
+  import { browser } from "$app/environment";
 </script>
 
-{#if !$loaded}
-  <div class="overlay">
-    <div class="loading">
-      <DoubleBounce color="#0f172a"></DoubleBounce>
-    </div>
-  </div>
-{/if}
-{#if $navigatorStyle === "bulky"}
-  <Navigator></Navigator>
-{/if}
-{#if $navigatorStyle === "slim"}
-  <SlimNavigator></SlimNavigator>
-{/if}
-<Toaster></Toaster>
-{#if $loaded}
+<div class="mx-auto max-w-screen-2xl">
+  <LazyLoad
+    load={browser}
+    importStatement={() => import("$lib/components/ui/sonner/index.js").then((module) => module.Toaster)}
+  />
   <slot />
-{/if}
-
-<style>
-  .loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-  }
-  .overlay {
-    display: block;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.04);
-    z-index: 2;
-    cursor: pointer;
-  }
-</style>
+</div>

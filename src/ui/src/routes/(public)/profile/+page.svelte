@@ -3,14 +3,19 @@
   import { t } from "$lib/i18n";
   import { Separator } from "$lib/components/ui/separator/index";
   import { Input } from "$lib/components/ui/input/index";
-  import * as Form from "$lib/components/ui/form/index";
+  import {
+    FormField,
+    FormControl,
+    FormLabel,
+    FormButton,
+  } from "$lib/components/ui/form/index";
   import {
     changeEmailOfUser,
     changePasswordOfUser,
     userState,
   } from "$lib/states/user";
   import { map } from "rxjs";
-  import Alert from "../../components/alert/Alert.svelte";
+  import Alert from "../../../components/alert/Alert.svelte";
   import { writable } from "svelte/store";
   import { toast } from "svelte-sonner";
 
@@ -124,30 +129,30 @@
       class="space-y-8"
       id="email-form"
     >
-      <Form.Field form={emailForm} name="value">
-        <Form.Control let:attrs>
-          <Form.Label>{$t("profile.email-new")}</Form.Label>
+      <FormField form={emailForm} name="value">
+        <FormControl let:attrs>
+          <FormLabel>{$t("profile.email-new")}</FormLabel>
           <Input
             placeholder={$userStateEmail}
             {...attrs}
             class="!mb-2"
             bind:value={$emailFormData.value}
           />
-          <Form.Label>{$t("profile.email-repeat")}</Form.Label>
+          <FormLabel>{$t("profile.email-repeat")}</FormLabel>
           <Input
             {...attrs}
             class="!mb-2"
             bind:value={$emailFormData.repeated}
           />
-        </Form.Control>
+        </FormControl>
         <Alert
           messages={$errorsEmail}
           title={$t("login.input-error-title")}
           variant="destructive"
         ></Alert>
-      </Form.Field>
-      <Form.Button class="!mt-2 !mb-6"
-        >{$t("profile.email-update-button")}</Form.Button
+      </FormField>
+      <FormButton class="!mt-2 !mb-6"
+        >{$t("profile.email-update-button")}</FormButton
       >
     </form>
 
@@ -159,38 +164,38 @@
       class="space-y-8"
       id="password-form"
     >
-      <Form.Field form={passwordForm} name="value">
-        <Form.Control let:attrs>
-          <Form.Label>{$t("profile.password-old")}</Form.Label>
+      <FormField form={passwordForm} name="value">
+        <FormControl let:attrs>
+          <FormLabel>{$t("profile.password-old")}</FormLabel>
           <Input
             {...attrs}
             type="password"
             class="!mb-2"
             bind:value={$passwordFormData.old}
           />
-          <Form.Label>{$t("profile.password-new")}</Form.Label>
+          <FormLabel>{$t("profile.password-new")}</FormLabel>
           <Input
             {...attrs}
             type="password"
             class="!mb-2"
             bind:value={$passwordFormData.value}
           />
-          <Form.Label>{$t("profile.password-repeat")}</Form.Label>
+          <FormLabel>{$t("profile.password-repeat")}</FormLabel>
           <Input
             {...attrs}
             type="password"
             class="!mb-2"
             bind:value={$passwordFormData.repeated}
           />
-        </Form.Control>
+        </FormControl>
         <Alert
           messages={$errorsPassword}
           title={$t("login.input-error-title")}
           variant="destructive"
         ></Alert>
-      </Form.Field>
-      <Form.Button class="!mt-2 !mb-6"
-        >{$t("profile.password-update-button")}</Form.Button
+      </FormField>
+      <FormButton class="!mt-2 !mb-6"
+        >{$t("profile.password-update-button")}</FormButton
       >
     </form>
   </div>

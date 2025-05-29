@@ -9,7 +9,8 @@ import type { AppStatus } from "./model";
 export class AppState extends DefaultState<AppStatus> {
   constructor() {
     super();
-    this.setLoaded(false);
+    this.setApiLoaded(false);
+    this.setLocalizationLoaded(false);
 
     if (browser) {
       page.subscribe(() => this.setHref(document.location.pathname));
@@ -36,8 +37,12 @@ export class AppState extends DefaultState<AppStatus> {
     this.setState({ ...this.getSyncState(), height });
   }
 
-  public setLoaded(loaded: boolean) {
-    this.setState({ ...this.getSyncState(), loaded });
+  public setApiLoaded(loaded: boolean) {
+    this.setState({ ...this.getSyncState(), apiLoaded: loaded });
+  }
+
+  public setLocalizationLoaded(loaded: boolean) {
+    this.setState({ ...this.getSyncState(), localizationLoaded: loaded });
   }
 }
 export const appState = new AppState();
