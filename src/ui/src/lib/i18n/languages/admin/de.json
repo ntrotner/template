@@ -2,5 +2,28 @@
   "hello": "Hallo {{email}}",
   "sidebar": {
     "wrench": "Einstellungen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "description": "Verwalte die Informationen und Metadaten, die für Kunden angezeigt werden.",
+    "success": "Einstellungen erfolgreich gespeichert!",
+    "shop-information": "Shop-Informationen",
+    "opening-hours": "Öffnungszeiten",
+    "opening-hours-description": "Gib deine Geschäftszeiten ein, wie sie für Kunden angezeigt werden sollen.",
+    "opening-hours-monday": "Montag",
+    "opening-hours-tuesday": "Dienstag",
+    "opening-hours-wednesday": "Mittwoch",
+    "opening-hours-thursday": "Donnerstag",
+    "opening-hours-friday": "Freitag",
+    "opening-hours-saturday": "Samstag",
+    "opening-hours-sunday": "Sonntag",
+    "closed-toggle": "Geschlossen",
+    "opening-hours-placeholder": "z.B. 10:00 - 18:00",
+    "address": "Adresse",
+    "address-description": "Gib deine vollständige Adresse ein, einschließlich Straße, Hausnummer, Postleitzahl und Ort.",
+    "address-placeholder": "Gebäude 1\nMusterstraße 1\n12345 Musterstadt",
+    "save": "Speichern",
+    "reset": "Zurücksetzen",
+    "saving": "Speichern..."
   }
 }

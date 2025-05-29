@@ -28,6 +28,7 @@
   import { onDestroy } from "svelte";
   import type { Unsubscriber } from "svelte/store";
   import { Avatar, AvatarFallback } from "$lib/components/ui/avatar/index.js";
+  import { BootstrapConfig } from "$lib/bootstrap-config/config";
 
   const subscriptions: Unsubscriber[] = [];
   const user = userState.getAsyncState();
@@ -104,33 +105,35 @@
         </div>
       {/if}
       <div>
-        <Menubar class="border-0">
-          <MenubarMenu
-            onOutsideClick={() => {
-              changeProfileState(false);
-              changeMenuState(false);
-            }}
-            bind:this={menuBarOptions}
-          >
-            <MenubarTrigger><MenuIcon class="h-6 w-6" /></MenubarTrigger>
-            <MenubarContent>
-              {#if $user?.email}
-                <MenubarItem on:click={() => redirect(ROUTES.HOME)}
-                  >{$t("common.nav-links.home")}</MenubarItem
-                >
-              {:else}
-                <MenubarItem on:click={() => redirect(ROUTES.LOGIN)}
-                  >{$t("common.nav-menu.login")}</MenubarItem
-                >
-              {/if}
-              {#if $user?.role === "admin"}
-                <MenubarItem on:click={() => redirect(ROUTES.ADMIN)}
-                  >{$t("common.admin")}</MenubarItem
-                >
-              {/if}
-            </MenubarContent>
-          </MenubarMenu>
-        </Menubar>
+        {#if !BootstrapConfig.app.adminOnly || $user?.role === "admin"}
+          <Menubar class="border-0">
+            <MenubarMenu
+              onOutsideClick={() => {
+                changeProfileState(false);
+                changeMenuState(false);
+              }}
+              bind:this={menuBarOptions}
+            >
+              <MenubarTrigger><MenuIcon class="h-6 w-6" /></MenubarTrigger>
+              <MenubarContent>
+                {#if $user?.email}
+                  <MenubarItem on:click={() => redirect(ROUTES.HOME)}
+                    >{$t("common.nav-links.home")}</MenubarItem
+                  >
+                {:else}
+                  <MenubarItem on:click={() => redirect(ROUTES.LOGIN)}
+                    >{$t("common.nav-menu.login")}</MenubarItem
+                  >
+                {/if}
+                {#if $user?.role === "admin"}
+                  <MenubarItem on:click={() => redirect(ROUTES.ADMIN)}
+                    >{$t("common.admin")}</MenubarItem
+                  >
+                {/if}
+              </MenubarContent>
+            </MenubarMenu>
+          </Menubar>
+        {/if}
       </div>
     </div>
   </SheetTrigger>

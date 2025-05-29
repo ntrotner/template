@@ -12,7 +12,6 @@ func createFindMetadataQuery(key *string, fields []interface{}) database_common.
 	query := database_common.Query{
 		Selector: map[string]interface{}{},
 		Fields:   fields,
-		Limit:    1,
 	}
 
 	if key != nil {

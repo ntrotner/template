@@ -11,11 +11,11 @@
 </script>
 
 {#if $isAdmin}
-  <div class="flex flex-row h-screen w-screen">
+  <div class="flex flex-row content-stretch">
     <AdminSidebar />
     <div class="flex flex-col flex-1">
       <SlimNavigator showTitle={false} />
-      <div class="flex-1 p-4">
+      <div class="flex-1 xl:px-12 md:px-8 sm:px-4 px-2 min-h-screen">
         <slot />
       </div>
     </div>

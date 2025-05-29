@@ -2,5 +2,28 @@
   "hello": "Hello {{email}}",
   "sidebar": {
     "wrench": "Settings"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Manage the information and metadata displayed to customers.",
+    "success": "Settings saved successfully!",
+    "shop-information": "Shop Information",
+    "opening-hours": "Opening Hours",
+    "opening-hours-description": "Enter your business hours as they should appear to customers.",
+    "opening-hours-monday": "Monday",
+    "opening-hours-tuesday": "Tuesday",
+    "opening-hours-wednesday": "Wednesday",
+    "opening-hours-thursday": "Thursday",
+    "opening-hours-friday": "Friday",
+    "opening-hours-saturday": "Saturday",
+    "opening-hours-sunday": "Sunday",
+    "closed-toggle": "Closed",
+    "opening-hours-placeholder": "e.g. 10:00 - 18:00",
+    "address": "Address",
+    "address-description": "Enter your shop's complete address, including street, house number, postal code, and city.",
+    "address-placeholder": "Building 1\nStreet 1\n12345 City",
+    "save": "Save",
+    "reset": "Reset",
+    "saving": "Saving..."
   }
 }

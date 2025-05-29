@@ -16,7 +16,7 @@
 </script>
 
 <aside
-  class="h-full xl:w-[5rem] md:w-[4rem] w-[3rem] bg-background border-r border-border flex flex-col items-center z-50"
+  class="xl:w-[5rem] md:w-[4rem] sm:w-[3rem] w-[2.5rem] bg-background border-r border-border flex flex-col items-center z-50"
 >
   <div class="mb-2 p-4">
     <Button

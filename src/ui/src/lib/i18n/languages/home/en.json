@@ -1,1 +1,35 @@
-{}
+{
+  "title": "Your Company",
+  "subtitle": "This is your company with a special service",
+  "get-direction": "Navigate",
+  "location": {
+    "title": "Location",
+    "address": {
+      "title": "Address",
+      "street": "Street",
+      "postalCode": "Postal Code",
+      "city": "City"
+    },
+    "openingHours": {
+      "title": "Opening Hours",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "closed": "Closed"
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "We are looking forward to hearing from you",
+    "email": {
+      "title": "Email"
+    },
+    "phone": {
+      "title": "Phone"
+    }
+  }
+}

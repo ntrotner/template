@@ -1,10 +1,9 @@
 <script lang="ts">
   import "../app.pcss";
-  import LazyLoad from "../directives/LazyLoad.svelte";
   import { browser } from "$app/environment";
   import { page } from "$app/stores";
   import { DoubleBounce } from "svelte-loading-spinners";
-
+  import { Toaster } from "$lib/components/ui/sonner";
   const isRootPath = $page.url.pathname === "/" || $page.url.pathname === "";
 </script>
 
@@ -15,11 +14,8 @@
     </div>
   </div>
 {:else}
-  <div>
-    <LazyLoad
-      load={browser}
-      importStatement={() => import("$lib/components/ui/sonner/index.js").then((module) => module.Toaster)}
-    />
+  <div class="min-h-screen">
+    <Toaster />
     <slot />
   </div>
 {/if}
