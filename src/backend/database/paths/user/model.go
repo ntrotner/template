@@ -14,10 +14,11 @@ type UserProfile struct {
 	Hash  string   `json:"hash,omitempty"`
 	Salt  string   `json:"salt,omitempty"`
 	Email string   `json:"email,omitempty"`
-	Roles UserRole `json:"roles,omitempty"`
+	Role  UserRole `json:"role,omitempty"`
 }
 
 type PublicUserProfile struct {
-	ID    string `json:"_id,omitempty"`
-	Email string `json:"email,omitempty"`
+	ID    string   `json:"_id,omitempty"`
+	Email string   `json:"email,omitempty"`
+	Role  UserRole `json:"role,omitempty"`
 }

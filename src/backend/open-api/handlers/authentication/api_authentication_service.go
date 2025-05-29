@@ -40,7 +40,7 @@ func (s *AuthenticationAPIService) LoginPost(ctx context.Context, userLogin mode
 		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
 
-	if config.GlobalConfig.Shared.App.AdminOnly && user.Roles != database_user.AdminUser {
+	if config.GlobalConfig.Shared.App.AdminOnly && user.Role != database_user.AdminUser {
 		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
 

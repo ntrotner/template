@@ -26,7 +26,7 @@ func CreateUser(ctx context.Context, email string, password string) (*UserProfil
 		Hash:  hash,
 		Salt:  salt,
 		Email: email,
-		Roles: Unconfirmed,
+		Role:  Unconfirmed,
 	}
 
 	// Insert the document into the database
@@ -115,7 +115,7 @@ func ChangeUserRole(ctx context.Context, id *string, newRole UserRole) (*UserPro
 		return nil, errors.New("couldn't find user")
 	}
 
-	user.Roles = newRole
+	user.Role = newRole
 	_, err := DatabaseUser.Put(ctx, user.ID, user, kivik.Options{"_rev": user.Rev})
 	if err != nil {
 		log.Error().

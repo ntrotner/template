@@ -38,7 +38,7 @@ func IsConfirmedUser(ctx context.Context, r *http.Request) (*database_user.UserP
 		return nil, err
 	}
 
-	if user.Roles != database_user.User {
+	if user.Role != database_user.User {
 		log.Error().Msg("User is not a confirmed user")
 		return nil, errors.New("user is not a confirmed user")
 	}
@@ -52,7 +52,7 @@ func IsAdmin(ctx context.Context, r *http.Request) (*database_user.UserProfile, 
 		return nil, err
 	}
 
-	if user.Roles != database_user.AdminUser {
+	if user.Role != database_user.AdminUser {
 		log.Error().Msg("User is not an admin")
 		return nil, errors.New("user is not an admin")
 	}

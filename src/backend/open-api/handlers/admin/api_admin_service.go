@@ -63,7 +63,7 @@ func (s *AdminAPIService) AdminGetUsers(ctx context.Context, r *http.Request) (m
 
 	usersResponse := []models.UserProfile{}
 	for _, user := range users {
-		usersResponse = append(usersResponse, models.UserProfile{Email: user.Email, Role: models.UserRoles(user.Roles)})
+		usersResponse = append(usersResponse, models.UserProfile{Email: user.Email, Role: models.UserRoles(user.Role)})
 	}
 	return models.Response(200, models.AdminUsers{Users: usersResponse}), nil
 }
