@@ -49,5 +49,27 @@
       "saturday": "",
       "sunday": ""
     }
+  },
+  "aria": {
+    "nav-menu.shop": "Browse our online shop and products",
+    "nav-menu.location": "Get directions to our store",
+    "nav-menu.login": "Login to your account",
+    "home.image": "Modern retail store interior showcasing our welcoming shopping environment",
+    "location.image": "Aerial view of our store location showing surrounding area and landmarks for easy navigation",
+    "nav-menu.contact": "Send us an email",
+    "nav-menu.call": "Call us",
+    "nav-menu.impressum": "Imprint",
+    "nav-menu.ttnr": "Made with ♥ by ttnr.me",
+    "footer": "Website footer",
+    "footer-navigation": "Footer navigation links",
+    "copyright-info": "Copyright and attribution information",
+    "external-link": "(opens in new tab)",
+    "main-content": "Main page content",
+    "hero-actions": "Hero section action buttons",
+    "contact-methods": "Available contact methods",
+    "contact-actions": "Contact action buttons",
+    "today": "(today)",
+    "user-menu": "User account menu",
+    "main-menu": "Main navigation menu"
   }
 }

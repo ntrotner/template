@@ -49,5 +49,27 @@
       "saturday": "",
       "sunday": ""
     }
+  },
+  "aria": {
+    "nav-menu.shop": "Unseren Online-Shop und Produkte durchsuchen",
+    "nav-menu.location": "Unseren Standort finden",
+    "nav-menu.login": "Zum Login",
+    "home.image": "Moderner Geschäftsbereich mit einem willkommenen Einkaufsumfeld",
+    "location.image": "Aufsichtsaufnahme unseres Standorts, die Umgebung und Landmarken für einfache Navigation zeigt",
+    "nav-menu.contact": "Eine E-Mail an uns senden",
+    "nav-menu.call": "Anrufen",
+    "nav-menu.impressum": "Impressum",
+    "nav-menu.ttnr": "Made with ♥ by ttnr.me",
+    "footer": "Website-Fußzeile",
+    "footer-navigation": "Footer-Navigation-Links",
+    "copyright-info": "Copyright und Attribution-Informationen",
+    "external-link": "(in neuem Tab öffnen)",
+    "main-content": "Hauptseiteninhalt",
+    "hero-actions": "Hero-Abschnitt-Aktionen",
+    "contact-methods": "Verfügbare Kontaktmethoden",
+    "contact-actions": "Kontakt-Aktionen",
+    "today": "(heute)",
+    "user-menu": "Benutzerkonto-Menü",
+    "main-menu": "Hauptnavigation"
   }
 }

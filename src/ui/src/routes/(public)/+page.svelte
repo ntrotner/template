@@ -4,8 +4,10 @@
   import { BootstrapConfig } from "$lib/bootstrap-config/config";
   import { t } from "$lib/i18n";
   import { writable } from "svelte/store";
-  import Location from "$lib/assets/location.webp";
-  import Home from "$lib/assets/home.webp";
+  import Location480 from "$lib/assets/location-480.webp";
+  import Location800 from "$lib/assets/location-800.webp";
+  import Home480 from "$lib/assets/home-480.webp";
+  import Home800 from "$lib/assets/home-800.webp";
   import MailIcon from "lucide-svelte/icons/mail";
   import PinIcon from "lucide-svelte/icons/map-pin";
   import ClockIcon from "lucide-svelte/icons/clock";
@@ -128,8 +130,8 @@
   ></script>
 </svelte:head>
 
-<main>
-  <header class="bg-white pt-1 md:pt-2 lg:pt-4 pb-6">
+<main role="main" aria-label={$t("common.aria.main-content")}>
+  <header class="bg-white pt-1 md:pt-2 lg:pt-4 pb-6" role="banner">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
         <div class="order-2 md:order-1">
@@ -144,35 +146,39 @@
             {$t("home.subtitle")}
           </p>
 
-          <div class="flex flex-col md:flex-row gap-4">
+          <nav
+            class="flex flex-col md:flex-row gap-4"
+            aria-label={$t("common.aria.hero-actions")}
+          >
             {#if BootstrapConfig.app.onlineShop}
               <a
                 href={ROUTES.SHOP}
-                class="inline-flex items-center justify-center bg-black text-white px-6 py-3 rounded-lg font-semibold transition-colors hover:shadow-lg cursor-pointer"
-                aria-label="Browse our online shop and products"
+                class="inline-flex items-center justify-center bg-black text-white px-6 py-3 rounded-lg font-semibold transition-colors hover:shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+                aria-label={$t("common.aria.nav-menu.shop")}
               >
                 {$t("common.nav-menu.shop")}
               </a>
             {/if}
 
             <a
-              class="inline-flex items-center justify-center bg-black text-white px-6 py-3 rounded-lg font-semibold transition-colors hover:shadow-lg cursor-pointer"
-              aria-label="Get directions to our store"
+              href="#location-section"
+              class="inline-flex items-center justify-center bg-black text-white px-6 py-3 rounded-lg font-semibold transition-colors hover:shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              aria-label={$t("common.aria.nav-menu.location")}
             >
-              <MapIcon class="mr-2 w-5 h-5" />
-
+              <MapIcon class="mr-2 w-5 h-5" aria-hidden="true" />
               {$t("common.nav-menu.location")}
             </a>
-          </div>
+          </nav>
         </div>
 
         <div class="order-1 md:order-2">
           <div class="relative">
             <img
-              src={Home}
-              alt="Modern retail store interior showcasing our welcoming shopping environment"
-              class="w-full h-[200px] md:h-[350px] lg:h-[400px] object-cover rounded-lg shadow-xl"
-              loading="eager"
+              src={Home800}
+              alt={$t("common.aria.home.image")}
+              srcset={`${Home480} 480w, ${Home800} 800w`}
+              sizes="(max-width: 640px) 480px,800px"
+              class="object-cover rounded-lg shadow-xl"
               width="800"
               height="600"
             />
@@ -183,11 +189,16 @@
   </header>
 
   {#if BootstrapConfig.app.shopAddress || BootstrapConfig.app.shopOpeningHours}
-    <section class="bg-gray-50 lg:mt-6 pt-4 md:pt-6 lg:pt-8 pb-6 rounded-xl">
+    <section
+      class="bg-gray-50 lg:mt-6 pt-4 md:pt-6 lg:pt-8 pb-6 rounded-xl"
+      id="location-section"
+      aria-labelledby="location-heading"
+    >
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-8 items-start">
           <div class="md:order-1">
             <h2
+              id="location-heading"
               class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight"
             >
               {$t("home.location.title")}
@@ -197,9 +208,10 @@
               <div class="mb-4 md:mb-8">
                 <h3
                   class="text-xl md:text-2xl font-semibold text-gray-900 mb-2"
+                  id="address-heading"
                 >
                   <div class="flex items-center gap-2">
-                    <PinIcon class="w-5 h-5" />
+                    <PinIcon class="w-5 h-5" aria-hidden="true" />
                     {$t("home.location.address.title")}
                   </div>
                 </h3>
@@ -207,6 +219,7 @@
                   class="not-italic pl-6"
                   itemscope
                   itemtype="https://schema.org/PostalAddress"
+                  aria-labelledby="address-heading"
                 >
                   <div class="text-lg text-gray-700 leading-relaxed">
                     <div itemprop="streetAddress" class="font-medium">
@@ -229,51 +242,62 @@
               <div class="mb-4">
                 <h3
                   class="text-xl md:text-2xl font-semibold text-gray-900 mb-2"
+                  id="hours-heading"
                 >
                   <div class="flex items-center gap-2">
-                    <ClockIcon class="w-5 h-5" />
+                    <ClockIcon class="w-5 h-5" aria-hidden="true" />
                     {$t("home.location.openingHours.title")}
                   </div>
                 </h3>
-                <div class="bg-white rounded-xl px-4 py-2 shadow-sm">
-                  <dl>
-                    {#each Object.entries($openingHoursByDay) as [day, hours]}
+                <div
+                  class="bg-white rounded-xl px-4 py-2 shadow-sm"
+                  role="table"
+                  aria-labelledby="hours-heading"
+                >
+                  {#each Object.entries($openingHoursByDay) as [day, hours]}
+                    <div
+                      class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0 {dayOfWeek.toLowerCase() ===
+                        day.toLowerCase() && browser
+                        ? 'bg-gray-50 -mx-2 px-2 rounded-lg font-bold text-gray-900'
+                        : ''}"
+                      role="row"
+                    >
                       <div
-                        class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0 {dayOfWeek.toLowerCase() ===
+                        class="text-gray-600 {dayOfWeek.toLowerCase() ===
                           day.toLowerCase() && browser
-                          ? 'bg-gray-50 -mx-2 px-2 rounded-lg font-bold text-gray-900'
+                          ? 'text-gray-900 font-bold'
                           : ''}"
+                        role="rowheader"
                       >
-                        <dt
-                          class="text-gray-600 {dayOfWeek.toLowerCase() ===
-                            day.toLowerCase() && browser
-                            ? 'text-gray-900 font-bold'
-                            : ''}"
-                        >
-                          {$t(`home.location.openingHours.${day}`)}
-                        </dt>
-                        <dd
-                          class="text-gray-600 {dayOfWeek.toLowerCase() ===
-                            day.toLowerCase() && browser
-                            ? 'text-gray-700 font-bold'
-                            : ''}"
-                        >
-                          {hours
-                            ? hours
-                            : $t("home.location.openingHours.closed")}
-                        </dd>
+                        {$t(`home.location.openingHours.${day}`)}
+                        {#if dayOfWeek.toLowerCase() === day.toLowerCase() && browser}
+                          <span class="sr-only">{$t("common.aria.today")}</span>
+                        {/if}
                       </div>
-                    {/each}
-                  </dl>
+                      <div
+                        class="text-gray-600 {dayOfWeek.toLowerCase() ===
+                          day.toLowerCase() && browser
+                          ? 'text-gray-700 font-bold'
+                          : ''}"
+                        role="cell"
+                      >
+                        {hours
+                          ? hours
+                          : $t("home.location.openingHours.closed")}
+                      </div>
+                    </div>
+                  {/each}
                 </div>
               </div>
             {/if}
           </div>
-          <div class="relative md:order-0">
+          <div class="h-full relative md:order-0">
             <img
-              src={Location}
-              alt="Aerial view of our store location showing surrounding area and landmarks for easy navigation"
-              class="w-full h-[400px] md:h-[500px] lg:h-[600px] object-cover rounded-lg shadow-xl"
+              src={Location800}
+              alt={$t("common.aria.location.image")}
+              srcset={`${Location480} 480w, ${Location800} 800w`}
+              sizes="(max-width: 640px) 480px,800px"
+              class="object-cover rounded-lg shadow-xl h-full"
               loading="lazy"
               width="800"
               height="600"
@@ -284,11 +308,15 @@
     </section>
   {/if}
 
-  <section class="bg-white my-2 lg:my-6 pt-4 pb-6 rounded-xl">
+  <section
+    class="bg-white my-2 lg:my-6 pt-4 pb-6 rounded-xl"
+    aria-labelledby="contact-heading"
+  >
     <div class="container mx-auto px-4">
       <div class="flex flex-col items-center">
         <div>
           <h2
+            id="contact-heading"
             class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8 leading-tight"
           >
             {$t("home.contact.title")}
@@ -297,9 +325,13 @@
             {$t("home.contact.subtitle")}
           </p>
 
-          <div class="space-y-6 mb-10">
-            <div class="flex items-center space-x-4">
-              <div class="bg-gray-100 p-3 rounded-lg">
+          <div
+            class="space-y-6 mb-10"
+            role="list"
+            aria-label={$t("common.aria.contact-methods")}
+          >
+            <div class="flex items-center space-x-4" role="listitem">
+              <div class="bg-gray-100 p-3 rounded-lg" aria-hidden="true">
                 <MailIcon class="w-6 h-6 text-black" />
               </div>
               <div>
@@ -308,15 +340,18 @@
                 </h3>
                 <a
                   href="mailto:{$t('common.specifics.email')}"
-                  class="text-black hover:text-gray-700"
+                  class="text-black hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded"
+                  aria-label={$t("common.aria.nav-menu.contact") +
+                    " " +
+                    $t("common.specifics.email")}
                 >
                   {$t("common.specifics.email")}
                 </a>
               </div>
             </div>
 
-            <div class="flex items-center space-x-4">
-              <div class="bg-gray-100 p-3 rounded-lg">
+            <div class="flex items-center space-x-4" role="listitem">
+              <div class="bg-gray-100 p-3 rounded-lg" aria-hidden="true">
                 <PhoneIcon class="w-6 h-6 text-black" />
               </div>
               <div>
@@ -325,7 +360,10 @@
                 </h3>
                 <a
                   href="tel:{$t('common.specifics.telephone')}"
-                  class="text-black hover:text-gray-700"
+                  class="text-black hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded"
+                  aria-label={$t("common.aria.nav-menu.call") +
+                    " " +
+                    $t("common.specifics.telephone")}
                 >
                   {$t("common.specifics.telephone")}
                 </a>
@@ -334,24 +372,27 @@
           </div>
 
           <!-- Action Buttons -->
-          <div class="flex flex-col gap-4">
+          <nav
+            class="flex flex-col gap-4"
+            aria-label={$t("common.aria.contact-actions")}
+          >
             <a
-              href="mailto:info@example.com"
-              class="inline-flex items-center justify-center bg-black text-white px-6 py-3 rounded-lg font-semibold transition-colors hover:shadow-lg cursor-pointer"
-              aria-label="Send us an email"
+              href="mailto:{$t('common.specifics.email')}"
+              class="inline-flex items-center justify-center bg-black text-white px-6 py-3 rounded-lg font-semibold transition-colors hover:shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              aria-label={$t("common.aria.nav-menu.contact")}
             >
-              <MailIcon class="mr-2 w-5 h-5" />
+              <MailIcon class="mr-2 w-5 h-5" aria-hidden="true" />
               {$t("common.nav-menu.contact")}
             </a>
             <a
               href="tel:{$t('common.specifics.telephone')}"
-              class="inline-flex items-center justify-center bg-black text-white px-6 py-3 rounded-lg font-semibold transition-colors hover:shadow-lg cursor-pointer"
-              aria-label="Send us an email"
+              class="inline-flex items-center justify-center bg-black text-white px-6 py-3 rounded-lg font-semibold transition-colors hover:shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              aria-label={$t("common.aria.nav-menu.call")}
             >
-              <PhoneIcon class="mr-2 w-5 h-5" />
+              <PhoneIcon class="mr-2 w-5 h-5" aria-hidden="true" />
               {$t("common.nav-menu.call")}
             </a>
-          </div>
+          </nav>
         </div>
       </div>
     </div>

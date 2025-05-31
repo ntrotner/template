@@ -70,8 +70,15 @@
   <SheetTrigger asChild let:builder>
     <div class="nav-right flex col-span-1 justify-end">
       <div class="language mr-3">
-        <Button builders={[builder]} variant="ghost" size="icon">
-          <Globe class="h-5 w-5" />
+        <Button
+          builders={[builder]}
+          variant="ghost"
+          size="icon"
+          aria-label={$t("common.nav-language.language-description")}
+          class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+        >
+          <Globe class="h-5 w-5" aria-hidden="true" />
+          <span class="sr-only">{$t("common.nav-language.language")}</span>
         </Button>
       </div>
       {#if $user?.email}
@@ -85,7 +92,10 @@
                 }}
                 bind:this={profileBarOptions}
               >
-                <MenubarTrigger>
+                <MenubarTrigger
+                  aria-label={$t("common.aria.user-menu")}
+                  class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                >
                   <Avatar>
                     <AvatarFallback>{$user.email.slice(0, 2)}</AvatarFallback>
                   </Avatar>
@@ -114,7 +124,13 @@
               }}
               bind:this={menuBarOptions}
             >
-              <MenubarTrigger><MenuIcon class="h-6 w-6" /></MenubarTrigger>
+              <MenubarTrigger
+                aria-label={$t("common.aria.main-menu")}
+                class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              >
+                <MenuIcon class="h-6 w-6" aria-hidden="true" />
+                <span class="sr-only">{$t("common.aria.main-menu")}</span>
+              </MenubarTrigger>
               <MenubarContent>
                 {#if $user?.email}
                   <MenubarItem on:click={() => redirect(ROUTES.HOME)}

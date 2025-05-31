@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "npm run build && vite preview",
     "setup-prerendered-pages": "cp -r .svelte-kit/output/prerendered/pages/** build/ && gzip -kf build/*.* build/**/*.* && brotli -kf build/*.* build/**/*.*",
-    "serve-prod": "npm run build && npm run setup-prerendered-pages && http-server ./build -p 8000 --proxy http://localhost:8000? --cors --no-dotfiles -g -b",
+    "serve-prod": "npm run build && npm run setup-prerendered-pages && http-server ./build -p 8000 --proxy http://localhost:8000? --cors --no-dotfiles -g -b -c259200",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "eslint ./src",
