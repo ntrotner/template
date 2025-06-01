@@ -10,6 +10,10 @@ servers:
   - url: https://euw.backend.example.com/
     description: Prod server
 tags:
+  - name: admin
+    description: Admin controls
+  - name: config
+    description: Provide backend configuration
   - name: authentication
     description: Authenticate users
   - name: user
@@ -28,6 +32,65 @@ paths:
           $ref: '#/components/responses/Health'
         '500':
           $ref: '#/components/responses/Health'
+  /admin/users:
+    get:
+      tags:
+        - admin
+      summary: Get user roles
+      operationId: adminGetUsers
+      responses:
+        '200':
+          $ref: '#/components/responses/AdminUsers'
+        '400':
+          $ref: '#/components/responses/Error'
+  /admin/change-role:
+    post:
+      tags:
+        - admin
+      summary: Change user role
+      operationId: changeRole
+      requestBody:
+        $ref: '#/components/requestBodies/AdminChangeRole'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/Error'
+  /admin/metadata:
+    get:
+      tags:
+        - admin
+      summary: Get backend metadata
+      operationId: adminGetMetadata
+      responses:
+        '200':
+          $ref: '#/components/responses/AdminMetadata'
+        '400':
+          $ref: '#/components/responses/Error'
+  /admin/change-metadata:
+    post:
+      tags:
+        - admin
+      summary: Change backend metadata
+      operationId: adminChangeMetadata
+      requestBody:
+        $ref: '#/components/requestBodies/AdminChangeMetadata'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/Error'
+  /config:
+    get:
+      tags:
+        - config
+      summary: Retrieve backend config
+      operationId: config
+      responses:
+        '200':
+          $ref: '#/components/responses/Config'
+        '500':
+          $ref: '#/components/responses/Error'
   /register:
     post:
       tags:
@@ -149,6 +212,24 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    AdminUsers:
+      description: Get all users
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminUsers'
+    AdminMetadata:
+      description: Admin metadata
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Metadata'
+    Config:
+      description: Config
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Config'
     UserProfile:
       description: User profile
       content:
@@ -162,6 +243,18 @@ components:
           schema:
             $ref: '#/components/schemas/Health'
   requestBodies:
+    AdminChangeRole:
+      description: Change role
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminChangeRole'
+    AdminChangeMetadata:
+      description: Admin change metadata
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminChangeMetadata'
     UserRegistration:
       description: User registration
       content:
@@ -229,13 +322,92 @@ components:
           type: boolean
         db:
           type: boolean
+    AdminUsers:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfile'
+    AdminChangeMetadata:
+      type: array
+      items:
+        $ref: '#/components/schemas/MetadataItem'
+    Metadata:
+      type: array
+      items:
+        $ref: '#/components/schemas/MetadataItem'
+    MetadataItem:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        adminOnly:
+          type: boolean
+      required:
+        - key
+        - value
+    AdminChangeRole:
+      type: object
+      properties:
+        email:
+          type: string
+        newRole:
+          $ref: '#/components/schemas/UserRoles'
+    Config:
+      type: object
+      properties:
+        app:
+          $ref: '#/components/schemas/AppConfig'
+        logger:
+          $ref: '#/components/schemas/LoggerConfig'
+      required:
+        - app
+        - logger
+    AppConfig:
+      type: object
+      properties:
+        isBackendAware:
+          type: boolean
+        user:
+          type: boolean
+        adminOnly:
+          type: boolean
+        navigation:
+          type: string
+          enum:
+            - bulky
+            - slim
+            - none
+      required:
+        - isBackendAware
+        - user
+        - navigation
+    LoggerConfig:
+      type: object
+      properties:
+        url:
+          type: string
+      required:
+        - url
     UserProfile:
       type: object
       properties:
         email:
           type: string
+        role:
+          $ref: '#/components/schemas/UserRoles'
       required:
         - email
+        - role
+    UserRoles:
+      type: string
+      enum:
+        - admin
+        - user
+        - unconfirmed
     UserRegistration:
       type: object
       properties:

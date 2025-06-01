@@ -6,5 +6,8 @@ RUN npm install
 RUN npm i -g vite
 RUN npm run postinstall
 
+RUN apk update
+RUN apk add gzip brotli
+
 EXPOSE 8000
 ENTRYPOINT if [ "$app_env" = "prod" ] ; then npm run serve-prod ; else npm run dev ; fi

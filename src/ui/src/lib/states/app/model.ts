@@ -1,5 +1,6 @@
 export interface AppStatus {
-  loaded?: boolean;
+  apiLoaded?: boolean;
+  localizationLoaded?: boolean;
   href?: string;
   width?: number;
   height?: number;

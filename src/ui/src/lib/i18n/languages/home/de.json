@@ -1,1 +1,35 @@
-{}
+{
+  "title": "Deine Firma",
+  "subtitle": "Das ist deine Firma mit einem besonderen Service",
+  "get-direction": "Navigieren",
+  "location": {
+    "title": "Standort",
+    "address": {
+      "title": "Adresse",
+      "street": "Straße",
+      "postalCode": "PLZ",
+      "city": "Stadt"
+    },
+    "openingHours": {
+      "title": "Öffnungszeiten",
+      "monday": "Montag",
+      "tuesday": "Dienstag",
+      "wednesday": "Mittwoch",
+      "thursday": "Donnerstag",
+      "friday": "Freitag",
+      "saturday": "Samstag",
+      "sunday": "Sonntag",
+      "closed": "Geschlossen"
+    }
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Wir freuen uns von Ihnen zu hören",
+    "email": {
+      "title": "Email"
+    },
+    "phone": {
+      "title": "Telefon"
+    }
+  }
+}

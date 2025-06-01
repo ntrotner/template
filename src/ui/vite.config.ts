@@ -20,7 +20,4 @@ export default defineConfig({
     port: 8000,
     allowedHosts: true,
   },
-  define: {
-    configUrl: JSON.stringify(process.env.configUrl),
-  },
 });

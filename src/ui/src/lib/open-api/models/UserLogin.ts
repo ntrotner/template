@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -36,12 +36,10 @@ export interface UserLogin {
 /**
  * Check if a given object implements the UserLogin interface.
  */
-export function instanceOfUserLogin(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "email" in value;
-    isInstance = isInstance && "password" in value;
-
-    return isInstance;
+export function instanceOfUserLogin(value: object): value is UserLogin {
+    if (!('email' in value) || value['email'] === undefined) return false;
+    if (!('password' in value) || value['password'] === undefined) return false;
+    return true;
 }
 
 export function UserLoginFromJSON(json: any): UserLogin {
@@ -49,7 +47,7 @@ export function UserLoginFromJSON(json: any): UserLogin {
 }
 
 export function UserLoginFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserLogin {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -59,17 +57,19 @@ export function UserLoginFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function UserLoginToJSON(value?: UserLogin | null): any {
-    if (value === undefined) {
-        return undefined;
+export function UserLoginToJSON(json: any): UserLogin {
+    return UserLoginToJSONTyped(json, false);
+}
+
+export function UserLoginToJSONTyped(value?: UserLogin | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'email': value.email,
-        'password': value.password,
+        'email': value['email'],
+        'password': value['password'],
     };
 }
 

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -36,10 +36,8 @@ export interface Message {
 /**
  * Check if a given object implements the Message interface.
  */
-export function instanceOfMessage(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfMessage(value: object): value is Message {
+    return true;
 }
 
 export function MessageFromJSON(json: any): Message {
@@ -47,27 +45,29 @@ export function MessageFromJSON(json: any): Message {
 }
 
 export function MessageFromJSONTyped(json: any, ignoreDiscriminator: boolean): Message {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'code': !exists(json, 'code') ? undefined : json['code'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
+        'code': json['code'] == null ? undefined : json['code'],
+        'message': json['message'] == null ? undefined : json['message'],
     };
 }
 
-export function MessageToJSON(value?: Message | null): any {
-    if (value === undefined) {
-        return undefined;
+export function MessageToJSON(json: any): Message {
+    return MessageToJSONTyped(json, false);
+}
+
+export function MessageToJSONTyped(value?: Message | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'code': value.code,
-        'message': value.message,
+        'code': value['code'],
+        'message': value['message'],
     };
 }
 

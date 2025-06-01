@@ -106,7 +106,7 @@ export async function refreshToken() {
   if (!existsToken() || !isTokenTimeValid()) {
     clearToken();
     authenticationState.setAuthStatus(false);
-    appState.setLoaded(true);
+    appState.setApiLoaded(true);
     return false;
   }
   const authApi = new AuthenticationApi();
@@ -115,12 +115,12 @@ export async function refreshToken() {
     await authApi.refreshTokenPost();
     await fetchUserProfile();
     authenticationState.setAuthStatus(true);
-    appState.setLoaded(true);
+    appState.setApiLoaded(true);
     return true;
   } catch {
     userState.setState(undefined);
     authenticationState.setAuthStatus(false);
-    appState.setLoaded(true);
+    appState.setApiLoaded(true);
     clearToken();
     return false;
   }

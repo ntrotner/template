@@ -1,9 +1,27 @@
 {
   "app": {
     "isBackendAware": true,
-    "user": true
+    "user": true,
+    "adminOnly": true,
+    "navigation": "slim",
+    "seo": {
+      "metadata": true
+    },
+    "cookieConsentScript": "https://cloud.ccm19.de/app.js?apiKey=00cadf4f566a08eddbaa47734411906fe24150b2d4bc91af&amp;domain=683c02d7dcf266bcc60ae9f2"
   },
   "logger": {
     "url": null
+  },
+  "shop": {
+    "shopHeader": true,
+    "shopOpeningHours": true,
+    "shopAddress": true,
+    "onlineShop": false,
+    "shopContact": true,
+    "seo": {
+      "structuredData": true,
+      "openGraph": true,
+      "twitter": true
+    }
   }
 }

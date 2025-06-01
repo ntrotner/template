@@ -1,0 +1,39 @@
+{
+  "host": "template.de",
+  "url": "https://template.de",
+  "priceRange": "$$",
+  "title": {
+    "main": "Template DE",
+    "sub": "Ihr lokaler Shop & Online-Shop",
+    "description": "Besuchen Sie unseren lokalen Shop für hochwertige Produkte und hervorragende Service. Finden Sie unseren Standort, Öffnungszeiten und shoppen Sie online. Gelegen in der Mitte der Stadt mit bequemen Öffnungszeiten."
+  },
+  "businessType": "LocalBusiness",
+  "keywords": "local shop, retail store, online shopping, downtown store, quality products",
+  "picture": {
+    "card": "summary_large_image",
+    "og": "https://template.de/og-image.jpg",
+    "favicon": "https://template.de/favicon.ico"
+  },
+  "telephone": "+1-555-123-4567",
+  "email": "info@example.com",
+  "address": {
+    "street": "Straße",
+    "postalCode": "PLZ",
+    "city": "Stadt",
+    "region": "Bundesland",
+    "country": "Deutschland",
+    "latitude": "12.345",
+    "longitude": "-74.0060"
+  },
+  "openingHours": {
+    "monday": "08:00 - 17:00",
+    "tuesday": "08:00 - 17:00",
+    "wednesday": "08:00 - 17:00",
+    "thursday": "08:00 - 17:00",
+    "friday": "08:00 - 17:00",
+    "saturday": "",
+    "sunday": "",
+    "core-hours-open": "08:00",
+    "core-hours-close": "17:00"
+  }
+}

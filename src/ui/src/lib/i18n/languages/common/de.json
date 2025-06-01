@@ -1,12 +1,89 @@
 {
   "de": "Deutsch",
-  "en": "Englisch",
-  "nav-language.language-description": "Wählen Sie eine Sprache",
-  "nav-language.language": "Sprache",
-  "nav-links.home": "Startseite",
-  "nav-title": "Template DE",
-  "nav-menu.login": "Anmelden",
-  "nav-menu.profile": "Profil",
-  "nav-menu.logout": "Ausloggen",
-  "backend-down": "Wir haben einen unerwarteten Serviceausfall. Bitte schauen Sie später noch einmal nach!"
+  "en": "English",
+  "admin": "Admin",
+  "nav-language": {
+    "language": "Language"
+  },
+  "nav-links.home": "Home",
+  "nav-title": "Template EN",
+  "nav-menu": {
+    "login": "Login",
+    "profile": "Profile",
+    "logout": "Logout",
+    "shop": "Shop",
+    "contact": "Kontakt",
+    "location": "Standort",
+    "call": "Anrufen"
+  },
+  "backend-down": "Wir erleben einen unerwarteten Serviceausfall. Bitte versuchen Sie es später erneut!",
+  "imprint": "Impressum",
+  "privacy": "Datenschutz",
+  "specifics": {
+    "host": "template.de",
+    "url": "https://template.de",
+    "priceRange": "$$",
+    "title": {
+      "main": "Template DE",
+      "sub": "Ihr lokaler Shop & Online-Shop",
+      "description": "Besuchen Sie unseren lokalen Shop für hochwertige Produkte und hervorragende Service. Finden Sie unseren Standort, Öffnungszeiten und shoppen Sie online. Gelegen in der Mitte der Stadt mit bequemen Öffnungszeiten."
+    },
+    "picture": {
+      "card": "summary_large_image",
+      "url": "https://template.de/og-image.jpg",
+      "favicon": "https://template.de/favicon.ico"
+    },
+    "telephone": "+1-555-123-4567",
+    "email": "info@example.com",
+    "address": {
+      "street": "Straße",
+      "postalCode": "PLZ",
+      "city": "Stadt",
+      "region": "Bundesland",
+      "country": "Deutschland",
+      "latitude": "12.345",
+      "longitude": "-74.0060"
+    },
+    "openingHours": {
+      "monday": "08:00 - 17:00",
+      "tuesday": "08:00 - 17:00",
+      "wednesday": "08:00 - 17:00",
+      "thursday": "08:00 - 17:00",
+      "friday": "08:00 - 17:00",
+      "saturday": "",
+      "sunday": ""
+    }
+  },
+  "aria": {
+    "contact-actions": "Kontakt-Aktionen",
+    "contact-methods": "Verfügbare Kontaktmethoden",
+    "copyright-info": "Copyright und Attribution-Informationen",
+    "external-link": "(in neuem Tab öffnen)",
+    "footer-navigation": "Footer-Navigation-Links",
+    "footer": "Website-Footer",
+    "hero-actions": "Hero-Abschnitt-Aktionen",
+    "home": "Startseite",
+    "home.image": "Moderner Geschäftsbereich mit freundlicher Einkaufsumgebung",
+    "location.image": "Aufsichtsaufnahme unseres Geschäftstandorts mit umliegenden Gebäuden und Landmarken für einfache Navigation",
+    "main-content": "Hauptseiteninhalt",
+    "main-menu": "Hauptnavigation",
+    "nav-language": {
+      "language-description": "Sprache auswählen"
+    },
+    "nav-menu": {
+      "home": "Startseite",
+      "call": "Anrufen",
+      "contact": "E-Mail senden",
+      "imprint": "Impressum",
+      "location": "Standort finden",
+      "login": "Login",
+      "shop": "Online-Shop durchsuchen",
+      "ttnr": "Made with ♥ by ttnr.me",
+      "profile": "Profil",
+      "logout": "Logout",
+      "privacy": "Datenschutz"
+    },
+    "today": "(heute)",
+    "user-menu": "Benutzerkonto-Menü"
+  }
 }

@@ -1,7 +1,23 @@
 <script lang="ts">
-  import * as Menubar from "$lib/components/ui/menubar";
-  import * as Sheet from "$lib/components/ui/sheet/index.js";
-  import { MenuIcon, Globe } from "lucide-svelte";
+  import {
+    Menubar,
+    MenubarTrigger,
+    MenubarContent,
+    MenubarItem,
+    MenubarSeparator,
+    MenubarMenu,
+  } from "$lib/components/ui/menubar";
+  import {
+    Sheet,
+    SheetTrigger,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetDescription,
+    SheetClose,
+  } from "$lib/components/ui/sheet/index.js";
+  import MenuIcon from "lucide-svelte/icons/menu";
+  import Globe from "lucide-svelte/icons/globe";
   import { Separator } from "$lib/components/ui/separator/index.js";
   import { Button } from "$lib/components/ui/button/index.js";
   import { languages, setLocale, setLocaleInStorage, t } from "$lib/i18n";
@@ -12,19 +28,16 @@
   import { userState } from "$lib/states/user";
   import { onDestroy } from "svelte";
   import type { Unsubscriber } from "svelte/store";
-  import { configState } from "../../lib/states/config";
-  import { type AppConfig, AppConfigKey } from "../../lib/states/status";
   import { map } from "rxjs";
+  import { BootstrapConfig } from "$lib/bootstrap-config/config";
 
   const subscriptions: Unsubscriber[] = [];
-  const isUserEnabled = configState
-    .getConfig<AppConfig>(AppConfigKey)
-    .pipe(map((config) => config?.user));
+  const isUserEnabled = BootstrapConfig.app.user;
   const user = userState.getAsyncState();
   const mobile = appState
     .observable()
     .pipe(map((state) => (state?.width || 0) <= 640));
-  let menuBarOptions: Menubar.Menubar;
+  let menuBarOptions: Menubar;
 
   function changeMenuState(nextState: boolean) {
     // @ts-ignore
@@ -46,9 +59,9 @@
   onDestroy(() => subscriptions.forEach((s) => s()));
 </script>
 
-<Sheet.Root>
-  <Sheet.Trigger asChild let:builder>
-    <Menubar.Root class={$mobile ? "h-15" : "h-14"}>
+<Sheet>
+  <SheetTrigger asChild let:builder>
+    <Menubar class={$mobile ? "h-15" : "h-14"}>
       <div class="nav-left">
         <div class="title">
           <Button
@@ -69,47 +82,47 @@
         </Button>
       </div>
       <div class="nav-right">
-        {#if $isUserEnabled}
-          <Menubar.Menu
+        {#if isUserEnabled}
+          <MenubarMenu
             onOutsideClick={() => changeMenuState(false)}
             bind:this={menuBarOptions}
           >
-            <Menubar.Trigger
+            <MenubarTrigger
               ><MenuIcon
                 class={$mobile ? "h-5 w-5" : "h-6 w-6"}
-              /></Menubar.Trigger
+              /></MenubarTrigger
             >
-            <Menubar.Content>
+            <MenubarContent>
               {#if $user?.email}
-                <Menubar.Item on:click={() => redirect(ROUTES.HOME)}
-                  >{$t("common.nav-links.home")}</Menubar.Item
+                <MenubarItem on:click={() => redirect(ROUTES.HOME)}
+                  >{$t("common.nav-links.home")}</MenubarItem
                 >
-                <Menubar.Item on:click={() => redirect(ROUTES.PROFILE)}
-                  >{$t("common.nav-menu.profile")}</Menubar.Item
+                <MenubarItem on:click={() => redirect(ROUTES.PROFILE)}
+                  >{$t("common.nav-menu.profile")}</MenubarItem
                 >
-                <Menubar.Separator />
-                <Menubar.Item on:click={() => redirect(ROUTES.LOGOUT)}
-                  >{$t("common.nav-menu.logout")}</Menubar.Item
+                <MenubarSeparator />
+                <MenubarItem on:click={() => redirect(ROUTES.LOGOUT)}
+                  >{$t("common.nav-menu.logout")}</MenubarItem
                 >
               {:else}
-                <Menubar.Item on:click={() => redirect(ROUTES.LOGIN)}
-                  >{$t("common.nav-menu.login")}</Menubar.Item
+                <MenubarItem on:click={() => redirect(ROUTES.LOGIN)}
+                  >{$t("common.nav-menu.login")}</MenubarItem
                 >
               {/if}
-            </Menubar.Content>
-          </Menubar.Menu>
+            </MenubarContent>
+          </MenubarMenu>
         {/if}
       </div>
-    </Menubar.Root>
-  </Sheet.Trigger>
-  <Sheet.Content side="right">
-    <Sheet.Header>
-      <Sheet.Title>{$t("common.nav-language.language")}</Sheet.Title>
-      <Sheet.Description>
+    </Menubar>
+  </SheetTrigger>
+  <SheetContent side="right">
+    <SheetHeader>
+      <SheetTitle>{$t("common.nav-language.language")}</SheetTitle>
+      <SheetDescription>
         {$t("common.nav-language.language-description")}
-      </Sheet.Description>
-    </Sheet.Header>
-    <Sheet.Close asChild let:builder>
+      </SheetDescription>
+    </SheetHeader>
+    <SheetClose asChild let:builder>
       <div class="space-y-4 py-4">
         <div class="space-y-1">
           {#each languages as language}
@@ -127,9 +140,9 @@
           {/each}
         </div>
       </div>
-    </Sheet.Close>
-  </Sheet.Content>
-</Sheet.Root>
+    </SheetClose>
+  </SheetContent>
+</Sheet>
 
 <style>
   .nav-left {

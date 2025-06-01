@@ -1,11 +1,11 @@
 package database_user
 
-type UserRole uint8
+type UserRole string
 
 const (
-	AdminUser     UserRole = 0
-	TemporaryUser UserRole = 1
-	ConfirmedUser UserRole = 2
+	AdminUser   UserRole = "admin"
+	User        UserRole = "user"
+	Unconfirmed UserRole = "unconfirmed"
 )
 
 type UserProfile struct {
@@ -14,10 +14,11 @@ type UserProfile struct {
 	Hash  string   `json:"hash,omitempty"`
 	Salt  string   `json:"salt,omitempty"`
 	Email string   `json:"email,omitempty"`
-	Roles UserRole `json:"roles,omitempty"`
+	Role  UserRole `json:"role,omitempty"`
 }
 
 type PublicUserProfile struct {
-	ID    string `json:"_id,omitempty"`
-	Email string `json:"email,omitempty"`
+	ID    string   `json:"_id,omitempty"`
+	Email string   `json:"email,omitempty"`
+	Role  UserRole `json:"role,omitempty"`
 }

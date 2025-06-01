@@ -13,6 +13,7 @@ package openapi
 import (
 	"context"
 	"net/http"
+	"template_backend/core/config"
 	database_user "template_backend/database/paths/user"
 	authentication "template_backend/infrastructure/authentication"
 	api_authentication "template_backend/open-api/authentication"
@@ -38,6 +39,11 @@ func (s *AuthenticationAPIService) LoginPost(ctx context.Context, userLogin mode
 	if user == nil {
 		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
 	}
+
+	if config.GlobalConfig.Shared.App.AdminOnly && user.Role != database_user.AdminUser {
+		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
+	}
+
 	log.Info().Msgf("User authenticated: %s", user.ID)
 
 	tokenString, _, err := authentication.CreateJWT(&user.ID)
@@ -58,22 +64,10 @@ func (s *AuthenticationAPIService) LogoutPost(ctx context.Context, r *http.Reque
 
 // RefreshTokenPost - Refresh authentication token
 func (s *AuthenticationAPIService) RefreshTokenPost(ctx context.Context, w http.ResponseWriter, r *http.Request) (models.ImplResponse, error) {
-	token, found := api_authentication.ReadTokenFromHeader(r)
-	if !found {
-		log.Error().Msg("Bearer format invalid")
-		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
-	}
-
-	_, content, err := authentication.VerifyJWT(&token)
+	user, err := api_authentication.IsUserAuthorized(ctx, r)
 	if err != nil {
-		log.Error().Msg("Couldn't verify token to refresh")
-		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
-	}
-
-	user := database_user.FindUserById(ctx, &content.ID)
-	if user == nil {
-		log.Error().Msg("Couldn't find user to refresh token")
-		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized. Please check your credentials."}}}), nil
+		log.Error().Msg(err.Error())
+		return models.Response(401, models.Error{ErrorMessages: []models.Message{{Code: "100", Message: "Unauthorized."}}}), nil
 	}
 
 	tokenString, _, err := authentication.CreateJWT(&user.ID)

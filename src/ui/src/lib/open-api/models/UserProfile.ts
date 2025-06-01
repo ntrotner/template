@@ -12,7 +12,15 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { UserRoles } from './UserRoles';
+import {
+    UserRolesFromJSON,
+    UserRolesFromJSONTyped,
+    UserRolesToJSON,
+    UserRolesToJSONTyped,
+} from './UserRoles';
+
 /**
  * 
  * @export
@@ -25,16 +33,23 @@ export interface UserProfile {
      * @memberof UserProfile
      */
     email: string;
+    /**
+     * 
+     * @type {UserRoles}
+     * @memberof UserProfile
+     */
+    role: UserRoles;
 }
+
+
 
 /**
  * Check if a given object implements the UserProfile interface.
  */
-export function instanceOfUserProfile(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "email" in value;
-
-    return isInstance;
+export function instanceOfUserProfile(value: object): value is UserProfile {
+    if (!('email' in value) || value['email'] === undefined) return false;
+    if (!('role' in value) || value['role'] === undefined) return false;
+    return true;
 }
 
 export function UserProfileFromJSON(json: any): UserProfile {
@@ -42,25 +57,29 @@ export function UserProfileFromJSON(json: any): UserProfile {
 }
 
 export function UserProfileFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserProfile {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
         'email': json['email'],
+        'role': UserRolesFromJSON(json['role']),
     };
 }
 
-export function UserProfileToJSON(value?: UserProfile | null): any {
-    if (value === undefined) {
-        return undefined;
+export function UserProfileToJSON(json: any): UserProfile {
+    return UserProfileToJSONTyped(json, false);
+}
+
+export function UserProfileToJSONTyped(value?: UserProfile | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'email': value.email,
+        'email': value['email'],
+        'role': UserRolesToJSON(value['role']),
     };
 }
 

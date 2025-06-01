@@ -26,7 +26,7 @@ func CreateUser(ctx context.Context, email string, password string) (*UserProfil
 		Hash:  hash,
 		Salt:  salt,
 		Email: email,
-		Roles: TemporaryUser,
+		Role:  Unconfirmed,
 	}
 
 	// Insert the document into the database
@@ -102,6 +102,25 @@ func ChangeUserPassword(ctx context.Context, id *string, newPassword *string) (*
 		log.Error().
 			Str("id", *id).
 			Msg("Couldn't update user password")
+
+		return nil, errors.New("couldn't update user")
+	}
+
+	return user, nil
+}
+
+func ChangeUserRole(ctx context.Context, id *string, newRole UserRole) (*UserProfile, error) {
+	user := FindUserById(ctx, id)
+	if user == nil {
+		return nil, errors.New("couldn't find user")
+	}
+
+	user.Role = newRole
+	_, err := DatabaseUser.Put(ctx, user.ID, user, kivik.Options{"_rev": user.Rev})
+	if err != nil {
+		log.Error().
+			Str("id", *id).
+			Msg("Couldn't update user role")
 
 		return nil, errors.New("couldn't update user")
 	}

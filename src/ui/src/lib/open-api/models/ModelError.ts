@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Message } from './Message';
 import {
     MessageFromJSON,
     MessageFromJSONTyped,
     MessageToJSON,
+    MessageToJSONTyped,
 } from './Message';
 
 /**
@@ -43,10 +44,8 @@ export interface ModelError {
 /**
  * Check if a given object implements the ModelError interface.
  */
-export function instanceOfModelError(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfModelError(value: object): value is ModelError {
+    return true;
 }
 
 export function ModelErrorFromJSON(json: any): ModelError {
@@ -54,27 +53,29 @@ export function ModelErrorFromJSON(json: any): ModelError {
 }
 
 export function ModelErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelError {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'warningMessages': !exists(json, 'warningMessages') ? undefined : ((json['warningMessages'] as Array<any>).map(MessageFromJSON)),
-        'errorMessages': !exists(json, 'errorMessages') ? undefined : ((json['errorMessages'] as Array<any>).map(MessageFromJSON)),
+        'warningMessages': json['warningMessages'] == null ? undefined : ((json['warningMessages'] as Array<any>).map(MessageFromJSON)),
+        'errorMessages': json['errorMessages'] == null ? undefined : ((json['errorMessages'] as Array<any>).map(MessageFromJSON)),
     };
 }
 
-export function ModelErrorToJSON(value?: ModelError | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ModelErrorToJSON(json: any): ModelError {
+    return ModelErrorToJSONTyped(json, false);
+}
+
+export function ModelErrorToJSONTyped(value?: ModelError | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'warningMessages': value.warningMessages === undefined ? undefined : ((value.warningMessages as Array<any>).map(MessageToJSON)),
-        'errorMessages': value.errorMessages === undefined ? undefined : ((value.errorMessages as Array<any>).map(MessageToJSON)),
+        'warningMessages': value['warningMessages'] == null ? undefined : ((value['warningMessages'] as Array<any>).map(MessageToJSON)),
+        'errorMessages': value['errorMessages'] == null ? undefined : ((value['errorMessages'] as Array<any>).map(MessageToJSON)),
     };
 }
 

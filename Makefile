@@ -32,25 +32,33 @@ setup-env-file-deployment:
   export $(shell sed 's/=.*//' ${PWD}/environment/global.env)
 
 deploy:
-	make clean || true
+	make clean TARGET=${TARGET} || true
 	docker network create host_network || true
-	export docker_env=prod && ${DOCKER_COMPOSE} --profile deployment up --build --remove-orphans --force-recreate -d
+	export docker_env=prod && ${DOCKER_COMPOSE} build --force-rm --no-cache && ${DOCKER_COMPOSE} --profile deployment up --remove-orphans --force-recreate -d
 
 # Start
 # run app in local for development
 # TARGET = dev/prod
 run:
-	make clean || true
+	make clean TARGET=${TARGET} || true
 	docker network create host_network || true
 	make setup-env-file
-	export docker_env=${TARGET} && ${DOCKER_COMPOSE} --profile local up --build --remove-orphans --force-recreate
+	export docker_env=${TARGET} && ${DOCKER_COMPOSE} build --force-rm --no-cache && ${DOCKER_COMPOSE} --profile local up --remove-orphans --force-recreate
 
 clean:
 	make setup-env-file-deployment
+	rm -rf ./src/ui/build
+	rm -rf ./src/ui/.svelte-kit/output
+	rm -rf ./src/ui/.svelte-kit/generated
+	rm -rf ./src/ui/node_modules
 	export docker_env=${TARGET} && $(DOCKER_COMPOSE) --profile local down
 
 clean-deployment:
 	make setup-env-file-deployment
+	rm -rf ./src/ui/build
+	rm -rf ./src/ui/.svelte-kit/output
+	rm -rf ./src/ui/.svelte-kit/generated
+	rm -rf ./src/ui/node_modules
 	export docker_env=prod && $(DOCKER_COMPOSE) --profile deployment down
 
 # OpenAPI

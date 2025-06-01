@@ -1,57 +1,35 @@
 <script lang="ts">
   import "../app.pcss";
-  import Navigator from "../components/navigator/Navigator.svelte";
-  import { Toaster } from "$lib/components/ui/sonner";
-  import { appState } from "$lib/states/app";
+  import { browser } from "$app/environment";
+  import { page } from "$app/stores";
   import { DoubleBounce } from "svelte-loading-spinners";
-  import { map } from "rxjs";
-  import SlimNavigator from "../components/navigator/SlimNavigator.svelte";
-  import { configState } from "../lib/states/config";
-  import { type AppConfig, AppConfigKey } from "../lib/states/status";
+  import { Toaster } from "$lib/components/ui/sonner";
+  import { BootstrapConfig } from "$lib/bootstrap-config/config";
 
-  const loaded = appState.observable().pipe(map((state) => state.loaded));
-  const navigatorStyle = configState
-    .getConfig<AppConfig>(AppConfigKey)
-    .pipe(map((state) => state?.navigation));
+  const isRootPath = $page.url.pathname === "/" || $page.url.pathname === "";
+  const isImprintPath = $page.url.pathname.includes("imprint");
+  const isPrivacyPath = $page.url.pathname.includes("privacy");
 </script>
 
-{#if !$loaded}
+<svelte:head>
+  {#if BootstrapConfig.app.cookieConsentScript}
+    <script
+      src={BootstrapConfig.app.cookieConsentScript}
+      referrerpolicy="origin"
+      defer
+    ></script>
+  {/if}
+</svelte:head>
+
+{#if !isRootPath && !isImprintPath && !isPrivacyPath && !browser}
   <div class="overlay">
     <div class="loading">
       <DoubleBounce color="#0f172a"></DoubleBounce>
     </div>
   </div>
+{:else}
+  <div class="min-h-screen">
+    <Toaster />
+    <slot />
+  </div>
 {/if}
-{#if $navigatorStyle === "bulky"}
-  <Navigator></Navigator>
-{/if}
-{#if $navigatorStyle === "slim"}
-  <SlimNavigator></SlimNavigator>
-{/if}
-<Toaster></Toaster>
-{#if $loaded}
-  <slot />
-{/if}
-
-<style>
-  .loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-  }
-  .overlay {
-    display: block;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.04);
-    z-index: 2;
-    cursor: pointer;
-  }
-</style>

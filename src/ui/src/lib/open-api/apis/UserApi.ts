@@ -74,7 +74,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ChangeEmailToJSON(requestParameters.changeEmail),
+            body: ChangeEmailToJSON(requestParameters['changeEmail']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SuccessFromJSON(jsonValue));
@@ -111,7 +111,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ChangePasswordToJSON(requestParameters.changePassword),
+            body: ChangePasswordToJSON(requestParameters['changePassword']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SuccessFromJSON(jsonValue));
@@ -148,7 +148,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PasswordResetToJSON(requestParameters.passwordReset),
+            body: PasswordResetToJSON(requestParameters['passwordReset']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SuccessFromJSON(jsonValue));
