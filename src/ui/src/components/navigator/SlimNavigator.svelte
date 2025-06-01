@@ -21,6 +21,7 @@
         <a
           href={ROUTES.HOME}
           class="text-lg hover:underline"
+          aria-label={$t("common.aria.nav-menu.home")}
           on:click={() => redirect(ROUTES.HOME)}>{$t("common.nav-title")}</a
         >
       {/if}

@@ -4,25 +4,37 @@
 </script>
 
 <svelte:head>
-  <title>{$t("common.impressum")} - {$t("common.specifics.title.main")}</title>
+  <title>{$t("common.imprint")} - {$t("common.specifics.title.main")}</title>
   <meta
     name="description"
-    content={$t("common.impressum") + " - " + $t("common.specifics.title.main")}
+    content={$t("common.imprint") + " - " + $t("common.specifics.title.main")}
   />
   <meta name="robots" content="index, follow" />
 </svelte:head>
 
-<main id="main-content" role="main" aria-label={$t("common.aria.main-content")}>
-  <header class="bg-white pt-8 md:pt-12 lg:pt-16 pb-8" role="banner">
+<!-- Skip Navigation -->
+<a
+  href="/{ROUTES.IMPRINT}/#main-content"
+  class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-black text-white px-4 py-2 rounded z-50 focus:outline-none focus:ring-2 focus:ring-white"
+>
+  {$t("imprint.skip-to-content")}
+</a>
+
+<main
+  class="break-all"
+  id="main-content"
+  aria-label={$t("common.aria.main-content")}
+>
+  <header class="bg-white pt-8 md:pt-12 lg:pt-16 pb-8">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
         <h1
           class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 leading-tight"
         >
-          {$t("common.impressum")}
+          {$t("common.imprint")}
         </h1>
         <p class="text-xl md:text-2xl text-gray-600 leading-relaxed">
-          Rechtliche Informationen und Kontaktdaten
+          {$t("imprint.subtitle")}
         </p>
       </div>
     </div>
@@ -31,61 +43,88 @@
   <section
     class="bg-gray-50 py-8 md:py-12 lg:py-16"
     aria-labelledby="legal-info-heading"
-    role="region"
   >
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
         <!-- Skip to content navigation -->
-        <nav aria-label="Inhaltsverzeichnis" class="mb-8">
+        <nav
+          aria-label={$t("imprint.table-of-contents.aria-label")}
+          class="mb-8"
+        >
           <div class="bg-white rounded-xl shadow-sm p-6">
             <h2 class="text-xl font-semibold text-gray-900 mb-4">
-              Inhaltsverzeichnis
+              {$t("imprint.table-of-contents.title")}
             </h2>
             <ul class="space-y-2 text-gray-700">
-              <li>Angaben gemäß § 5 TMG</li>
-              <li>Kontakt</li>
-              <li>Umsatzsteuer-ID</li>
-              <li>Berufsbezeichnung</li>
-              <li>Verbraucherstreitbeilegung</li>
+              <li>
+                <a
+                  href="/{ROUTES.IMPRINT}/#service-provider"
+                  class="text-black hover:text-gray-700 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                >
+                  {$t("imprint.table-of-contents.links.service-provider")}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/{ROUTES.IMPRINT}/#contact-info"
+                  class="text-black hover:text-gray-700 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                >
+                  {$t("imprint.table-of-contents.links.contact-info")}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/{ROUTES.IMPRINT}/#legal-notices"
+                  class="text-black hover:text-gray-700 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                >
+                  {$t("imprint.table-of-contents.links.legal-notices")}
+                </a>
+              </li>
             </ul>
           </div>
         </nav>
 
-        <article role="article">
+        <article>
           <section
-            id="company-info"
-            aria-labelledby="company-info-heading"
+            id="service-provider"
+            aria-labelledby="service-provider-heading"
             class="mb-8"
           >
             <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
               <h2
-                id="company-info-heading"
-                class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 break-all"
+                id="service-provider-heading"
+                class="text-2xl md:text-3xl font-bold text-gray-900 mb-6"
               >
-                Angaben gemäß § 5 TMG
+                {$t("imprint.sections.service-provider.title")}
               </h2>
               <div class="text-lg text-gray-700 leading-relaxed">
                 <address
                   class="not-italic"
                   itemscope
-                  itemtype="https://schema.org/Organization"
+                  itemtype="https://schema.org/Person"
                 >
-                  <div itemprop="name" class="font-semibold">
-                    Max Mustermann
-                  </div>
-                  <div itemprop="description">
-                    Musterladen (Einzelunternehmer)
+                  <div itemprop="name" class="font-semibold mb-2">
+                    {$t("imprint.sections.service-provider.name")}
                   </div>
                   <div
                     itemprop="address"
                     itemscope
                     itemtype="https://schema.org/PostalAddress"
                   >
-                    <div itemprop="streetAddress">Musterstraße 111</div>
-                    <div>Gebäude 44</div>
+                    <div itemprop="streetAddress">
+                      {$t("imprint.sections.service-provider.address.street")}
+                    </div>
                     <div>
-                      <span itemprop="postalCode">90210</span>
-                      <span itemprop="addressLocality">Musterstadt</span>
+                      <span itemprop="postalCode"
+                        >{$t(
+                          "imprint.sections.service-provider.address.postal-code",
+                        )}</span
+                      >
+                      <span itemprop="addressLocality"
+                        >{$t(
+                          "imprint.sections.service-provider.address.city",
+                        )}</span
+                      >
                     </div>
                   </div>
                 </address>
@@ -101,43 +140,51 @@
             <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
               <h2
                 id="contact-heading"
-                class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 break-all"
+                class="text-2xl md:text-3xl font-bold text-gray-900 mb-6"
               >
-                Kontakt
+                {$t("imprint.sections.contact-info.title")}
               </h2>
               <div class="text-lg text-gray-700 leading-relaxed space-y-4">
-                <div role="list" aria-label="Kontaktmöglichkeiten">
-                  <div role="listitem" class="flex items-start space-x-2">
+                <div
+                  role="list"
+                  aria-label={$t("imprint.sections.contact-info.aria-label")}
+                >
+                  <div role="listitem" class="flex items-start space-x-2 mb-3">
                     <span
                       class="font-semibold min-w-0 flex-shrink-0"
-                      aria-label="Telefonnummer">Telefon:</span
+                      aria-label={$t(
+                        "imprint.sections.contact-info.email.aria-label",
+                      )}>{$t("imprint.sections.contact-info.email.label")}</span
                     >
                     <a
-                      href="tel:+4912344556"
-                      class="text-black hover:text-gray-700 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
-                      aria-label="Telefon +49 (0) 123 44 55 66 anrufen"
+                      href="mailto:{$t(
+                        'imprint.sections.contact-info.email.address',
+                      )}"
+                      class="text-black hover:text-gray-700 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded break-all"
+                      aria-label={$t(
+                        "imprint.sections.contact-info.email.link-aria-label",
+                      )}
                     >
-                      +49 (0) 123 44 55 66
+                      {$t("imprint.sections.contact-info.email.address")}
                     </a>
                   </div>
                   <div role="listitem" class="flex items-start space-x-2">
                     <span
                       class="font-semibold min-w-0 flex-shrink-0"
-                      aria-label="Faxnummer">Telefax:</span
-                    >
-                    <span>+49 (0) 123 44 55 99</span>
-                  </div>
-                  <div role="listitem" class="flex items-start space-x-2">
-                    <span
-                      class="font-semibold min-w-0 flex-shrink-0"
-                      aria-label="E-Mail-Adresse">E-Mail:</span
+                      aria-label={$t(
+                        "imprint.sections.contact-info.phone.aria-label",
+                      )}>{$t("imprint.sections.contact-info.phone.label")}</span
                     >
                     <a
-                      href="mailto:mustermann@musterfirma.de"
-                      class="text-black hover:text-gray-700 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded break-all"
-                      aria-label="E-Mail an mustermann@musterfirma.de senden"
+                      href="tel:{$t(
+                        'imprint.sections.contact-info.phone.tel-number',
+                      )}"
+                      class="text-black hover:text-gray-700 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                      aria-label={$t(
+                        "imprint.sections.contact-info.phone.link-aria-label",
+                      )}
                     >
-                      mustermann@musterfirma.de
+                      {$t("imprint.sections.contact-info.phone.number")}
                     </a>
                   </div>
                 </div>
@@ -145,70 +192,36 @@
             </div>
           </section>
 
-          <section id="tax-info" aria-labelledby="tax-heading" class="mb-8">
-            <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
-              <h2
-                id="tax-heading"
-                class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 break-all"
-              >
-                Umsatzsteuer-ID
-              </h2>
-              <div class="text-lg text-gray-700 leading-relaxed">
-                <p>
-                  <span class="block mb-2"
-                    >Umsatzsteuer-Identifikationsnummer gemäß § 27 a
-                    Umsatzsteuergesetz:</span
-                  >
-                  <strong
-                    class="text-gray-900"
-                    aria-label="Umsatzsteuer-ID DE999999999">DE999999999</strong
-                  >
-                </p>
-              </div>
-            </div>
-          </section>
-
           <section
-            id="professional-info"
-            aria-labelledby="professional-heading"
+            id="legal-notices"
+            aria-labelledby="legal-notices-heading"
             class="mb-8"
           >
             <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
               <h2
-                id="professional-heading"
-                class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 break-all"
+                id="legal-notices-heading"
+                class="text-2xl md:text-3xl font-bold text-gray-900 mb-6"
               >
-                Berufsbezeichnung und berufsrechtliche Regelungen
+                {$t("imprint.sections.legal-notices.title")}
               </h2>
-              <div class="text-lg text-gray-700 leading-relaxed">
-                <p>
-                  <span class="font-semibold block mb-1"
-                    >Berufsbezeichnung:</span
-                  >
-                  <span>anderer Beruf</span>
-                </p>
-              </div>
-            </div>
-          </section>
+              <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+                <div>
+                  <h3 class="font-semibold text-gray-900 mb-2">
+                    {$t("imprint.sections.legal-notices.copyright.title")}
+                  </h3>
+                  <p>
+                    {$t("imprint.sections.legal-notices.copyright.content")}
+                  </p>
+                </div>
 
-          <section
-            id="dispute-resolution"
-            aria-labelledby="dispute-heading"
-            class="mb-8"
-          >
-            <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
-              <h2
-                id="dispute-heading"
-                class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 break-all"
-              >
-                Verbraucherstreitbeilegung/Universalschlichtungsstelle
-              </h2>
-              <div class="text-lg text-gray-700 leading-relaxed">
-                <p>
-                  Wir sind nicht bereit oder verpflichtet, an
-                  Streitbeilegungsverfahren vor einer
-                  Verbraucherschlichtungsstelle teilzunehmen.
-                </p>
+                <div>
+                  <h3 class="font-semibold text-gray-900 mb-2">
+                    {$t("imprint.sections.legal-notices.violations.title")}
+                  </h3>
+                  <p>
+                    {$t("imprint.sections.legal-notices.violations.content")}
+                  </p>
+                </div>
               </div>
             </div>
           </section>
@@ -216,21 +229,25 @@
 
         <footer
           class="text-center mt-8"
-          role="contentinfo"
-          aria-label="Quellenangabe"
+          aria-label={$t("imprint.footer.aria-label")}
         >
-          <p class="text-sm text-gray-500">
-            <span class="block mb-1">Quelle:</span>
-            <a
-              href="https://www.e-recht24.de"
-              class="text-gray-600 hover:text-gray-900 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1 rounded"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="eRecht24 Website besuchen (öffnet in neuem Tab)"
-            >
-              eRecht24
-            </a>
-          </p>
+          <div class="bg-white rounded-xl shadow-sm p-6">
+            <p class="text-sm text-gray-500">
+              <span class="block mb-2 font-medium"
+                >{$t("imprint.footer.source-label")}</span
+              >
+              <a
+                href="https://datenschutz-generator.de/"
+                class="text-gray-600 hover:text-gray-900 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1 rounded"
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                title={$t("imprint.footer.generator-link.title")}
+                aria-label={$t("imprint.footer.generator-link.aria-label")}
+              >
+                {$t("imprint.footer.generator-link.text")}
+              </a>
+            </p>
+          </div>
         </footer>
       </div>
     </div>

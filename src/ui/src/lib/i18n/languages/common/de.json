@@ -2,27 +2,31 @@
   "de": "Deutsch",
   "en": "English",
   "admin": "Admin",
-  "nav-language.language-description": "Wählen Sie eine Sprache",
-  "nav-language.language": "Sprache",
-  "nav-links.home": "Startseite",
-  "nav-title": "Template DE",
-  "nav-menu.login": "Anmelden",
-  "nav-menu.profile": "Profil",
-  "nav-menu.logout": "Ausloggen",
-  "nav-menu.shop": "Shop",
-  "nav-menu.contact": "Kontakt",
-  "nav-menu.location": "Standort",
-  "nav-menu.call": "Anrufen",
-  "backend-down": "Wir haben einen unerwarteten Serviceausfall. Bitte schauen Sie später noch einmal nach!",
-  "impressum": "Impressum",
+  "nav-language": {
+    "language": "Language"
+  },
+  "nav-links.home": "Home",
+  "nav-title": "Template EN",
+  "nav-menu": {
+    "login": "Login",
+    "profile": "Profile",
+    "logout": "Logout",
+    "shop": "Shop",
+    "contact": "Kontakt",
+    "location": "Standort",
+    "call": "Anrufen"
+  },
+  "backend-down": "Wir erleben einen unerwarteten Serviceausfall. Bitte versuchen Sie es später erneut!",
+  "imprint": "Impressum",
+  "privacy": "Datenschutz",
   "specifics": {
     "host": "template.de",
     "url": "https://template.de",
     "priceRange": "$$",
     "title": {
       "main": "Template DE",
-      "sub": "Your Local Shop & Online Store",
-      "description": "Visit our local shop for quality products and excellent service. Find our address, opening hours, and shop online. Located in the heart of downtown with convenient hours."
+      "sub": "Ihr lokaler Shop & Online-Shop",
+      "description": "Besuchen Sie unseren lokalen Shop für hochwertige Produkte und hervorragende Service. Finden Sie unseren Standort, Öffnungszeiten und shoppen Sie online. Gelegen in der Mitte der Stadt mit bequemen Öffnungszeiten."
     },
     "picture": {
       "card": "summary_large_image",
@@ -51,25 +55,35 @@
     }
   },
   "aria": {
-    "nav-menu.shop": "Unseren Online-Shop und Produkte durchsuchen",
-    "nav-menu.location": "Unseren Standort finden",
-    "nav-menu.login": "Zum Login",
-    "home.image": "Moderner Geschäftsbereich mit einem willkommenen Einkaufsumfeld",
-    "location.image": "Aufsichtsaufnahme unseres Standorts, die Umgebung und Landmarken für einfache Navigation zeigt",
-    "nav-menu.contact": "Eine E-Mail an uns senden",
-    "nav-menu.call": "Anrufen",
-    "nav-menu.impressum": "Impressum",
-    "nav-menu.ttnr": "Made with ♥ by ttnr.me",
-    "footer": "Website-Fußzeile",
-    "footer-navigation": "Footer-Navigation-Links",
+    "contact-actions": "Kontakt-Aktionen",
+    "contact-methods": "Verfügbare Kontaktmethoden",
     "copyright-info": "Copyright und Attribution-Informationen",
     "external-link": "(in neuem Tab öffnen)",
-    "main-content": "Hauptseiteninhalt",
+    "footer-navigation": "Footer-Navigation-Links",
+    "footer": "Website-Footer",
     "hero-actions": "Hero-Abschnitt-Aktionen",
-    "contact-methods": "Verfügbare Kontaktmethoden",
-    "contact-actions": "Kontakt-Aktionen",
+    "home": "Startseite",
+    "home.image": "Moderner Geschäftsbereich mit freundlicher Einkaufsumgebung",
+    "location.image": "Aufsichtsaufnahme unseres Geschäftstandorts mit umliegenden Gebäuden und Landmarken für einfache Navigation",
+    "main-content": "Hauptseiteninhalt",
+    "main-menu": "Hauptnavigation",
+    "nav-language": {
+      "language-description": "Sprache auswählen"
+    },
+    "nav-menu": {
+      "home": "Startseite",
+      "call": "Anrufen",
+      "contact": "E-Mail senden",
+      "imprint": "Impressum",
+      "location": "Standort finden",
+      "login": "Login",
+      "shop": "Online-Shop durchsuchen",
+      "ttnr": "Made with ♥ by ttnr.me",
+      "profile": "Profil",
+      "logout": "Logout",
+      "privacy": "Datenschutz"
+    },
     "today": "(heute)",
-    "user-menu": "Benutzerkonto-Menü",
-    "main-menu": "Hauptnavigation"
+    "user-menu": "Benutzerkonto-Menü"
   }
 }

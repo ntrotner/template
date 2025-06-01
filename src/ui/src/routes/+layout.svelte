@@ -4,12 +4,24 @@
   import { page } from "$app/stores";
   import { DoubleBounce } from "svelte-loading-spinners";
   import { Toaster } from "$lib/components/ui/sonner";
+  import { BootstrapConfig } from "$lib/bootstrap-config/config";
 
   const isRootPath = $page.url.pathname === "/" || $page.url.pathname === "";
   const isImprintPath = $page.url.pathname.includes("imprint");
+  const isPrivacyPath = $page.url.pathname.includes("privacy");
 </script>
 
-{#if !isRootPath && !isImprintPath && !browser}
+<svelte:head>
+  {#if BootstrapConfig.app.cookieConsentScript}
+    <script
+      src={BootstrapConfig.app.cookieConsentScript}
+      referrerpolicy="origin"
+      defer
+    ></script>
+  {/if}
+</svelte:head>
+
+{#if !isRootPath && !isImprintPath && !isPrivacyPath && !browser}
   <div class="overlay">
     <div class="loading">
       <DoubleBounce color="#0f172a"></DoubleBounce>

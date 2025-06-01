@@ -1,0 +1,61 @@
+{
+  "skip-to-content": "Zum Hauptinhalt springen",
+  "subtitle": "Rechtliche Informationen und Kontaktdaten",
+  "table-of-contents": {
+    "title": "Inhaltsverzeichnis",
+    "aria-label": "Inhaltsverzeichnis",
+    "links": {
+      "service-provider": "Diensteanbieter",
+      "contact-info": "Kontaktmöglichkeiten",
+      "legal-notices": "Haftungs- und Schutzrechtshinweise"
+    }
+  },
+  "sections": {
+    "service-provider": {
+      "title": "Diensteanbieter",
+      "name": "Nikita Trotner",
+      "address": {
+        "street": "Straße 17",
+        "postal-code": "68163",
+        "city": "Mannheim"
+      }
+    },
+    "contact-info": {
+      "title": "Kontaktmöglichkeiten",
+      "aria-label": "Kontaktmöglichkeiten",
+      "email": {
+        "label": "E-Mail-Adresse:",
+        "aria-label": "E-Mail-Adresse",
+        "link-aria-label": "E-Mail an nikita@ttnr.me senden",
+        "address": "nikita@ttnr.me"
+      },
+      "phone": {
+        "label": "Telefon:",
+        "aria-label": "Telefonnummer",
+        "link-aria-label": "Telefon 0179 1111111 anrufen",
+        "number": "0179 1111111",
+        "tel-number": "01791111111"
+      }
+    },
+    "legal-notices": {
+      "title": "Haftungs- und Schutzrechtshinweise",
+      "copyright": {
+        "title": "Urheberrechte und Markenrechte",
+        "content": "Alle auf dieser Website dargestellten Inhalte, wie Texte, Fotografien, Grafiken, Marken und Warenzeichen sind durch die jeweiligen Schutzrechte (Urheberrechte, Markenrechte) geschützt. Die Verwendung, Vervielfältigung usw. unterliegen unseren Rechten oder den Rechten der jeweiligen Urheber bzw. Rechteinhaber."
+      },
+      "violations": {
+        "title": "Hinweise auf Rechtsverstöße",
+        "content": "Sollten Sie innerhalb unseres Internetauftritts Rechtsverstöße bemerken, bitten wir Sie uns auf diese hinzuweisen. Wir werden rechtswidrige Inhalte und Links nach Kenntnisnahme unverzüglich entfernen."
+      }
+    }
+  },
+  "footer": {
+    "aria-label": "Quellenangabe",
+    "source-label": "Quelle:",
+    "generator-link": {
+      "text": "Erstellt mit kostenlosem Datenschutz-Generator.de von Dr. Thomas Schwenke",
+      "title": "Rechtstext von Dr. Schwenke - für weitere Informationen bitte anklicken.",
+      "aria-label": "Datenschutz-Generator von Dr. Thomas Schwenke besuchen (öffnet in neuem Tab)"
+    }
+  }
+}

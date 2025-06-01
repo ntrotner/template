@@ -8,7 +8,6 @@
 
 <footer
   class="pb-2 pt-4 bg-gray-100 px-4"
-  role="contentinfo"
   aria-label={$t("common.aria.footer")}
 >
   <div
@@ -21,8 +20,14 @@
       <a
         href={ROUTES.IMPRINT}
         class="text-md sm:text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1 rounded"
-        aria-label={$t("common.aria.nav-menu.impressum")}
-        >{$t("common.impressum")}</a
+        aria-label={$t("common.aria.nav-menu.imprint")}
+        >{$t("common.imprint")}</a
+      >
+      <a
+        href={ROUTES.PRIVACY}
+        class="text-md sm:text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1 rounded"
+        aria-label={$t("common.aria.nav-menu.privacy")}
+        >{$t("common.privacy")}</a
       >
       {#if BootstrapConfig.app.adminOnly}
         <a

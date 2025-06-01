@@ -1,0 +1,183 @@
+{
+  "title": "Privacy Policy",
+  "skip-to-content": "Skip to main content",
+  "subtitle": "Information about the processing of your personal data",
+  "table-of-contents": {
+    "title": "Table of Contents",
+    "aria-label": "Table of contents",
+    "links": {
+      "preamble": "Preamble",
+      "responsible-party": "Data Controller",
+      "processing-overview": "Overview of Processing",
+      "legal-basis": "Relevant Legal Basis",
+      "security-measures": "Security Measures",
+      "data-storage": "Data Storage and Deletion",
+      "user-rights": "Rights of Data Subjects",
+      "web-hosting": "Web Hosting",
+      "cookies": "Use of Cookies",
+      "contact-management": "Contact and Inquiry Management"
+    }
+  },
+  "sections": {
+    "preamble": {
+      "title": "Preamble",
+      "content": {
+        "intro": "With the following privacy policy, we would like to inform you about which types of your personal data (hereinafter also referred to briefly as \"data\") we process for which purposes and to what extent. The privacy policy applies to all processing of personal data carried out by us, both in the context of providing our services and in particular on our websites, in mobile applications and within external online presences, such as our social media profiles (hereinafter collectively referred to as \"online offer\").",
+        "gender-neutral": "The terms used are not gender-specific.",
+        "date-label": "As of:",
+        "date": "June 1, 2025"
+      }
+    },
+    "responsible-party": {
+      "title": "Data Controller",
+      "contact": {
+        "name": "First name, Last name / Company",
+        "address": "Street, House No.",
+        "location": "Postal Code, City, Country",
+        "email-label": "Email address:",
+        "email": "firstname.lastname@exampledomain.eu",
+        "email-aria-label": "Send email to firstname.lastname@exampledomain.eu"
+      }
+    },
+    "processing-overview": {
+      "title": "Overview of Processing",
+      "intro": "The following overview summarizes the types of data processed and the purposes of their processing and refers to the data subjects.",
+      "data-types": {
+        "title": "Types of Data Processed",
+        "item1": "Master data",
+        "item2": "Contact data",
+        "item3": "Content data",
+        "item4": "Usage data",
+        "item5": "Meta, communication and procedural data",
+        "item6": "Log data"
+      },
+      "affected-persons": {
+        "title": "Categories of Data Subjects",
+        "item1": "Communication partners",
+        "item2": "Users"
+      },
+      "processing-purposes": {
+        "title": "Purposes of Processing",
+        "item1": "Communication",
+        "item2": "Security measures",
+        "item3": "Organizational and administrative procedures",
+        "item4": "Feedback",
+        "item5": "Provision of our online offer and user-friendliness",
+        "item6": "Information technology infrastructure"
+      }
+    },
+    "legal-basis": {
+      "title": "Relevant Legal Basis",
+      "intro-label": "Relevant legal basis according to GDPR:",
+      "intro": "Below you will find an overview of the legal basis of the GDPR on which we process personal data. Please note that in addition to the regulations of the GDPR, national data protection requirements may apply in your or our country of residence or domicile.",
+      "legal-ground1": {
+        "title": "Consent (Art. 6 para. 1 sentence 1 lit. a) GDPR)",
+        "description": "The data subject has given their consent to the processing of personal data concerning them for one or more specific purposes."
+      },
+      "legal-ground2": {
+        "title": "Contract fulfillment and pre-contractual inquiries (Art. 6 para. 1 sentence 1 lit. b) GDPR)",
+        "description": "Processing is necessary for the performance of a contract to which the data subject is party or in order to take steps at the request of the data subject prior to entering into a contract."
+      },
+      "legal-ground3": {
+        "title": "Legitimate interests (Art. 6 para. 1 sentence 1 lit. f) GDPR)",
+        "description": "Processing is necessary for the purposes of the legitimate interests pursued by the controller or by a third party."
+      },
+      "national-regulations": {
+        "title": "National Data Protection Regulations in Germany",
+        "content": "In addition to the data protection regulations of the GDPR, national data protection regulations apply in Germany. This includes in particular the Federal Data Protection Act (BDSG)."
+      }
+    },
+    "security-measures": {
+      "title": "Security Measures",
+      "intro": "We take appropriate technical and organizational measures in accordance with legal requirements, taking into account the state of the art, implementation costs and the nature, scope, circumstances and purposes of processing as well as the different probabilities of occurrence and the extent of the threat to the rights and freedoms of natural persons, in order to ensure a level of protection appropriate to the risk.",
+      "tls-ssl": {
+        "title": "TLS/SSL Encryption (HTTPS)",
+        "content": "To protect the data of users that is transmitted via our online services from unauthorized access, we use TLS/SSL encryption technology."
+      },
+      "ip-masking": {
+        "title": "IP Address Shortening",
+        "content": "If IP addresses are processed and processing of a complete IP address is not necessary, the IP address is shortened (IP masking)."
+      }
+    },
+    "data-storage": {
+      "title": "General Information on Data Storage and Deletion",
+      "intro": "We delete personal data that we process in accordance with legal provisions as soon as the underlying consent is revoked or there are no further legal grounds for processing.",
+      "retention-periods": {
+        "title": "Retention Periods under German Law",
+        "item1-period": "10 years:",
+        "item1-description": "Books, records, annual financial statements",
+        "item2-period": "8 years:",
+        "item2-description": "Accounting documents, invoices, cost documents",
+        "item3-period": "6 years:",
+        "item3-description": "Other business documents",
+        "item4-period": "3 years:",
+        "item4-description": "Warranty and damage compensation claims"
+      }
+    },
+    "user-rights": {
+      "title": "Rights of Data Subjects",
+      "intro": "As a data subject, you have various rights under the GDPR, which arise in particular from Articles 15 to 21 GDPR:",
+      "right1": {
+        "title": "Right to Information",
+        "description": "Confirmation of processing and information about your data"
+      },
+      "right2": {
+        "title": "Right to Rectification",
+        "description": "Completion and correction of incorrect data"
+      },
+      "right3": {
+        "title": "Right to Erasure",
+        "description": "Immediate deletion of your data"
+      },
+      "right4": {
+        "title": "Data Portability",
+        "description": "Transfer of your data in structured format"
+      },
+      "right5": {
+        "title": "Right to Object",
+        "description": "Objection to the processing of your data"
+      },
+      "right6": {
+        "title": "Complaint",
+        "description": "Complaint to a supervisory authority"
+      }
+    },
+    "web-hosting": {
+      "title": "Provision of Online Services and Web Hosting",
+      "intro": "We process user data in order to be able to provide them with our online services. For this purpose, we process the user's IP address, which is necessary to transmit the content and functions of our online services.",
+      "server-logs": {
+        "title": "Server Log Files",
+        "content": "Access to our online offer is logged in the form of \"server log files\". Log file information is stored for a maximum of 30 days."
+      }
+    },
+    "cookies": {
+      "title": "Use of Cookies",
+      "intro": "The term \"cookies\" refers to functions that store information on users' end devices and read it from them. We use cookies in accordance with legal requirements.",
+      "type1": {
+        "title": "Session Cookies",
+        "description": "Temporary cookies are deleted after the browser is closed"
+      },
+      "type2": {
+        "title": "Permanent Cookies",
+        "description": "Remain stored even after closing the browser"
+      }
+    },
+    "contact-management": {
+      "title": "Contact and Inquiry Management",
+      "intro": "When contacting us (e.g. by post, contact form, email, telephone or via social media) as well as in the context of existing user and business relationships, the information of the inquiring persons is processed, insofar as this is necessary to answer the contact inquiries.",
+      "contact-form": {
+        "title": "Contact Form",
+        "content": "When contacting us via our contact form, we process the transmitted personal data to answer your inquiry."
+      }
+    }
+  },
+  "footer": {
+    "aria-label": "Source attribution",
+    "source-label": "Source:",
+    "generator-link": {
+      "text": "Created with free privacy policy generator by Dr. Thomas Schwenke",
+      "title": "Legal text by Dr. Schwenke - please click for more information.",
+      "aria-label": "Visit Dr. Thomas Schwenke's privacy policy generator (opens in new tab)"
+    }
+  }
+}

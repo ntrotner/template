@@ -2,19 +2,23 @@
   "de": "Deutsch",
   "en": "English",
   "admin": "Admin",
-  "nav-language.language-description": "Select a Langugage",
-  "nav-language.language": "Language",
+  "nav-language": {
+    "language": "Language"
+  },
   "nav-links.home": "Home",
   "nav-title": "Template EN",
-  "nav-menu.login": "Login",
-  "nav-menu.profile": "Profile",
-  "nav-menu.logout": "Logout",
-  "nav-menu.shop": "Shop",
-  "nav-menu.contact": "Contact",
-  "nav-menu.location": "Location",
-  "nav-menu.call": "Call",
+  "nav-menu": {
+    "login": "Login",
+    "profile": "Profile",
+    "logout": "Logout",
+    "shop": "Shop",
+    "contact": "Contact",
+    "location": "Location",
+    "call": "Call"
+  },
   "backend-down": "We experience an unexpected service outage. Please check back later!",
-  "impressum": "Imprint",
+  "imprint": "Imprint",
+  "privacy": "Privacy",
   "specifics": {
     "host": "template.de",
     "url": "https://template.de",
@@ -51,25 +55,35 @@
     }
   },
   "aria": {
-    "nav-menu.shop": "Browse our online shop and products",
-    "nav-menu.location": "Get directions to our store",
-    "nav-menu.login": "Login to your account",
-    "home.image": "Modern retail store interior showcasing our welcoming shopping environment",
-    "location.image": "Aerial view of our store location showing surrounding area and landmarks for easy navigation",
-    "nav-menu.contact": "Send us an email",
-    "nav-menu.call": "Call us",
-    "nav-menu.impressum": "Imprint",
-    "nav-menu.ttnr": "Made with ♥ by ttnr.me",
-    "footer": "Website footer",
-    "footer-navigation": "Footer navigation links",
+    "contact-actions": "Contact action buttons",
+    "contact-methods": "Available contact methods",
     "copyright-info": "Copyright and attribution information",
     "external-link": "(opens in new tab)",
-    "main-content": "Main page content",
+    "footer-navigation": "Footer navigation links",
+    "footer": "Website footer",
     "hero-actions": "Hero section action buttons",
-    "contact-methods": "Available contact methods",
-    "contact-actions": "Contact action buttons",
+    "home": "Home",
+    "home.image": "Modern retail store interior showcasing our welcoming shopping environment",
+    "location.image": "Aerial view of our store location showing surrounding area and landmarks for easy navigation",
+    "main-content": "Main page content",
+    "main-menu": "Main navigation menu",
+    "nav-language": {
+      "language-description": "Select a Langugage"
+    },
+    "nav-menu": {
+      "home": "Home",
+      "call": "Call us",
+      "contact": "Send us an email",
+      "imprint": "Imprint",
+      "location": "Get directions to our store",
+      "login": "Login to your account",
+      "shop": "Browse our online shop and products",
+      "ttnr": "Made with ♥ by ttnr.me",
+      "profile": "Profile",
+      "logout": "Logout",
+      "privacy": "Privacy"
+    },
     "today": "(today)",
-    "user-menu": "User account menu",
-    "main-menu": "Main navigation menu"
+    "user-menu": "User account menu"
   }
 }

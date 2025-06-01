@@ -6,5 +6,6 @@ export enum ROUTES {
   ADMIN = "admin",
   ADMIN_SETTINGS = "admin/settings",
   IMPRINT = "imprint",
+  PRIVACY = "privacy",
   SHOP = "shop",
 }

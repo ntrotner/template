@@ -66,7 +66,6 @@
     address = shopData.address || "";
     const openingHours = JSON.parse(shopData.openingHours || "{}");
     const closedDays = JSON.parse(shopData.closedDays || "{}");
-    console.log(closedDays);
 
     Object.keys(openingHoursByDay).forEach((day) => {
       openingHoursByDay[day] = openingHours[day] || "";
@@ -119,7 +118,7 @@
       </div>
     {:else}
       <form on:submit|preventDefault={handleSave} class="space-y-8">
-        {#if BootstrapConfig.app.shopOpeningHours}
+        {#if BootstrapConfig.shop.shopOpeningHours}
           <div class="space-y-1 md:space-y-2 md:mb-6 mb-4">
             <Label for="opening-hours" class="flex items-center gap-2 mb-1">
               <ClockIcon class="h-4 w-4" />
@@ -165,7 +164,7 @@
             </div>
           </div>
         {/if}
-        {#if BootstrapConfig.app.shopAddress}
+        {#if BootstrapConfig.shop.shopAddress}
           <div>
             <Label for="address" class="flex items-center gap-2 mb-1">
               <MapPinIcon class="h-4 w-4" />

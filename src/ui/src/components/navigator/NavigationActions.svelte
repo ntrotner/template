@@ -74,7 +74,7 @@
           builders={[builder]}
           variant="ghost"
           size="icon"
-          aria-label={$t("common.nav-language.language-description")}
+          aria-label={$t("common.aria.nav-language.language-description")}
           class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
         >
           <Globe class="h-5 w-5" aria-hidden="true" />
@@ -101,11 +101,15 @@
                   </Avatar>
                 </MenubarTrigger>
                 <MenubarContent>
-                  <MenubarItem on:click={() => redirect(ROUTES.PROFILE)}
+                  <MenubarItem
+                    aria-label={$t("common.aria.nav-menu.profile")}
+                    on:click={() => redirect(ROUTES.PROFILE)}
                     >{$t("common.nav-menu.profile")}</MenubarItem
                   >
                   <MenubarSeparator />
-                  <MenubarItem on:click={() => redirect(ROUTES.LOGOUT)}
+                  <MenubarItem
+                    aria-label={$t("common.aria.nav-menu.logout")}
+                    on:click={() => redirect(ROUTES.LOGOUT)}
                     >{$t("common.nav-menu.logout")}</MenubarItem
                   >
                 </MenubarContent>
