@@ -26,12 +26,12 @@ export interface ShopConfig {
   };
 }
 
-export interface BootstrapConfig {
+export interface IBootstrapConfig {
   app: AppConfig;
   logger: LoggerConfig;
   shop: ShopConfig;
 }
 
-export const BootstrapConfig: BootstrapConfig = {
+export const BootstrapConfig: IBootstrapConfig = {
   ...JSON.parse(import.meta.env.VITE_sharedConfig),
 };
