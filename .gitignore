@@ -6,6 +6,7 @@ builds/*
 .env
 output/
 output
+**/.svelte-kit/**
 
 # nginx docker files
 dockerfiles/nginx/logs

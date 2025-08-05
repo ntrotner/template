@@ -53,6 +53,14 @@ clean:
 	rm -rf ./src/ui/node_modules
 	export docker_env=${TARGET} && $(DOCKER_COMPOSE) --profile local down
 
+clean-deep:
+	make setup-env-file-deployment
+	rm -rf ./src/ui/build
+	rm -rf ./src/ui/.svelte-kit/output
+	rm -rf ./src/ui/.svelte-kit/generated
+	rm -rf ./src/ui/node_modules
+	export docker_env=${TARGET} && $(DOCKER_COMPOSE) --profile local down --rmi all --remove-orphans
+
 clean-deployment:
 	make setup-env-file-deployment
 	rm -rf ./src/ui/build

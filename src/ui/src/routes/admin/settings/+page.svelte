@@ -41,7 +41,7 @@
   {/if}
 
   <div class="my-4">
-    {#if BootstrapConfig.app.shopOpeningHours || BootstrapConfig.app.shopAddress}
+    {#if BootstrapConfig.shop.shopAddress || BootstrapConfig.shop.shopOpeningHours}
       <LazyLoad
         load={browser}
         class="w-full h-64"
