@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { preventDefault } from 'svelte/legacy';
+
   import {
     Tabs,
     TabsList,
@@ -158,30 +160,34 @@
       />
 
       <Card>
-        <form on:submit|preventDefault={submitLogin}>
+        <form onsubmit={preventDefault(submitLogin)}>
           <CardContent class="space-y-2 mt-5">
             <FormField form={loginForm} name="username">
-              <FormControl let:attrs>
-                <FormLabel>{$t("login.username")}</FormLabel>
-                <Input
-                  {...attrs}
-                  type="email"
-                  bind:value={$loginFormData.username}
-                  disabled={$requestInProcess}
-                />
-              </FormControl>
+              <FormControl >
+                {#snippet children({ attrs })}
+                                <FormLabel>{$t("login.username")}</FormLabel>
+                  <Input
+                    {...attrs}
+                    type="email"
+                    bind:value={$loginFormData.username}
+                    disabled={$requestInProcess}
+                  />
+                                              {/snippet}
+                            </FormControl>
             </FormField>
 
             <FormField form={loginForm} name="password">
-              <FormControl let:attrs>
-                <FormLabel>{$t("login.password")}</FormLabel>
-                <Input
-                  {...attrs}
-                  type="password"
-                  bind:value={$loginFormData.password}
-                  disabled={$requestInProcess}
-                />
-              </FormControl>
+              <FormControl >
+                {#snippet children({ attrs })}
+                                <FormLabel>{$t("login.password")}</FormLabel>
+                  <Input
+                    {...attrs}
+                    type="password"
+                    bind:value={$loginFormData.password}
+                    disabled={$requestInProcess}
+                  />
+                                              {/snippet}
+                            </FormControl>
             </FormField>
           </CardContent>
 
@@ -202,42 +208,48 @@
       />
 
       <Card>
-        <form on:submit|preventDefault={submitRegister}>
+        <form onsubmit={preventDefault(submitRegister)}>
           <CardContent class="space-y-2 mt-5">
             <FormField form={registerForm} name="username">
-              <FormControl let:attrs>
-                <FormLabel>{$t("login.username")}</FormLabel>
-                <Input
-                  {...attrs}
-                  type="email"
-                  bind:value={$registerFormData.username}
-                  disabled={$requestInProcess}
-                />
-              </FormControl>
+              <FormControl >
+                {#snippet children({ attrs })}
+                                <FormLabel>{$t("login.username")}</FormLabel>
+                  <Input
+                    {...attrs}
+                    type="email"
+                    bind:value={$registerFormData.username}
+                    disabled={$requestInProcess}
+                  />
+                                              {/snippet}
+                            </FormControl>
             </FormField>
 
             <FormField form={registerForm} name="password">
-              <FormControl let:attrs>
-                <FormLabel>{$t("login.password")}</FormLabel>
-                <Input
-                  {...attrs}
-                  type="password"
-                  bind:value={$registerFormData.password}
-                  disabled={$requestInProcess}
-                />
-              </FormControl>
+              <FormControl >
+                {#snippet children({ attrs })}
+                                <FormLabel>{$t("login.password")}</FormLabel>
+                  <Input
+                    {...attrs}
+                    type="password"
+                    bind:value={$registerFormData.password}
+                    disabled={$requestInProcess}
+                  />
+                                              {/snippet}
+                            </FormControl>
             </FormField>
 
             <FormField form={registerForm} name="repeatPassword">
-              <FormControl let:attrs>
-                <FormLabel>{$t("login.password-repeat")}</FormLabel>
-                <Input
-                  {...attrs}
-                  type="password"
-                  bind:value={$registerFormData.repeatPassword}
-                  disabled={$requestInProcess}
-                />
-              </FormControl>
+              <FormControl >
+                {#snippet children({ attrs })}
+                                <FormLabel>{$t("login.password-repeat")}</FormLabel>
+                  <Input
+                    {...attrs}
+                    type="password"
+                    bind:value={$registerFormData.repeatPassword}
+                    disabled={$requestInProcess}
+                  />
+                                              {/snippet}
+                            </FormControl>
             </FormField>
           </CardContent>
 

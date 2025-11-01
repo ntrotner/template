@@ -3,6 +3,11 @@
   import SlimNavigator from "../../components/navigator/SlimNavigator.svelte";
   import LazyLoad from "../../directives/LazyLoad.svelte";
   import Footer from "../../components/footer/Footer.svelte";
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
 
   const navigatorStyle = BootstrapConfig.app.navigation;
 </script>
@@ -19,7 +24,7 @@
       <SlimNavigator />
     {/if}
     <main class="flex-1">
-      <slot />
+      {@render children?.()}
     </main>
   </div>
   <Footer />

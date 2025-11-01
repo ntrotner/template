@@ -5,7 +5,7 @@
     AlertTitle,
     AlertDescription,
   } from "$lib/components/ui/alert/index.js";
-  import Info from "lucide-svelte/icons/info";
+  import { Info } from "@lucide/svelte";
   import type { HTMLAttributes } from "svelte/elements";
 
   type $$Props = HTMLAttributes<HTMLDivElement> & {
@@ -13,9 +13,13 @@
     title?: string;
     variant?: Variant;
   };
-  export let title: $$Props["title"] = "";
-  export let messages: $$Props["messages"] = [];
-  export let variant: $$Props["variant"] = "default";
+  interface Props {
+    title?: $$Props["title"];
+    messages?: $$Props["messages"];
+    variant?: $$Props["variant"];
+  }
+
+  let { title = "", messages = [], variant = "default" }: Props = $props();
 </script>
 
 {#if messages.length > 0}

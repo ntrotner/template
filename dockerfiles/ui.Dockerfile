@@ -1,4 +1,4 @@
-FROM node:20-alpine3.17
+FROM node:22.21.1-alpine3.21
 RUN apk add --no-cache git
 COPY ./src/ui /src
 WORKDIR /src

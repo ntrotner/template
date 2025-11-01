@@ -1,3 +1,5 @@
+<!-- @migration-task Error while migrating Svelte code: can't migrate `$: metadataStateValue = metadataState.getAsyncState();` to `$derived` because there's a variable named derived.
+     Rename the variable and try again or migrate by hand. -->
 <script lang="ts">
   import { onMount } from "svelte";
   import {
@@ -16,10 +18,7 @@
     updateShopSettings,
     type ShopMetadata,
   } from "$lib/states/metadata";
-  import ClockIcon from "lucide-svelte/icons/clock";
-  import MapPinIcon from "lucide-svelte/icons/map-pin";
-  import SaveIcon from "lucide-svelte/icons/save";
-  import RotateCcwIcon from "lucide-svelte/icons/rotate-ccw";
+  import { ClockIcon, MapPinIcon, SaveIcon, RotateCcwIcon } from "@lucide/svelte";
   import { derived } from "svelte/store";
   import { Skeleton } from "$lib/components/ui/skeleton";
   import { t } from "$lib/i18n";
@@ -149,7 +148,7 @@
                     id={`closed-days-${day}`}
                     bind:checked={closedDaysByDay[day]}
                     disabled={$loading}
-                    on:click={() => {
+                    onclick={() => {
                       openingHoursByDay[day] = "";
                     }}
                   />
@@ -188,7 +187,7 @@
             type="button"
             variant="outline"
             disabled={$saving || $loading}
-            on:click={reset}
+            onclick={reset}
           >
             <RotateCcwIcon class="h-4 w-4" />
             <span class="mx-2">{$t("admin.settings.reset")}</span>

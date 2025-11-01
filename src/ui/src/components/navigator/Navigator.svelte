@@ -16,8 +16,7 @@
     SheetDescription,
     SheetClose,
   } from "$lib/components/ui/sheet/index.js";
-  import MenuIcon from "lucide-svelte/icons/menu";
-  import Globe from "lucide-svelte/icons/globe";
+  import { MenuIcon, GlobeIcon } from "@lucide/svelte";
   import { Separator } from "$lib/components/ui/separator/index.js";
   import { Button } from "$lib/components/ui/button/index.js";
   import { languages, setLocale, setLocaleInStorage, t } from "$lib/i18n";
@@ -37,7 +36,7 @@
   const mobile = appState
     .observable()
     .pipe(map((state) => (state?.width || 0) <= 640));
-  let menuBarOptions: Menubar;
+  let menuBarOptions: Menubar = $state();
 
   function changeMenuState(nextState: boolean) {
     // @ts-ignore
@@ -53,68 +52,71 @@
   }
 
   function redirect(page: string) {
-    goto(page);
+    const path = page && page.length > 0 ? `/${page}` : "/";
+    goto(path);
   }
 
   onDestroy(() => subscriptions.forEach((s) => s()));
 </script>
 
 <Sheet>
-  <SheetTrigger asChild let:builder>
-    <Menubar class={$mobile ? "h-15" : "h-14"}>
-      <div class="nav-left">
-        <div class="title">
-          <Button
-            on:click={() => redirect(ROUTES.HOME)}
-            variant="link"
-            class="text-lg font-semibold">{$t("common.nav-title")}</Button
-          >
-        </div>
-      </div>
-      <div class="language">
-        <Button
-          on:click={() => changeMenuState(false)}
-          builders={[builder]}
-          variant="ghost"
-          size="icon"
-        >
-          <Globe class={$mobile ? "h-4 w-4" : "h-5 w-5"} />
-        </Button>
-      </div>
-      <div class="nav-right">
-        {#if isUserEnabled}
-          <MenubarMenu
-            onOutsideClick={() => changeMenuState(false)}
-            bind:this={menuBarOptions}
-          >
-            <MenubarTrigger
-              ><MenuIcon
-                class={$mobile ? "h-5 w-5" : "h-6 w-6"}
-              /></MenubarTrigger
+  <SheetTrigger asChild >
+    {#snippet children({ builder })}
+        <Menubar class={$mobile ? "h-15" : "h-14"}>
+        <div class="nav-left">
+          <div class="title">
+            <Button
+              onclick={() => redirect(ROUTES.HOME)}
+              variant="link"
+              class="text-lg font-semibold">{$t("common.nav-title")}</Button
             >
-            <MenubarContent>
-              {#if $user?.email}
-                <MenubarItem on:click={() => redirect(ROUTES.HOME)}
-                  >{$t("common.nav-links.home")}</MenubarItem
-                >
-                <MenubarItem on:click={() => redirect(ROUTES.PROFILE)}
-                  >{$t("common.nav-menu.profile")}</MenubarItem
-                >
-                <MenubarSeparator />
-                <MenubarItem on:click={() => redirect(ROUTES.LOGOUT)}
-                  >{$t("common.nav-menu.logout")}</MenubarItem
-                >
-              {:else}
-                <MenubarItem on:click={() => redirect(ROUTES.LOGIN)}
-                  >{$t("common.nav-menu.login")}</MenubarItem
-                >
-              {/if}
-            </MenubarContent>
-          </MenubarMenu>
-        {/if}
-      </div>
-    </Menubar>
-  </SheetTrigger>
+          </div>
+        </div>
+        <div class="language">
+          <Button
+            onclick={() => changeMenuState(false)}
+            builders={[builder]}
+            variant="ghost"
+            size="icon"
+          >
+            <GlobeIcon class={$mobile ? "h-4 w-4" : "h-5 w-5"} />
+          </Button>
+        </div>
+        <div class="nav-right">
+          {#if isUserEnabled}
+            <MenubarMenu
+              onOutsideClick={() => changeMenuState(false)}
+              bind:this={menuBarOptions}
+            >
+              <MenubarTrigger
+                ><MenuIcon
+                  class={$mobile ? "h-5 w-5" : "h-6 w-6"}
+                /></MenubarTrigger
+              >
+              <MenubarContent>
+                {#if $user?.email}
+                  <MenubarItem onSelect={() => redirect(ROUTES.HOME)}
+                    >{$t("common.nav-links.home")}</MenubarItem
+                  >
+                  <MenubarItem onSelect={() => redirect(ROUTES.PROFILE)}
+                    >{$t("common.nav-menu.profile")}</MenubarItem
+                  >
+                  <MenubarSeparator />
+                  <MenubarItem onSelect={() => redirect(ROUTES.LOGOUT)}
+                    >{$t("common.nav-menu.logout")}</MenubarItem
+                  >
+                {:else}
+                  <MenubarItem onSelect={() => redirect(ROUTES.LOGIN)}
+                    >{$t("common.nav-menu.login")}</MenubarItem
+                  >
+                {/if}
+              </MenubarContent>
+            </MenubarMenu>
+          {/if}
+        </div>
+      </Menubar>
+          {/snippet}
+    </SheetTrigger>
   <SheetContent side="right">
     <SheetHeader>
       <SheetTitle>{$t("common.nav-language.language")}</SheetTitle>
@@ -122,25 +124,27 @@
         {$t("common.nav-language.language-description")}
       </SheetDescription>
     </SheetHeader>
-    <SheetClose asChild let:builder>
-      <div class="space-y-4 py-4">
-        <div class="space-y-1">
-          {#each languages as language}
-            <Button
-              builders={[builder]}
-              on:click={() => changeLanguage(language.locale)}
-              variant="link"
-              class="{$mobile
-                ? 'justify-center'
-                : 'justify-start'} w-full language-select"
-            >
-              {$t(language.key)}
-            </Button>
-            <Separator class="my-4" />
-          {/each}
+    <SheetClose asChild >
+      {#snippet children({ builder })}
+            <div class="space-y-4 py-4">
+          <div class="space-y-1">
+            {#each languages as language}
+              <Button
+                builders={[builder]}
+                onclick={() => changeLanguage(language.locale)}
+                variant="link"
+                class="{$mobile
+                  ? 'justify-center'
+                  : 'justify-start'} w-full language-select"
+              >
+                {$t(language.key)}
+              </Button>
+              <Separator class="my-4" />
+            {/each}
+          </div>
         </div>
-      </div>
-    </SheetClose>
+                {/snippet}
+        </SheetClose>
   </SheetContent>
 </Sheet>
 

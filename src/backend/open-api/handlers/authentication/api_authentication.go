@@ -156,7 +156,7 @@ func (c *AuthenticationAPIController) RefreshTokenPost(w http.ResponseWriter, r 
 func (c *AuthenticationAPIController) RegisterPost(w http.ResponseWriter, r *http.Request) {
 	log.Info().Bool("adminOnly", config.GlobalConfig.Shared.App.AdminOnly).Msg("AdminOnly")
 	if config.GlobalConfig.Shared.App.AdminOnly {
-		c.errorHandler(w, r, errors.New("Forbidden"), nil)
+		c.errorHandler(w, r, &models.ParsingError{Err: errors.New("Forbidden")}, nil)
 		return
 	}
 

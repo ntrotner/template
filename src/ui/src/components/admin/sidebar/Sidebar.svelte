@@ -8,7 +8,7 @@
     TooltipTrigger,
   } from "$lib/components/ui/tooltip/index.js";
   import { ROUTES } from "$lib/routes/routes";
-  import Wrench from "lucide-svelte/icons/wrench";
+  import { Wrench } from "@lucide/svelte";
 
   function navigate(route: string) {
     goto(route);
@@ -23,7 +23,7 @@
       variant="ghost"
       size="icon"
       class="h-10 w-10 rounded-md hover:bg-muted"
-      on:click={() => navigate(ROUTES.ADMIN)}
+      onclick={() => navigate(ROUTES.ADMIN)}
     >
       <div
         class="home-button md:h-6 md:w-6 h-5 w-5 bg-primary rounded-xl flex items-center justify-center text-primary-foreground font-bold"
@@ -40,7 +40,7 @@
           variant="ghost"
           size="icon"
           class="h-10 w-10 rounded-md hover:bg-muted"
-          on:click={() => navigate(ROUTES.ADMIN_SETTINGS)}
+          onclick={() => navigate(ROUTES.ADMIN_SETTINGS)}
         >
           <Wrench class="md:h-6 md:w-6 h-5 w-5 text-gray-500" />
           <span class="sr-only">{$t("admin.sidebar.wrench")}</span>

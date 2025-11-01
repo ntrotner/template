@@ -4,7 +4,7 @@
   import { t } from "$lib/i18n";
   import Home480 from "$lib/assets/home-480.webp";
   import Home800 from "$lib/assets/home-800.webp";
-  import MapIcon from "lucide-svelte/icons/map";
+  import { MapIcon } from "@lucide/svelte";
 </script>
 
 <header class="bg-white pt-1 md:pt-2 lg:pt-4 pb-6">

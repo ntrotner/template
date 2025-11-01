@@ -10,7 +10,7 @@ export const ssr = true;
 export const trailingSlash = "always";
 
 async function setupSSRLocalization() {
-  let locale = "en";
+  const locale = "en";
   await setLocale(locale);
   await loadTranslations(locale);
 }

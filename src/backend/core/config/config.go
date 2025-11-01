@@ -48,21 +48,21 @@ type AuthConfig struct {
 
 // AppConfig holds all app related configuration
 type AppConfig struct {
-	IsBackendAware bool
-	User           bool
-	AdminOnly      bool
-	Navigation     string
+	IsBackendAware bool   `json:"isBackendAware"`
+	User           bool   `json:"user"`
+	AdminOnly      bool   `json:"adminOnly"`
+	Navigation     string `json:"navigation"`
 }
 
 // LoggerConfig holds all logger related configuration
 type LoggerConfig struct {
-	URL string
+	URL string `json:"url"`
 }
 
 // SharedConfig holds all shared configuration
 type SharedConfig struct {
-	App    AppConfig
-	Logger LoggerConfig
+	App    AppConfig    `json:"app"`
+	Logger LoggerConfig `json:"logger"`
 }
 
 // Load loads all configuration from environment variables

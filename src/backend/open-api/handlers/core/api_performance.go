@@ -11,7 +11,12 @@ func SetupPerformanceLogger(mux *mux.Router) {
 	if config.GlobalConfig.Environment != config.Development {
 		return
 	}
+	srv, err := statsviz.NewServer() // Create server or handle error
+	if err != nil {
+		panic(err)
+	}
 
-	mux.Methods("GET").Path("/debug/statsviz/ws").Name("GET /debug/statsviz/ws").HandlerFunc(statsviz.Ws)
-	mux.Methods("GET").PathPrefix("/debug/statsviz/").Name("GET /debug/statsviz/").Handler(statsviz.Index)
+	mux.Methods("GET").Path("/debug/statsviz/ws").Name("GET /debug/statsviz/ws").HandlerFunc(srv.Ws())
+	mux.Methods("GET").PathPrefix("/debug/statsviz/").Name("GET /debug/statsviz/").Handler(srv.Index())
+
 }

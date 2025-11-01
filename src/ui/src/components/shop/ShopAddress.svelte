@@ -1,6 +1,6 @@
 <script>
   import { writable } from "svelte/store";
-  import PinIcon from "lucide-svelte/icons/map-pin";
+  import { PinIcon } from "@lucide/svelte";
   import { t } from "$lib/i18n";
 
   let street = writable($t("common.specifics.address.street"));

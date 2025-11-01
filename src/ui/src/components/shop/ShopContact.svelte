@@ -1,7 +1,6 @@
 <script>
   import { t } from "$lib/i18n";
-  import MailIcon from "lucide-svelte/icons/mail";
-  import PhoneIcon from "lucide-svelte/icons/phone";
+  import { MailIcon, PhoneIcon } from "@lucide/svelte";
 </script>
 
 <section

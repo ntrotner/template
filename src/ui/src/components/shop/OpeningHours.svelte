@@ -1,7 +1,7 @@
 <script>
   import { browser } from "$app/environment";
   import { writable } from "svelte/store";
-  import ClockIcon from "lucide-svelte/icons/clock";
+  import { ClockIcon } from "@lucide/svelte";
   import { t } from "$lib/i18n";
 
   let openingHoursByDay = writable({

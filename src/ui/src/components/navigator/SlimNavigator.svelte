@@ -5,7 +5,11 @@
   import LazyLoad from "../../directives/LazyLoad.svelte";
   import { browser } from "$app/environment";
 
-  export let showTitle = true;
+  interface Props {
+    showTitle?: boolean;
+  }
+
+  let { showTitle = true }: Props = $props();
 
   function redirect(page: string) {
     if (browser) {
@@ -22,7 +26,7 @@
           href={ROUTES.HOME}
           class="text-lg hover:underline"
           aria-label={$t("common.aria.nav-menu.home")}
-          on:click={() => redirect(ROUTES.HOME)}>{$t("common.nav-title")}</a
+          onclick={() => redirect(ROUTES.HOME)}>{$t("common.nav-title")}</a
         >
       {/if}
     </div>

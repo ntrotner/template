@@ -2,13 +2,23 @@
   import { Skeleton } from "$lib/components/ui/skeleton";
   import { cn } from "$lib/utils.js.js";
 
-  export let load = false;
-  export let importStatement;
-  export let inputs: { [key: string]: any } = {};
-  export let showSkeleton = false;
-  let className: string | undefined = undefined;
+  interface Props {
+    load?: boolean;
+    importStatement: any;
+    inputs?: { [key: string]: any };
+    showSkeleton?: boolean;
+    class?: string | undefined;
+  }
 
-  export { className as class };
+  let {
+    load = false,
+    importStatement,
+    inputs = {},
+    showSkeleton = false,
+    class: className = undefined
+  }: Props = $props();
+
+  
 </script>
 
 {#if !load && showSkeleton}
@@ -21,6 +31,6 @@
       <Skeleton class={cn("rounded-md border", className)} />
     {/if}
   {:then lazyComponent}
-    <svelte:component this={lazyComponent.default} {...inputs} />
+    <lazyComponent.default {...inputs} />
   {/await}
 {/if}

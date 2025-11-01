@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { preventDefault } from 'svelte/legacy';
+
   import { superForm } from "sveltekit-superforms";
   import { t } from "$lib/i18n";
   import { Separator } from "$lib/components/ui/separator/index";
@@ -125,26 +127,28 @@
   <div class="profile-form-wrapper">
     <h3 class="text-md font-bold">{$t("profile.email")}</h3>
     <form
-      on:submit|preventDefault={submitChangeEmail}
+      onsubmit={preventDefault(submitChangeEmail)}
       class="space-y-8"
       id="email-form"
     >
       <FormField form={emailForm} name="value">
-        <FormControl let:attrs>
-          <FormLabel>{$t("profile.email-new")}</FormLabel>
-          <Input
-            placeholder={$userStateEmail}
-            {...attrs}
-            class="!mb-2"
-            bind:value={$emailFormData.value}
-          />
-          <FormLabel>{$t("profile.email-repeat")}</FormLabel>
-          <Input
-            {...attrs}
-            class="!mb-2"
-            bind:value={$emailFormData.repeated}
-          />
-        </FormControl>
+        <FormControl >
+          {#snippet children({ attrs })}
+                    <FormLabel>{$t("profile.email-new")}</FormLabel>
+            <Input
+              placeholder={$userStateEmail}
+              {...attrs}
+              class="!mb-2"
+              bind:value={$emailFormData.value}
+            />
+            <FormLabel>{$t("profile.email-repeat")}</FormLabel>
+            <Input
+              {...attrs}
+              class="!mb-2"
+              bind:value={$emailFormData.repeated}
+            />
+                            {/snippet}
+                </FormControl>
         <Alert
           messages={$errorsEmail}
           title={$t("login.input-error-title")}
@@ -160,34 +164,36 @@
 
     <h3 class="text-md font-bold !mt-6">{$t("profile.password")}</h3>
     <form
-      on:submit|preventDefault={submitChangePassword}
+      onsubmit={preventDefault(submitChangePassword)}
       class="space-y-8"
       id="password-form"
     >
       <FormField form={passwordForm} name="value">
-        <FormControl let:attrs>
-          <FormLabel>{$t("profile.password-old")}</FormLabel>
-          <Input
-            {...attrs}
-            type="password"
-            class="!mb-2"
-            bind:value={$passwordFormData.old}
-          />
-          <FormLabel>{$t("profile.password-new")}</FormLabel>
-          <Input
-            {...attrs}
-            type="password"
-            class="!mb-2"
-            bind:value={$passwordFormData.value}
-          />
-          <FormLabel>{$t("profile.password-repeat")}</FormLabel>
-          <Input
-            {...attrs}
-            type="password"
-            class="!mb-2"
-            bind:value={$passwordFormData.repeated}
-          />
-        </FormControl>
+        <FormControl >
+          {#snippet children({ attrs })}
+                    <FormLabel>{$t("profile.password-old")}</FormLabel>
+            <Input
+              {...attrs}
+              type="password"
+              class="!mb-2"
+              bind:value={$passwordFormData.old}
+            />
+            <FormLabel>{$t("profile.password-new")}</FormLabel>
+            <Input
+              {...attrs}
+              type="password"
+              class="!mb-2"
+              bind:value={$passwordFormData.value}
+            />
+            <FormLabel>{$t("profile.password-repeat")}</FormLabel>
+            <Input
+              {...attrs}
+              type="password"
+              class="!mb-2"
+              bind:value={$passwordFormData.repeated}
+            />
+                            {/snippet}
+                </FormControl>
         <Alert
           messages={$errorsPassword}
           title={$t("login.input-error-title")}

@@ -1,8 +1,10 @@
+<!-- @migration-task Error while migrating Svelte code: can't migrate `$: metadataStateValue = metadataState.getAsyncState();` to `$derived` because there's a variable named derived.
+     Rename the variable and try again or migrate by hand. -->
 <script lang="ts">
   import { onMount } from "svelte";
 
   import { metadataState, fetchMetadata } from "$lib/states/metadata";
-  import { AlertCircle } from "lucide-svelte";
+  import { AlertCircle } from "@lucide/svelte";
   import { derived } from "svelte/store";
   import { t } from "$lib/i18n";
   import LazyLoad from "../../../directives/LazyLoad.svelte";

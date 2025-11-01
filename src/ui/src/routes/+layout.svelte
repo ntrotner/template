@@ -1,14 +1,19 @@
 <script lang="ts">
-  import "../app.pcss";
+  import "../app.css";
   import { browser } from "$app/environment";
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import { DoubleBounce } from "svelte-loading-spinners";
   import { Toaster } from "$lib/components/ui/sonner";
   import { BootstrapConfig } from "$lib/bootstrap-config/config";
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
 
-  const isRootPath = $page.url.pathname === "/" || $page.url.pathname === "";
-  const isImprintPath = $page.url.pathname.includes("imprint");
-  const isPrivacyPath = $page.url.pathname.includes("privacy");
+  let { children }: Props = $props();
+
+  const isRootPath = page.url.pathname === "/" || page.url.pathname === "";
+  const isImprintPath = page.url.pathname.includes("imprint");
+  const isPrivacyPath = page.url.pathname.includes("privacy");
 </script>
 
 <svelte:head>
@@ -30,6 +35,6 @@
 {:else}
   <div class="min-h-screen">
     <Toaster />
-    <slot />
+    {@render children?.()}
   </div>
 {/if}
