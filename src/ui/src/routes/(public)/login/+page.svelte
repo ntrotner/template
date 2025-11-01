@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { preventDefault } from 'svelte/legacy';
+  import { preventDefault } from "svelte/legacy";
 
   import {
     Tabs,
@@ -57,7 +57,7 @@
 
   function fillErrors(errorInput: (Success & ModelError) | undefined) {
     $errors = [];
-    if (!!(errorInput as ModelError)?.errorMessages) {
+    if ((errorInput as ModelError)?.errorMessages) {
       $errors =
         ((errorInput as ModelError).errorMessages
           ?.map(({ message }) => message)
@@ -163,31 +163,31 @@
         <form onsubmit={preventDefault(submitLogin)}>
           <CardContent class="space-y-2 mt-5">
             <FormField form={loginForm} name="username">
-              <FormControl >
+              <FormControl>
                 {#snippet children({ attrs })}
-                                <FormLabel>{$t("login.username")}</FormLabel>
+                  <FormLabel>{$t("login.username")}</FormLabel>
                   <Input
                     {...attrs}
                     type="email"
                     bind:value={$loginFormData.username}
                     disabled={$requestInProcess}
                   />
-                                              {/snippet}
-                            </FormControl>
+                {/snippet}
+              </FormControl>
             </FormField>
 
             <FormField form={loginForm} name="password">
-              <FormControl >
+              <FormControl>
                 {#snippet children({ attrs })}
-                                <FormLabel>{$t("login.password")}</FormLabel>
+                  <FormLabel>{$t("login.password")}</FormLabel>
                   <Input
                     {...attrs}
                     type="password"
                     bind:value={$loginFormData.password}
                     disabled={$requestInProcess}
                   />
-                                              {/snippet}
-                            </FormControl>
+                {/snippet}
+              </FormControl>
             </FormField>
           </CardContent>
 
@@ -211,45 +211,45 @@
         <form onsubmit={preventDefault(submitRegister)}>
           <CardContent class="space-y-2 mt-5">
             <FormField form={registerForm} name="username">
-              <FormControl >
+              <FormControl>
                 {#snippet children({ attrs })}
-                                <FormLabel>{$t("login.username")}</FormLabel>
+                  <FormLabel>{$t("login.username")}</FormLabel>
                   <Input
                     {...attrs}
                     type="email"
                     bind:value={$registerFormData.username}
                     disabled={$requestInProcess}
                   />
-                                              {/snippet}
-                            </FormControl>
+                {/snippet}
+              </FormControl>
             </FormField>
 
             <FormField form={registerForm} name="password">
-              <FormControl >
+              <FormControl>
                 {#snippet children({ attrs })}
-                                <FormLabel>{$t("login.password")}</FormLabel>
+                  <FormLabel>{$t("login.password")}</FormLabel>
                   <Input
                     {...attrs}
                     type="password"
                     bind:value={$registerFormData.password}
                     disabled={$requestInProcess}
                   />
-                                              {/snippet}
-                            </FormControl>
+                {/snippet}
+              </FormControl>
             </FormField>
 
             <FormField form={registerForm} name="repeatPassword">
-              <FormControl >
+              <FormControl>
                 {#snippet children({ attrs })}
-                                <FormLabel>{$t("login.password-repeat")}</FormLabel>
+                  <FormLabel>{$t("login.password-repeat")}</FormLabel>
                   <Input
                     {...attrs}
                     type="password"
                     bind:value={$registerFormData.repeatPassword}
                     disabled={$requestInProcess}
                   />
-                                              {/snippet}
-                            </FormControl>
+                {/snippet}
+              </FormControl>
             </FormField>
           </CardContent>
 

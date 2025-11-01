@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { preventDefault } from 'svelte/legacy';
+  import { preventDefault } from "svelte/legacy";
 
   import { superForm } from "sveltekit-superforms";
   import { t } from "$lib/i18n";
@@ -132,9 +132,9 @@
       id="email-form"
     >
       <FormField form={emailForm} name="value">
-        <FormControl >
+        <FormControl>
           {#snippet children({ attrs })}
-                    <FormLabel>{$t("profile.email-new")}</FormLabel>
+            <FormLabel>{$t("profile.email-new")}</FormLabel>
             <Input
               placeholder={$userStateEmail}
               {...attrs}
@@ -147,8 +147,8 @@
               class="!mb-2"
               bind:value={$emailFormData.repeated}
             />
-                            {/snippet}
-                </FormControl>
+          {/snippet}
+        </FormControl>
         <Alert
           messages={$errorsEmail}
           title={$t("login.input-error-title")}
@@ -169,9 +169,9 @@
       id="password-form"
     >
       <FormField form={passwordForm} name="value">
-        <FormControl >
+        <FormControl>
           {#snippet children({ attrs })}
-                    <FormLabel>{$t("profile.password-old")}</FormLabel>
+            <FormLabel>{$t("profile.password-old")}</FormLabel>
             <Input
               {...attrs}
               type="password"
@@ -192,8 +192,8 @@
               class="!mb-2"
               bind:value={$passwordFormData.repeated}
             />
-                            {/snippet}
-                </FormControl>
+          {/snippet}
+        </FormControl>
         <Alert
           messages={$errorsPassword}
           title={$t("login.input-error-title")}

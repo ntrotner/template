@@ -4,7 +4,7 @@
   import LazyLoad from "../../directives/LazyLoad.svelte";
   import Footer from "../../components/footer/Footer.svelte";
   interface Props {
-    children?: import('svelte').Snippet;
+    children?: import("svelte").Snippet;
   }
 
   let { children }: Props = $props();

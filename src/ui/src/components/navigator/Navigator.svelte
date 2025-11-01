@@ -60,9 +60,9 @@
 </script>
 
 <Sheet>
-  <SheetTrigger asChild >
+  <SheetTrigger asChild>
     {#snippet children({ builder })}
-        <Menubar class={$mobile ? "h-15" : "h-14"}>
+      <Menubar class={$mobile ? "h-15" : "h-14"}>
         <div class="nav-left">
           <div class="title">
             <Button
@@ -115,8 +115,8 @@
           {/if}
         </div>
       </Menubar>
-          {/snippet}
-    </SheetTrigger>
+    {/snippet}
+  </SheetTrigger>
   <SheetContent side="right">
     <SheetHeader>
       <SheetTitle>{$t("common.nav-language.language")}</SheetTitle>
@@ -124,9 +124,9 @@
         {$t("common.nav-language.language-description")}
       </SheetDescription>
     </SheetHeader>
-    <SheetClose asChild >
+    <SheetClose asChild>
       {#snippet children({ builder })}
-            <div class="space-y-4 py-4">
+        <div class="space-y-4 py-4">
           <div class="space-y-1">
             {#each languages as language}
               <Button
@@ -143,8 +143,8 @@
             {/each}
           </div>
         </div>
-                {/snippet}
-        </SheetClose>
+      {/snippet}
+    </SheetClose>
   </SheetContent>
 </Sheet>
 

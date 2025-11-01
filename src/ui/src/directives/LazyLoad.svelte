@@ -15,10 +15,8 @@
     importStatement,
     inputs = {},
     showSkeleton = false,
-    class: className = undefined
+    class: className = undefined,
   }: Props = $props();
-
-  
 </script>
 
 {#if !load && showSkeleton}

@@ -18,7 +18,12 @@
     updateShopSettings,
     type ShopMetadata,
   } from "$lib/states/metadata";
-  import { ClockIcon, MapPinIcon, SaveIcon, RotateCcwIcon } from "@lucide/svelte";
+  import {
+    ClockIcon,
+    MapPinIcon,
+    SaveIcon,
+    RotateCcwIcon,
+  } from "@lucide/svelte";
   import { derived } from "svelte/store";
   import { Skeleton } from "$lib/components/ui/skeleton";
   import { t } from "$lib/i18n";
